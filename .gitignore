@@ -91,3 +91,5 @@ tramp
 /auto/
 
 *.out
+
+*.fls
