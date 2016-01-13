@@ -9,5 +9,5 @@ President Obama gave his last [State of the Union Address] today. In other news,
 
 
 [State of the Union Address]: https://medium.com/@WhiteHouse/president-obama-s-2016-state-of-the-union-address-7c06300f9726#.74vwkbv35
-[slides]: /assets/pdf/proposal-slides.pdf
-[write up]: /assets/pdf/proposal.pdf
+[slides]: {{ "/assets/pdf/proposal-slides.pdf" | prepend: site.baseurl }}
+[write up]: {{ "/assets/pdf/proposal.pdf" | prepend: site.baseurl }}
