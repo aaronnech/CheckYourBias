@@ -91,3 +91,13 @@ tramp
 /auto/
 
 *.out
+
+
+### Jekyll (for switching between branches) ###
+_site/
+.sass-cache/
+.jekyll-metadata
+assets/
+
+### Mac ###
+.DS_Store
