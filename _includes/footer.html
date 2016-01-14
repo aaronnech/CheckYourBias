@@ -13,7 +13,16 @@
 	    {% include icon-github.html username=site.github_username %}
 	  </li>
 	  {% endif %}
-
+	  {% if site.email %}
+	  <li>
+	    <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+	  </li>
+	  {% endif %}
+	  {% if site.email_archives %}
+	  <li>
+	    <a href="{{ site.email_archives }}">Email Archives</a>
+	  </li>
+	  {% endif %}
         </ul>
       </div>
 

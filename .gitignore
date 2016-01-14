@@ -38,3 +38,7 @@ tramp
 
 # cask packages
 .cask/
+
+### Node (for switching between branches) ###
+bin/
+node_modules/
