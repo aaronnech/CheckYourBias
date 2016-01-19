@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+ 
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Weekly Update 1/19}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\subsection{Previous Week's Plan} 
+
+As this is the first week for weekly status updates, this section will be on the lighter side. Each team member should finish their assigned section of the Software Requirements Specification, which will be detailed in the next section.
+
+\subsection{Progress}
+
+We have booked and established bi-weekly meetings with the entire team to take place on Tuesdays and Thursdays. We have also mostly finished putting together the \href{http://courses.cs.washington.edu/courses/cse403/16wi/assignments/project2.html}{Software Requirements Specification}. Here is a breakdown in the work across the team that was accomplished on the requirements doc:
+
+\begin{description}
+    \item[Sonja] Features (issue selection/rating, candidate analysis), group dynamics, initial use cases
+    \item[Ryan] Introduction, features (barebones crowdsourcing, user profile), initial use cases
+    \item[Roee] Non-functional requirements (trust, content quality, non-partisanship), risk analysis
+    \item[Nick] Target audience and the problem CYB aims to solve
+    \item[Riley] Alternatives, related work, and the project timeline
+    \item[Todd] Stretch features (crowdsourcing v2, expand to general elections, call to action), external documentation
+    \item[Aaron] User interface diagrams
+    \item[Geoffrey] Detailed use cases
+\end{description}
+
+Other work that was done includes setting up the \href{https://github.com/aaronnech/CheckYourBias}{Github Repo}, the \href{https://aaronnech.github.io/CheckYourBias/}{project website}, and the mailing list ({\em checkyourbias@u.washington.edu}).
+
+\subsection{Current Week's Plan}
+
+The most important work that needs to be accomplished by the end of this week is finalizing the requirements document. The final pieces involved in this task are spell-checking, proofreading, and transferring the content into a \LaTeX\ document. In addition to this, we will begin work on the \href{http://courses.cs.washington.edu/courses/cse403/16wi/assignments/project3.html}{Software Design Specification} as it is the next major milestone. A breakdown list of this work includes:
+
+\begin{enumerate}
+    \item Decide and design on the system architecture
+    \item Design a database schema for all the types of data CYB will store
+    \item Determine the necessary data abstractions
+    \item Expand and finalize a concrete schedule for the project
+\end{enumerate}
+
+\end{document}
