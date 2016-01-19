@@ -93,3 +93,12 @@ tramp
 *.out
 
 *.fls
+
+### Jekyll (for switching between branches) ###
+_site/
+.sass-cache/
+.jekyll-metadata
+assets/
+
+### Mac ###
+.DS_Store
