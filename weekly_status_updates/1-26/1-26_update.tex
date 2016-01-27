@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Weekly Update 1/26}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\subsection{Previous Week's Plan (1/19)}
+
+The most important work that needs to be accomplished by the end of this week is finalizing the requirements document. The final pieces involved in this task are spell-checking, proofreading, and transferring the content into a \LaTeX\ document.
+
+\begin{enumerate}
+    \setlength\itemsep{-0.5em}
+    \item Decide and design on the system architecture
+    \item Design a database schema for all the types of data CYB will store
+    \item Determine the necessary data abstractions
+    \item Expand and finalize a concrete schedule for the project
+\end{enumerate}
+
+\subsection{Progress}
+
+During this week's progress we finished all of the todo list items for the requirements document, which was then translated into \LaTeX. This document was then turned in and we began work on the Software Design Specification. We also split our group into 3 subgroups \{Back-end, Front-end, Full-stack\}, which was used to break apart and assign todo items. The teams and accomplishments for this week consist of:
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Came up with an initial design of the overall system architecture / database schema. Initially drawn out on a white board but soon to be converted to a UML diagram.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Introduction to ReactJS (led by Aaron) and built out a rough component architecture for our client side application. Also helped everyone with a basic overview of how our ReactJS tree will look with our current design of CYB.
+    \item[Full-stack (Sonja, Ryan)] Designed the crowdsourcing component of the application, including the user flow and interface as well as the data type/schema that will be used to send the information to the server.
+\end{description}
+
+\subsection{Current Week's Plan}
+
+In addition to this work, we have also met and divided up the work for the Software Design Specification.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Write up data storage, database schema, and 1 UML diagram for the overall architecture of the system.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Write up the Modules, interfaces, assumptions, architecture diagram, and test plan sections. Also find the links to the code style guides.
+    \item[Full-stack (Sonja, Ryan)] Write up Risk assessment, project schedule, and 2 sequence diagrams (1 for crowdsourcing and 1 for user voting), and the team structure sections.
+\end{description}
+
+\end{document}
