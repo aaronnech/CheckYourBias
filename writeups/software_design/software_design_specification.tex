@@ -148,13 +148,13 @@ Similar to how the Mobile Client functions, the Crowd Source Approval Utility wi
 
 \subsection*{Firebase \& Data Model}
 
-Finally, there will be an interface between the Data Model and the Firebase database. The interface will execute with HTTP REST requests which will fully specify the interactions between the models and the database. For example, if storing a new user object, the Data Model module will use the information specified by the clients of the Data Model (such as username), to generate and execute a request to the PFirebasearse database for storage.
+Finally, there will be an interface between the Data Model and the Firebase database. The interface will execute with HTTP REST requests which will fully specify the interactions between the models and the database. For example, if storing a new user object, the Data Model module will use the information specified by the clients of the Data Model (such as username), to generate and execute a request to the Firebasee database for storage.
 
 \section*{Alternative Designs}
 
 \subsection{Facebook Login}
 
-Instead of using Facebook authentication in order to log in to CYB, we also considered building out our own authentication system or using multiple systems such as Google+ alongside Facebook. While using Facebook authentication makes building on the developer’s side significantly easier, it also ensures security. It trades off ease of access to existing Facebook users for the pain of signing up for Facebook and the loss of a potential user who is vehemently against Facebook. We chose to use Facebook over a multi-system login step because it opens up possibilities for the future in case we want to further personalize CYB with some of Facebook’s social functionalities. 
+Instead of using Facebook authentication in order to log in to CYB, we also considered building out our own authentication system or using multiple systems such as Google+ alongside Facebook. While using Facebook authentication makes building on the developer’s side significantly easier, it also ensures security. It trades off ease of access to existing Facebook users for the pain of signing up for Facebook and the loss of a potential user who is vehemently against Facebook. We chose to use Facebook over a multi-system login step because it opens up possibilities for the future in case we want to further personalize CYB with some of Facebook’s social functionalities.
 
 \subsection{Firebase Vs. Parse}
 
