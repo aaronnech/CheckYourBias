@@ -24,9 +24,9 @@ var AppComponent = React.createClass({
         return (
           <div id="app">
               <div className={this.state.currentScreen == Constant.SCREEN.HOME ? 'show' : 'hide'}>
-                 <p onClick={this.handleClick}>Home Screen!</p>
-
                  <p>This is my first React app.</p>
+
+                 <p onClick={this.handleClick}><a href="#">Click me to go to the Rate Viewpoints screen!</a></p>
               </div>
               <div className={this.state.currentScreen == Constant.SCREEN.RATE_VIEWPOINTS ? 'show' : 'hide'}>
               	<RateViewpointsComponent />
