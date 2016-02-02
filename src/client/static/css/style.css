@@ -2,8 +2,20 @@
  * CSS File
  */
 
-body {
-	font-family: sans-serif;
+body, html {
+	font-family: Roboto;
+  margin: 0;
+  padding: 0;
+}
+
+.fbLogo {
+  width: 100%;
+  margin-top: 64px;
+}
+
+.indentSides {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .show {

@@ -5,6 +5,7 @@
 *.log
 *.lot
 *.gz
+*.sublime-project
 
 *.toc
 .idea
