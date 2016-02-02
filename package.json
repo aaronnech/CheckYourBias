@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "express" : "latest",
-    "gulp" : "latest",
+    "react-chartjs" : "latest",
+    "material-ui" : "latest",
+    "gulp" : ":latest",
     "gulp-typescript" : "latest",
     "gulp-nodeunit" : "latest",
     "browserify" : "latest",
