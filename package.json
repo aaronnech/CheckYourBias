@@ -19,6 +19,7 @@
     "reactify" : "latest",
     "react" : "latest",
     "react-dom" : "latest",
+    "react-tap-event-plugin" : "latest",
     "vinyl-source-stream" : "latest"
   },
   "author": "Aaron Nech",
