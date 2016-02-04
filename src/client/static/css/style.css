@@ -37,9 +37,11 @@ body, html {
 .agreement-labels #disagree-label {
 	float: left;
 	text-align: left;
+  color: red;
 }
 
 .agreement-labels #agree-label {
 	float: right;
 	text-align: right;
+  color: blue;
 }
