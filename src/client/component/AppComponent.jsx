@@ -18,6 +18,7 @@ var Theme = require('../theme/Theme');
 
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
+var PoliticalProfileComponent = require('./PoliticalProfileComponent.jsx');
 var CrowdsourcingComponent = require('./CrowdSourcingComponent.jsx');
 var CandidateRankingComponent = require('./CandidateRankingComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
@@ -108,6 +109,10 @@ var AppComponent = React.createClass({
                     primaryText="Submit Content"
                     onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING, true)}
                 />
+                <MenuItem
+                    primaryText="Political Profile"
+                    onClick={this.setScreenLater(Constants.SCREENS.POLITICAL_PROFILE)}
+                />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>
         );
@@ -135,6 +140,11 @@ var AppComponent = React.createClass({
                 screen =
                     <CandidateRankingComponent />;
                 title = 'Your Candidates';
+                break;
+            case Constants.SCREENS.POLITICAL_PROFILE:
+                screen =
+                    <PoliticalProfileComponent />;
+                title = 'Political Profile';
                 break;
         }
 
