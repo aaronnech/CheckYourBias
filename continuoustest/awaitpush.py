@@ -25,7 +25,7 @@ def continousTest():
 
 	print "Emailing results..."
 	message = 'Hello! I am CYB Build Test Bot. Here are the results of build / test from the latest push: \n\n %s' % build_output
-	send('Build / Test Results - CYB', 'aaronnech@gmail.com', message)
+	send('Build / Test Results - CYB', 'checkyourbias@u.washington.edu', message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
