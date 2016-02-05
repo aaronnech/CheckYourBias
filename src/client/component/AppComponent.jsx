@@ -104,6 +104,10 @@ var AppComponent = React.createClass({
                     primaryText="Submit Content"
                     onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
                 />
+                <MenuItem
+                    primaryText="Political Profile"
+                    onClick={this.setScreenLater(Constants.SCREENS.USER_PROFILE)}
+                />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>
         );
@@ -130,7 +134,7 @@ var AppComponent = React.createClass({
             case Constants.SCREENS.USER_PROFILE:
                 screen =
                     <UserProfileComponent />;
-                title = 'Profile';
+                title = 'Political Profile';
                 break;
         }
 
