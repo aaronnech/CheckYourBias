@@ -3,45 +3,51 @@
  */
 
 body, html {
-	font-family: Roboto, sans-serif;
-  margin: 0;
-  padding: 0;
+    font-family: Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .fbLogo {
-  width: 100%;
-  margin-top: 64px;
+    width: 100%;
+    margin-top: 64px;
 }
 
 .indentSides {
-  padding-left: 15px;
-  padding-right: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .show {
-	display: block;
+    display: block;
 }
 
 .hide {
-	display: none;
+    display: none;
 }
 
 .agreement-labels {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .agreement-labels span {
-	max-width: 20%;
+    max-width: 20%;
 }
 
 .agreement-labels #disagree-label {
-	float: left;
-	text-align: left;
-  color: red;
+    float: left;
+    text-align: left;
+    color: red;
 }
 
 .agreement-labels #agree-label {
-	float: right;
-	text-align: right;
-  color: blue;
+    float: right;
+    text-align: right;
+    color: blue;
+}
+
+
+/* Crowdsourcing form */
+.submit-button {
+    margin-top: 20px;
 }
