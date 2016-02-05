@@ -96,10 +96,6 @@ var AppComponent = React.createClass({
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             >
                 <MenuItem
-                    primaryText="Rate Viewpoints"
-                    onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS)}
-                />
-                <MenuItem
                     primaryText="Submit Content"
                     onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
                 />
