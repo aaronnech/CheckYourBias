@@ -5,9 +5,14 @@
   "scripts": {
     "make" : "./node_modules/.bin/gulp",
     "test" : "npm run-script make && ./node_modules/.bin/gulp test",
-    "serve" : "npm run-script make && node bin/server/main.js"
+    "serve" : "npm run-script make && node bin/server/main.js",
+
+    "pg-android" : "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
+    "pg-setup" : "./node_modules/.bin/phonegap create _cordova",
+    "pg-copy" : "cp -R bin/client/static/* _cordova/www && cp -R src/client/cordova_config/* _cordova/"
   },
   "dependencies": {
+    "phonegap" : "latest",
     "express" : "latest",
     "firebase" : "latest",
     "react-chartjs" : "latest",

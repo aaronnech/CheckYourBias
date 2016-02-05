@@ -16,7 +16,8 @@ node_modules
 node_modules/*
 bin
 bin/*
-
+_cordova/*
+_cordova
 
 # Created by https://www.gitignore.io
 
