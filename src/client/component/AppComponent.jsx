@@ -98,15 +98,15 @@ var AppComponent = React.createClass({
             >
                 <MenuItem
                     primaryText="Rate Viewpoints"
-                    onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS)}
+                    onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS, true)}
                 />
                 <MenuItem
                     primaryText="Your political profile"
-                    onClick={this.setScreenLater(Constants.SCREENS.USER_ANALYSIS)}
+                    onClick={this.setScreenLater(Constants.SCREENS.USER_ANALYSIS, true)}
                 />
                 <MenuItem
                     primaryText="Submit Content"
-                    onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
+                    onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING, true)}
                 />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>
