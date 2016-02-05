@@ -6,7 +6,7 @@ var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var ContentLabel = require('material-ui/lib/svg-icons/action/grade');
 
-var UserAnalysisComponent = React.createClass({
+var CandidateRankingComponent = React.createClass({
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
@@ -16,7 +16,7 @@ var UserAnalysisComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="submit-content">
-				<CardTitle title="Your candidates" />
+				<CardTitle title="Economy" />
 
 				<List subtitle="Economy">
 					<ListItem primaryText="Bernie Sanders" leftIcon={<ContentLabel />} />
@@ -29,4 +29,4 @@ var UserAnalysisComponent = React.createClass({
 	}
 });
 
-module.exports = UserAnalysisComponent;
+module.exports = CandidateRankingComponent;
