@@ -1,28 +1,31 @@
 from flask import Flask
 import subprocess
-from email.mime.text import MIMEText
+import os
 
 app = Flask(__name__)
+
+def send(subject, to, message):
+	SENDMAIL = "/usr/sbin/sendmail"
+	p = os.popen("%s -t" % SENDMAIL, "w")
+	p.write("To: %s\n" % to)
+	p.write("Subject: %s\n" % subject)
+	p.write("\n")
+	p.write(message)
+	sts = p.close()
+	if sts != 0:
+	    print "Sendmail exit status", sts
 
 @app.route('/', methods=['POST'])
 def continousTest():
 	print "Pulling repo..."
-	# Pull the repo
 	output = subprocess.check_output(["git", "pull"])
 
 	print "Building project and running tests..."
-	# Build the project and test
 	build_output = subprocess.check_output(["npm", "run-script", "test"])
 
 	print "Emailing results..."
-	msg = MIMEText("Hello! I am CYB build/test bot. A push happened and I tried to build and test. Here are the results: \n\n %r" % (build_output))
-	msg["From"] = "build.test@cyb.org"
-	msg["To"] = "aaronnech@gmail.com"
-	msg["Subject"] = "CYB - Build / Test Results"
-	p = subprocess.Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
-	p.communicate(msg.as_string())
-	status = p.close()
-	print "Sendmail exit status: %r" % str(status)
+	message = 'Hello! I am CYB Build Test Bot. Here are the results of build / test from the latest push: \n\n %s' % build_output
+	send('Build / Test Results - CYB', 'aaronnech@gmail.com', message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
