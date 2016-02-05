@@ -13,7 +13,6 @@ var CrowdsourcingComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="submit-content">
-				<CardTitle title="Submit Content" />
 				<CardText>
 					<div className="main-content">
 						<p>Form will go here</p>
