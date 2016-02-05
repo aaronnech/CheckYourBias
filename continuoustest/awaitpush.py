@@ -1,5 +1,6 @@
 from flask import Flask
 import subprocess
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def continousTest():
 	msg["From"] = "build.test@cyb.org"
 	msg["To"] = "aaronnech@gmail.com"
 	msg["Subject"] = "CYB - Build / Test Results"
-	p = subprocess.Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=PIPE)
+	p = subprocess.Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
 	p.communicate(msg.as_string())
 
 if __name__ == '__main__':
