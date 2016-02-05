@@ -2,6 +2,21 @@
  * CSS File
  */
 
+body, html {
+	font-family: Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.fbLogo {
+  width: 100%;
+  margin-top: 64px;
+}
+
+.indentSides {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
 .show {
 	display: block;
@@ -9,4 +24,24 @@
 
 .hide {
 	display: none;
+}
+
+.agreement-labels {
+	overflow: hidden;
+}
+
+.agreement-labels span {
+	max-width: 20%;
+}
+
+.agreement-labels #disagree-label {
+	float: left;
+	text-align: left;
+  color: red;
+}
+
+.agreement-labels #agree-label {
+	float: right;
+	text-align: right;
+  color: blue;
 }
