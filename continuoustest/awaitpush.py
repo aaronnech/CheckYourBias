@@ -21,7 +21,7 @@ def continousTest():
 	msg["Subject"] = "CYB - Build / Test Results"
 	p = subprocess.Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
 	p.communicate(msg.as_string())
-    status = p.close()
+	status = p.close()
 	print "Sendmail exit status: %r" % str(status)
 
 if __name__ == '__main__':
