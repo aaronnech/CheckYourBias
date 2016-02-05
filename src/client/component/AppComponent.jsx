@@ -18,7 +18,7 @@ var Theme = require('../theme/Theme');
 
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
-var CrowdsourcingComponent = require('./CrowdsourcingComponent.jsx');
+var CrowdsourcingComponent = require('./CrowdSourcingComponent.jsx');
 var UserAnalysisComponent = require('./UserAnalysisComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
 
