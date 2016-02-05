@@ -19,6 +19,7 @@ var Theme = require('../theme/Theme');
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
 var CrowdsourcingComponent = require('./CrowdsourcingComponent.jsx');
+var UserAnalysisComponent = require('./UserAnalysisComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
 
 var AppComponent = React.createClass({
@@ -100,6 +101,10 @@ var AppComponent = React.createClass({
                     onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS)}
                 />
                 <MenuItem
+                    primaryText="Your political profile"
+                    onClick={this.setScreenLater(Constants.SCREENS.USER_ANALYSIS)}
+                />
+                <MenuItem
                     primaryText="Submit Content"
                     onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
                 />
@@ -125,6 +130,11 @@ var AppComponent = React.createClass({
                 screen =
                     <CrowdsourcingComponent />;
                 title = 'Submit Content';
+                break;
+            case Constants.SCREENS.USER_ANALYSIS:
+                screen =
+                    <UserAnalysisComponent />;
+                title = 'Your Candidates';
                 break;
         }
 
