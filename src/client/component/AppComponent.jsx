@@ -18,8 +18,9 @@ var Theme = require('../theme/Theme');
 
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
-var UserProfileComponent = require('./UserProfileComponent.jsx');
+var PoliticalProfileComponent = require('./PoliticalProfileComponent.jsx');
 var CrowdsourcingComponent = require('./CrowdSourcingComponent.jsx');
+var UserAnalysisComponent = require('./UserAnalysisComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
 
 var AppComponent = React.createClass({
@@ -85,10 +86,6 @@ var AppComponent = React.createClass({
         this.setScreenLater(Constants.SCREENS.FACEBOOK, true)();
     },
 
-    onSelectUserProfile : function() {
-      this.onSelectPage(Constant.SCREEN.USER_PROFILE);
-    },
-
     render : function() {
         var screen = null;
         var title = 'Check Your Bias';
@@ -101,12 +98,20 @@ var AppComponent = React.createClass({
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             >
                 <MenuItem
+                    primaryText="Rate Viewpoints"
+                    onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS, true)}
+                />
+                <MenuItem
+                    primaryText="Your political profile"
+                    onClick={this.setScreenLater(Constants.SCREENS.USER_ANALYSIS, true)}
+                />
+                <MenuItem
                     primaryText="Submit Content"
-                    onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
+                    onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING, true)}
                 />
                 <MenuItem
                     primaryText="Political Profile"
-                    onClick={this.setScreenLater(Constants.SCREENS.USER_PROFILE)}
+                    onClick={this.setScreenLater(Constants.SCREENS.POLITICAL_PROFILE)}
                 />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>
@@ -131,9 +136,14 @@ var AppComponent = React.createClass({
                     <CrowdsourcingComponent />;
                 title = 'Submit Content';
                 break;
-            case Constants.SCREENS.USER_PROFILE:
+            case Constants.SCREENS.USER_ANALYSIS:
                 screen =
-                    <UserProfileComponent />;
+                    <UserAnalysisComponent />;
+                title = 'Your Candidates';
+                break;
+            case Constants.SCREENS.POLITICAL_PROFILE:
+                screen =
+                    <PoliticalProfileComponent />;
                 title = 'Political Profile';
                 break;
         }

@@ -1,6 +1,6 @@
 var React = require('react');
 
-var UserProfileComponent = React.createClass({
+var PoliticalProfileComponent = React.createClass({
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
@@ -9,7 +9,7 @@ var UserProfileComponent = React.createClass({
 
 	render : function() {
 		return (
-			<div className="user-profile">
+			<div className="political-profile">
 				<div class="rate-scale">
 					<h2>arent you proud of me ma?</h2>
 				</div>
@@ -18,4 +18,4 @@ var UserProfileComponent = React.createClass({
 	}
 });
 
-module.exports = UserProfileComponent;
+module.exports = PoliticalProfileComponent;
