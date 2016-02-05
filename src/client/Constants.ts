@@ -1,7 +1,8 @@
 class Constants {
 	public static SCREENS: any = {
 		FACEBOOK : 0,
-		RATE_VIEWPOINTS: 1
+		RATE_VIEWPOINTS: 1,
+		CROWDSOURCING: 2,
 	};
 
 	public static AUTH: any = {

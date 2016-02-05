@@ -18,7 +18,8 @@ var Theme = require('../theme/Theme');
 
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
-var CYBIconComponent = require('./CYBIconComponent.jsx')
+var CrowdsourcingComponent = require('./CrowdsourcingComponent.jsx');
+var CYBIconComponent = require('./CYBIconComponent.jsx');
 
 var AppComponent = React.createClass({
     childContextTypes : {
@@ -98,6 +99,10 @@ var AppComponent = React.createClass({
                     primaryText="Rate Viewpoints"
                     onClick={this.setScreenLater(Constants.SCREENS.RATE_VIEWPOINTS)}
                 />
+                <MenuItem
+                    primaryText="Submit Content"
+                    onClick={this.setScreenLater(Constants.SCREENS.CROWDSOURCING)}
+                />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>
         );
@@ -115,6 +120,11 @@ var AppComponent = React.createClass({
                 screen =
                     <RateViewpointsComponent />;
                 title = 'Rate Viewpoints';
+                break;
+            case Constants.SCREENS.CROWDSOURCING:
+                screen =
+                    <CrowdsourcingComponent />;
+                title = 'Submit Content';
                 break;
         }
 

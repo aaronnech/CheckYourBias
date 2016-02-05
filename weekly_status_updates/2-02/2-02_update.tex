@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Weekly Update 2/2}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\subsection{Previous Week's Plan (1/26)}
+
+Complete and submit the software design specification.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Write up data storage, database schema, and 1 UML diagram for the overall architecture of the system.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Write up the Modules, interfaces, assumptions, architecture diagram, and test plan sections. Also find the links to the code style guides.
+    \item[Full-stack (Sonja, Ryan)] Write up Risk assessment, project schedule, and 2 sequence diagrams (1 for crowdsourcing and 1 for user voting), and the team structure sections.
+\end{description}
+
+\subsection{Progress}
+
+During this week's progress we finished all of the todo list items for the software design document, which was then translated into \LaTeX. This document was then turned in. We also completed and divided up the slides for our software design presentation on this coming Friday. 3 of our group members, \{Ryan, Roee, Todd\}, will be in charge of the 9 slides, each taking a section that they are most familiar with.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Finished backend portion of the design document including the data storage, database schema, and the UML diagram for the architecture of the system.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Finished frontend portion of the design document including the modules, interfaces, assumptions, and UI architecture.
+    \item[Full-stack (Sonja, Ryan)] Finished the risk assessment, project schedule, and 2 sequence diagrams showcasing the user voting and crowdsourcing use cases that were described earlier.
+\end{description}
+
+We also completed the slides and have outlined this weeks plan.
+
+\subsection{Current Week's Plan}
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Implement stubs for the methods and end points to be used with the zero feature release. For now they can return mocked results that can then be used to display the results on the frontend.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Complete frontend views that can accomplish the task of a zero feature release by this coming Monday. Including the designs and React components that will be used to implement the ``backend'' experience and functionality of the application.
+    \item[Full-stack (Sonja, Ryan)] Complete the product webpage for Check Your Bias and oversee the creation of the crowdsourcing frontend page.
+\end{description}
+
+\end{document}
