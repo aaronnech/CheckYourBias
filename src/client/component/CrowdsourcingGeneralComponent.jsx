@@ -59,7 +59,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
         var result = [];
         for (candidate in this.state.candidateMap) {
             result.push(
-                <CrowdsourcingCandidateStanceComponent 
+                <CrowdsourcingCandidateStanceComponent
+                    key={candidate} 
                     candidate={candidate} 
                     value={this.state.candidateMap[candidate]}
                     handleUpdateSlider={this.handleUpdateSlider}
