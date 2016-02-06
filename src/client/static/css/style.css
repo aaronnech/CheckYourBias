@@ -51,3 +51,7 @@ body, html {
 .submit-button {
     margin-top: 20px;
 }
+
+.slider {
+    max-width: 256px;
+}

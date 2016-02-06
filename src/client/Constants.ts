@@ -14,16 +14,29 @@ class Constants {
 
 	public static CONTENT_TYPES: any = [
 		'Direct Quote',
-		'Summary of Legislation',
-		'General',
+		'General Content',
 	];
 
 	public static CANDIDATES: any = [
-		'Hillary Clinton',
 		'Bernie Sanders',
+		'Hillary Clinton',
 		'Ted Cruz',
-		'Donald Trump',
 		'Marco Rubio',
+		'Donald Trump',
+	];
+
+	public static CATEGORIES: any = [
+		'Crime and Safety',
+		'Economy',
+		'Education',
+		'Environment',
+		'Foreign Policy',
+		'Gun Control',
+		'Health Care',
+		'Immigration',
+		'National Security',
+		'Social Security',
+		'Taxes',
 	];
 
 	public static ERRORS: any = {

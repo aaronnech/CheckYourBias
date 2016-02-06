@@ -14,8 +14,6 @@ var CrowdsourcingQuoteComponent = React.createClass({
             candidateErrorText: Constants.ERRORS.REQUIRED,
             quote: null,
             quoteErrorText: Constants.ERRORS.REQUIRED,
-            source: null,
-            sourceErrorText: Constants.ERRORS.REQUIRED,
         };
     },
 
@@ -46,20 +44,6 @@ var CrowdsourcingQuoteComponent = React.createClass({
         });
     },
 
-    handleUpdateSource : function(event) {
-        var source = event.target.value;
-        var errorText = null;
-
-        if (source.length == 0) {
-            errorText = Constants.ERRORS.REQUIRED;
-        } 
-
-        this.setState({
-            source: source,
-            sourceErrorText: errorText,
-        })
-    },
-
     render : function() {
         return (
             <div>
@@ -77,13 +61,6 @@ var CrowdsourcingQuoteComponent = React.createClass({
                     errorText={this.state.quoteErrorText}
                     multiLine={true}
                     onChange={this.handleUpdateQuote}
-                />
-                <p>Source:</p>
-                <TextField
-                    hintText="Link to reliable source"
-                    errorText={this.state.sourceErrorText}
-                    multiLine={true}
-                    onChange={this.handleUpdateSource}
                 />
             </div>
         );
