@@ -415,7 +415,6 @@ section h3.section-subheading {
 #portfolio .portfolio-item .portfolio-caption {
     max-width: 400px;
     margin: 0 auto;
-    background-color: #fff;
     text-align: center;
     padding: 25px
 }
@@ -609,15 +608,15 @@ section h3.section-subheading {
     }
 }
 
-#ryanimg {
-	margin-right: 25%;
-}
+@media (min-width:1000px) {
+    #ryanimg {
+        margin-right: 25%;
+    }
 
-#sonjaimg {
-	margin-left: 25%;
-}
+    #sonjaimg {
+        margin-left: 25%;
+    }
 
-@media (min-width:1200px) {
     .timeline>li {
         min-height: 170px
     }
@@ -880,4 +879,8 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #b2000e
+}
+
+#bug-button {
+    margin-top: 40px;
 }
