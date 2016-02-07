@@ -42,3 +42,4 @@ tramp
 ### Node (for switching between branches) ###
 bin/
 node_modules/
+npm-debug.log
