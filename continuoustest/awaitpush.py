@@ -37,17 +37,20 @@ def continousTest():
 	# Fail message based on success of subprocess
 	worked = '[PASSED]'
 	build_output = ''
+	output = ''
 
 	try:
 		print "Pulling repo..."
-		output = subprocess.check_output(["git", "pull"], stderr=subprocess.STDOUT)
-	except:
-		worker = '[FAILED]'
+		output = subprocess.check_output(["git", "pull"])
+	except subprocess.CalledProcessError as e:
+    	output = e.output
+		worked = '[FAILED]'
 
 	try:
 		print "Building project and running tests..."
-		build_output = subprocess.check_output(["npm", "run-script", "test"], stderr=subprocess.STDOUT)
-	except:
+		build_output = subprocess.check_output(["npm", "run-script", "test"])
+	except subprocess.CalledProcessError as e:
+    	output = e.output
 		worked = '[FAILED]'
 
 	print "Emailing results..."
