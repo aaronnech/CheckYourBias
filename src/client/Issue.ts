@@ -7,7 +7,7 @@ import Constants = require('./Constants');
 	A class that represents a user and all the information that corresponds to it.
 	Main text represents the bulk of the issue and what will be displayed to the user.
 	Sources represents the websites or other that were used as sources for this issue.
-	The candidates dictionary will comprise of the candidates with their ratings on this
+	The candidates dictionary will comprise of the candidate ids with their ratings on this
 	issue. Categories represents the categories this issues belong to. The submitter
 	represents the user who submitted this issue in the first place.
 
@@ -21,7 +21,7 @@ class Issue {
 	id: string;
 	mainText: string;
 	sources: string[];
-	candidates: {};
+	candidates: {[key: string]: string};
 	category: string[];
 	submitter: string;
 }
