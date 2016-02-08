@@ -17,6 +17,7 @@ def send(subject, to, message):
 
 @app.route('/', methods=['POST'])
 def continousTest():
+	# Fail message based on success of subprocess
 	worked = '[PASSED]'
 	try:
 		print "Pulling repo..."
