@@ -6,6 +6,11 @@ import sys
 app = Flask(__name__)
 
 def send(subject, to, message):
+	print 'Sending in progress...'
+	print 'With content:'
+	print 'Subject: %s\n' % subject
+	print 'Body:'
+	print message
 	SENDMAIL = "/usr/sbin/sendmail"
 	try:
 		p = os.popen("%s -t" % SENDMAIL, "w")
@@ -13,16 +18,15 @@ def send(subject, to, message):
 		p.write("Subject: %s\n" % subject)
 		p.write("\n")
 		p.write(message)
+		sts = p.close()
+		if sts != 0:
+		    print "Sendmail exit status", sts
 
-		print 'Sending mail to %r' % to
+		print 'Sent mail to %r' % to
 		print 'With content:'
 		print 'Subject: %s\n' % subject
 		print 'Body:'
 		print message
-
-		sts = p.close()
-		if sts != 0:
-		    print "Sendmail exit status", sts
 	except:
 		e = sys.exc_info()[0]
 		print 'Failed to send email!'
