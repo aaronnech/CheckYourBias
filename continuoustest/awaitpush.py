@@ -11,6 +11,13 @@ def send(subject, to, message):
 	p.write("Subject: %s\n" % subject)
 	p.write("\n")
 	p.write(message)
+
+	print 'Sending mail to %r' % to
+	print 'With content:'
+	print 'Subject: %s\n' % subject
+	print 'Body:'
+	print message
+
 	sts = p.close()
 	if sts != 0:
 	    print "Sendmail exit status", sts
