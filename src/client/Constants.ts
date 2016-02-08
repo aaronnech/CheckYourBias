@@ -43,8 +43,8 @@ class Constants {
 		REQUIRED: 'This field is required',
 	}
 
-	public static FIREBASE_URL: string = "";
-	public static FIRE_USER: string = Constants.FIREBASE_URL + 'users/';
+	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/";
+	public static FIRE_USER: string = Constants.FIREBASE_URL + 'Users/';
 	public static fireAccess: string = '';
 }
 

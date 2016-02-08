@@ -5,6 +5,7 @@
   "scripts": {
     "make" : "./node_modules/.bin/gulp",
     "test" : "npm run-script make && ./node_modules/.bin/gulp test",
+    "windows-test": "npm run-script make && node_modules\\.bin\\gulp test",
     "serve" : "npm run-script make && node bin/server/main.js",
 
     "pg-android" : "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
