@@ -50,7 +50,7 @@ def continousTest():
 		print "Building project and running tests..."
 		build_output = subprocess.check_output(["npm", "run-script", "test"])
 	except subprocess.CalledProcessError as e:
-		output = e.output
+		build_output = e.output
 		worked = '[FAILED]'
 
 	print "Emailing results..."
