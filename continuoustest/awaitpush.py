@@ -1,26 +1,32 @@
 from flask import Flask
 import subprocess
 import os
+import sys
 
 app = Flask(__name__)
 
 def send(subject, to, message):
 	SENDMAIL = "/usr/sbin/sendmail"
-	p = os.popen("%s -t" % SENDMAIL, "w")
-	p.write("To: %s\n" % to)
-	p.write("Subject: %s\n" % subject)
-	p.write("\n")
-	p.write(message)
+	try:
+		p = os.popen("%s -t" % SENDMAIL, "w")
+		p.write("To: %s\n" % to)
+		p.write("Subject: %s\n" % subject)
+		p.write("\n")
+		p.write(message)
 
-	print 'Sending mail to %r' % to
-	print 'With content:'
-	print 'Subject: %s\n' % subject
-	print 'Body:'
-	print message
+		print 'Sending mail to %r' % to
+		print 'With content:'
+		print 'Subject: %s\n' % subject
+		print 'Body:'
+		print message
 
-	sts = p.close()
-	if sts != 0:
-	    print "Sendmail exit status", sts
+		sts = p.close()
+		if sts != 0:
+		    print "Sendmail exit status", sts
+	except:
+		e = sys.exc_info()[0]
+		print 'Failed to send email!'
+		print e
 
 @app.route('/', methods=['POST'])
 def continousTest():
