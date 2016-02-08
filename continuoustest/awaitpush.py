@@ -17,15 +17,19 @@ def send(subject, to, message):
 
 @app.route('/', methods=['POST'])
 def continousTest():
-	print "Pulling repo..."
-	output = subprocess.check_output(["git", "pull"])
+	worked = '[PASSED]'
+	try:
+		print "Pulling repo..."
+		output = subprocess.check_output(["git", "pull"])
 
-	print "Building project and running tests..."
-	build_output = subprocess.check_output(["npm", "run-script", "test"])
+		print "Building project and running tests..."
+		build_output = subprocess.check_output(["npm", "run-script", "test"])
+	except:
+		worked = '[FAILED]'
 
 	print "Emailing results..."
 	message = 'Hello! I am CYB Build Test Bot. Here are the results of build / test from the latest push: \n\n %s' % build_output
-	send('Build / Test Results - CYB', 'checkyourbias@u.washington.edu', message)
+	send(worked + ' Build / Test Results - CYB', 'checkyourbias@u.washington.edu', message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
