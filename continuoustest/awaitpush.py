@@ -43,14 +43,14 @@ def continousTest():
 		print "Pulling repo..."
 		output = subprocess.check_output(["git", "pull"])
 	except subprocess.CalledProcessError as e:
-    	output = e.output
+		output = e.output
 		worked = '[FAILED]'
 
 	try:
 		print "Building project and running tests..."
 		build_output = subprocess.check_output(["npm", "run-script", "test"])
 	except subprocess.CalledProcessError as e:
-    	output = e.output
+		output = e.output
 		worked = '[FAILED]'
 
 	print "Emailing results..."
