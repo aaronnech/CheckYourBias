@@ -9,6 +9,7 @@ permalink: /documents/
 * [Project Proposal]({{ "/writeups/proposal/drapeau-sonjak3-doc.pdf" | prepend: site.baseurl }})
 * [Software Requirements Specification]({{ "/writeups/requirements/requirements.pdf" | prepend: site.baseurl }})
 * [Software Design Specification]({{ "/writeups/software_design/software_design_specification.pdf" | prepend: site.baseurl }})
+* [Zero Feature Release]({{ "http://aaronnech.github.io/CheckYourBias/product_website/" }})
 
 **Weekly Status Reports**
 
