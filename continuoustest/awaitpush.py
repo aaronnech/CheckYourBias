@@ -34,10 +34,10 @@ def continousTest():
 	worked = '[PASSED]'
 	try:
 		print "Pulling repo..."
-		output = subprocess.check_output(["git", "pull"])
+		output = subprocess.check_output(["git", "pull"], stderr=subprocess.STDOUT)
 
 		print "Building project and running tests..."
-		build_output = subprocess.check_output(["npm", "run-script", "test"])
+		build_output = subprocess.check_output(["npm", "run-script", "test"], stderr=subprocess.STDOUT)
 	except:
 		worked = '[FAILED]'
 
