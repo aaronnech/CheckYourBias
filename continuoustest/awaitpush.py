@@ -2,6 +2,7 @@ from flask import Flask
 import subprocess
 import os
 import sys
+import shutil
 
 app = Flask(__name__)
 
@@ -38,6 +39,9 @@ def continousTest():
 	worked = '[PASSED]'
 	build_output = ''
 	output = ''
+
+	if os.path.isdir('bin'):
+		shutil.rmtree('bin')
 
 	try:
 		print "Pulling repo..."
