@@ -33,6 +33,7 @@ body, html {
 .slider-wrapper {
   width: 90%;
   margin: 1em auto;
+  text-align: center;
 }
 
 .confirm-choice-wrapper {
@@ -51,7 +52,7 @@ input[type="range"] {
     outline: none; /* no focus outline */
 }
 
-input[type="range"]:before {
+/*input[type="range"]:before {
     content: '-';
     color: red;
     font-weight: bold;
@@ -72,7 +73,7 @@ input[type="range"]:after {
     top: 3px;
     margin-left: -25px;
 }
-
+*/
 input[type="range"]::-moz-range-track {
     border: inherit;
     background: transparent;

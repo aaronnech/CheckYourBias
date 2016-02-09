@@ -61,12 +61,22 @@ var SliderComponent = React.createClass({
 	    /**
 	     * The value of the slider.
 	     */
-	    value: valueInRangePropType,
+	    defaultValue: valueInRangePropType,
 
 	    /**
 	     * If true, the slider will not be interactable.
 	     */
 	    disabled: React.PropTypes.bool,
+
+	    /**
+	     * Text to display on the left hand side of the slider
+	     */
+	    beforeText: React.PropTypes.string,
+
+	    /**
+	     * Text to display on the right hand side of the slider
+	     */
+	    afterText: React.PropTypes.string,
 
 	    /**
 	     * Name of the slider. Behaves like the name attribute
@@ -95,10 +105,33 @@ var SliderComponent = React.createClass({
 			disabled: false,
 			min: 0,
 			max: 1,
+			defaultValue: 0.5,
 			step: 0.01,
 			required: false,
 			style: {},
 		};
+	},
+
+	getStyles() {
+		style = {};
+		style.before = {};
+		style.after = {};
+
+		if (this.props.beforeText !== undefined) {
+			style.before = {
+				color: 'blue',
+				marginRight: '4px'
+			};
+		}
+
+		if (this.props.afterText !== undefined) {
+			style.after = {
+				color: 'red',
+				marginLeft: '4px'
+			};
+		}
+
+		return style;
 	},
 
 	/**
@@ -106,13 +139,17 @@ var SliderComponent = React.createClass({
 	 */
 	render : function() {
 		return (
-			<input type="range"
-				name={this.props.name}
-				min={this.props.min}
-				max={this.props.max}
-				step={this.props.step}
-				value={this.props.value}
-				disabled={this.props.disabled} />
+			<div className="slider-wrapper">
+				<span style={this.getStyles()['before']}>{this.props.beforeText}</span>
+				<input type="range"
+					name={this.props.name}
+					min={this.props.min}
+					max={this.props.max}
+					step={this.props.step}
+					defaultValue={this.props.defaultValue}
+					disabled={this.props.disabled} />
+				<span style={this.getStyles()['after']}>{this.props.afterText}</span>
+			</div>
 		);
 	}
 });
