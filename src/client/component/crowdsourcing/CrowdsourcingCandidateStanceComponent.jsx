@@ -1,7 +1,8 @@
 var React = require('react');
 var Constants = require('../../Constants');
 
-var Slider = require('material-ui/lib/slider');
+
+var Slider = require('../SliderComponent.jsx');
 var StanceSelector = require('../StanceSelector.jsx');
 
 /**
@@ -27,6 +28,8 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
                     handleUpdateSlider={this.handleUpdateSlider}
                     value={this.props.value}
                 />
+                <p>{this.props.candidate}</p>
+                <Slider min="1" max="5" />
             </div>
         );
     }

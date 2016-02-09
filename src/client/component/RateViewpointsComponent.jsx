@@ -3,7 +3,7 @@ var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
 var CardActions = require('material-ui/lib/card/card-actions');
-var Slider = require('material-ui/lib/slider');
+var Slider = require('./SliderComponent.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
 
 /**
@@ -21,15 +21,6 @@ var RateViewpointsComponent = React.createClass({
 		this.setState({
 			currentScreen: page
 		})
-	},
-
-	/**
-	 * Callback that changes the level of agreement in the component state
-	 * @param event
-	 */
-	changeAgreement : function(event) {
-		// TODO: store the new agreement level in the component state
-		// console.log("User changed agreement level");
 	},
 
 	/**
@@ -54,8 +45,7 @@ var RateViewpointsComponent = React.createClass({
 				<CardActions>
 					<div className="rate-scale">
 						<div className="slider-wrapper">
-							<input type="range" min="0" max="5" step="0.01"
-								onChange={this.changeAgreement} />
+							<Slider />
 						</div>
 					</div>
 					<div className="confirm-choice-wrapper">
