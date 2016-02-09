@@ -2,6 +2,8 @@
 
 import Firebase = require("firebase");
 import Constants = require('./Constants');
+import Candidate = require('./Candiate');
+import Issue = require('./Issue');
 
 /*
 	A class that represents a user and all the information that corresponds to them.
@@ -50,6 +52,51 @@ class User {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
 		});
+	}
+
+	/*
+		Takes a user id and a category id and gets an ordered list of candidates
+		in order of agreeement for the given category based on the user's issue ratings.
+		The callback function will be called with the list of candidates as a parameter.
+
+		invariant: userId must correspond to a user in the database
+		invariant: categoryId must correspond to a category in the database
+	*/
+	public static getRankings(userId: string, categoryId: string, 
+					callback: (rankings: Candidate[]) => any): void {
+	}
+
+	/*
+		Takes a user id and gets all the issues the user has rated along with the user's
+		rating on it. Calls the callback function with the dictionary as a parameter.
+
+		invariant: userId must correspond to a user in the database
+	*/
+	public static getRatedIssues(userId: string, 
+					callback: (ratedIssues: {Issue: string}) => any): void {
+
+	}
+
+	/*
+		Takes a user id, issue id and a rating and puts it into the database.
+
+		invariant: userId must correspond to a user in the database
+		invariant: issueId must correspond to an issue in the database
+	*/
+	public static submitRating(userId: string, issueId: string, rating: string): void {
+
+	}
+
+	/*
+		Takes a userId and a categoryId and gets an issue in that category that the user
+		has not yet seen. Calls the callback function with the Issue.
+
+		invariant: userId must correspond to a user in the database
+		invariant: categoryId must correspond to a category in the database
+	*/
+	public static getNextIssue(userId: string, categoryId: string,
+					callback: (issue: Issue) => any): void {
+
 	}
 }
 
