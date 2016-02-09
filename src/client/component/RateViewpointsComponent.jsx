@@ -45,7 +45,7 @@ var RateViewpointsComponent = React.createClass({
 				<CardActions>
 					<div className="rate-scale">
 						<div className="slider-wrapper">
-							<Slider />
+							<Slider min="1" max="5" step="0.5" />
 						</div>
 					</div>
 					<div className="confirm-choice-wrapper">
