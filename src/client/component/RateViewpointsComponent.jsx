@@ -6,23 +6,43 @@ var CardActions = require('material-ui/lib/card/card-actions');
 var Slider = require('material-ui/lib/slider');
 var RaisedButton = require('material-ui/lib/raised-button');
 
+/**
+ * This component allows the user to indicate their level of
+ * agreement or disagreement on a political issue
+ *
+ * @author g-liu
+ */
 var RateViewpointsComponent = React.createClass({
+	/**
+	 * Callback that fires when user selects this component
+	 * @param page
+	 */
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
 		})
 	},
 
+	/**
+	 * Callback that changes the level of agreement in the component state
+	 * @param event
+	 */
 	changeAgreement : function(event) {
 		// TODO: store the new agreement level in the component state
 		// console.log("User changed agreement level");
 	},
 
+	/**
+	 * Callback that fires when the user has confirmed their level of agreement
+	 */
 	confirmReaction : function() {
 		// TODO: show user the candidate who said the issue.
 		// console.log("User confirmed reaction");
 	},
 
+	/**
+	 * Renders the view
+	 */
 	render : function() {
 		return (
 			<Card className="rate-viewpoints">

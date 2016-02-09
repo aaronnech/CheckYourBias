@@ -6,13 +6,26 @@ var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var ContentLabel = require('material-ui/lib/svg-icons/action/grade');
 
+/**
+ * This component displays to the user the candidates whom they
+ * most align with, given a specific topic.
+ *
+ * @author g-liu
+ */
 var CandidateRankingComponent = React.createClass({
+	/**
+	 * Callback that fires when user selects this component
+	 * @param page
+	 */
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
 		})
 	},
 
+	/**
+	 * Renders the view
+	 */
 	render : function() {
 		return (
 			<Card className="submit-content">
