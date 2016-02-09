@@ -19,6 +19,13 @@ class Candidate {
 	issueRatings: {[key: string]: string};
 	website: string;
 	firebaseRef: Firebase;
+
+	/*
+		Fetches the Candidate with the given candidateId.
+	*/
+	public static getCandidate(candidateId: string, callback: (candidate: Candidate) => any): void {
+		// TODO: Implement
+	}
 }
 
 export = Candidate;

@@ -24,6 +24,13 @@ class Issue {
 	candidates: {[key: string]: string};
 	category: string[];
 	submitter: string;
+
+	/*
+		Fetches the Issue with the given issueId.
+	*/
+	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
+		// TODO: Implement
+	}
 }
 
 export = Issue;
