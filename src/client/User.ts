@@ -2,7 +2,7 @@
 
 import Firebase = require("firebase");
 import Constants = require('./Constants');
-import Candidate = require('./Candiate');
+import Candidate = require('./Candidate');
 import Issue = require('./Issue');
 
 /*
