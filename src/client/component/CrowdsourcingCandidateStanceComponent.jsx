@@ -21,7 +21,7 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
         return (
             <div>
                 <p>{this.props.candidate}</p>
-                <Slider />
+                <Slider min={1} max={5} defaultValue={3} />
             </div>
         );
     }
