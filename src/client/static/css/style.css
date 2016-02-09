@@ -127,3 +127,56 @@ input[type="range"]::-ms-thumb {
 .slider {
     max-width: 256px;
 }
+
+/* stance selector */
+.btn-group {
+    display: inline-block;
+    position: relative;
+}
+
+.btn {
+    background-color: rgba(0,0,0,0);
+    background-image: none;
+    border: 4px solid blue;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    height: 28px;
+    margin-right: 20px;
+    width: 28px;
+}
+
+.btn>input {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+btn:last-child {
+    margin-right: 0px;
+}
+
+.btn.agree {
+    border: 4px solid #668eff;
+}
+
+.btn.disagree {
+    border: 4px solid #ff8080;
+}
+
+.btn.neutral {
+    border: 4px solid #d9d9d9;
+}
+
+.btn.agree.selected {
+    background-color: #668eff;
+}
+
+.btn.disagree.selected {
+    background-color: #ff8080;
+}
+
+.btn.neutral.selected {
+    background-color: #d9d9d9;
+}
