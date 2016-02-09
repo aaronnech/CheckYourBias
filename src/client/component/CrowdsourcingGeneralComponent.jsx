@@ -11,19 +11,31 @@ var RaisedButton = require('material-ui/lib/raised-button');
 
 const CONTENT_MAX = 400;
 
+/**
+ * Form fragment for general content submission.
+ *
+ * @author sonjakhan
+ */
 var CrowdsourcingGeneralComponent = React.createClass({
 
+    /**
+     * content: The main content the user is submitting
+     * contentErrorText: The error text to show when there is invalid content 
+     * candidates: A list of remaining candidates that haven't been added yet
+     * candidateMap: A map from candidate to stance that the user has inputted
+     */
     getInitialState : function() {
         return {
             content: null,
             contentErrorText: Constants.ERRORS.REQUIRED,
-            candidate: 0,
-            candidateErrorText: Constants.ERRORS.REQUIRED,
             candidates: Constants.CANDIDATES.slice(),
             candidateMap: {},
         };
     },
 
+    /**
+     * Adds a candidate to map with a neutral stance
+     */
     handleUpdateCandidate : function(event, index, value) {
         this.state.candidateMap[this.state.candidates[value - 1]] = 0.5;
         this.state.candidates.splice((value - 1), 1);
@@ -33,6 +45,10 @@ var CrowdsourcingGeneralComponent = React.createClass({
         })
     },
 
+    /** 
+     * Sets the content to what the user typed and updates the 
+     * error text if necessary
+     */
     handleUpdateContent : function(event) {
         var content = event.target.value;
         var errorText = null;
@@ -48,6 +64,9 @@ var CrowdsourcingGeneralComponent = React.createClass({
         });
     },
 
+    /** 
+     * Updates the candidate's stance to the value set by the user
+     */
     handleUpdateSlider : function(candidate, value) {
         this.state.candidateMap[candidate] = value;
         this.setState({
@@ -55,6 +74,10 @@ var CrowdsourcingGeneralComponent = React.createClass({
         });
     },
 
+    /** 
+     * Returns an array of CrowsourcingCandidateStanceComponents with data
+     * that the user has already submitted
+     */
     getCandidateStances : function() {
         var result = [];
         for (candidate in this.state.candidateMap) {
@@ -70,6 +93,10 @@ var CrowdsourcingGeneralComponent = React.createClass({
         return result;
     },
 
+    /** 
+     * Returns the SelectField containing all candidates that have not yet 
+     * been selected
+     */
     getSelectCandidate : function () {
         return ((this.state.candidates.length > 0) ? (
             <SelectField value={this.state.candidate} onChange={this.handleUpdateCandidate}>
