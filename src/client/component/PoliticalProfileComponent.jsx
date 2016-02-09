@@ -11,7 +11,13 @@ var PoliticalProfileComponent = React.createClass({
 		return (
 			<div className="political-profile">
 				<div class="rate-scale">
-					<h2>arent you proud of me ma?</h2>
+					<p class="indentSides">403 Issues Voted on!</p>
+					<h3>Your Candidates:</h3>
+					<ol>
+						<li>Bernie Sanders</li>
+						<li>Carly Fiorina</li>
+						<li>Jim Webb</li>
+					</ol>
 				</div>
 			</div>
 		);
