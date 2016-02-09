@@ -1,12 +1,25 @@
 var React = require('react');
 
+/**
+ * This component displays to the user their previously answered questions
+ * and the candidates' ranking based on their answers.
+ *
+ * @author ravnon
+ */
 var PoliticalProfileComponent = React.createClass({
+	/**
+	 * Callback that fires when user selects this component
+	 * @param page
+	 */
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
 		})
 	},
 
+	/**
+	 * Renders the view
+	 */
 	render : function() {
 		return (
 			<div className="political-profile">

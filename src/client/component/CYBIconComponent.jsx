@@ -1,6 +1,14 @@
 var React = require('react');
 
+/**
+ * This component displays the app's icon
+ *
+ */
 var CYBIconComponent = React.createClass({
+
+	/**
+	 * Renders the view
+	 */
     render : function() {
         return (
         	<img

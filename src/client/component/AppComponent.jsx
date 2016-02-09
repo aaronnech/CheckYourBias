@@ -23,6 +23,10 @@ var CrowdsourcingComponent = require('./CrowdSourcingComponent.jsx');
 var CandidateRankingComponent = require('./CandidateRankingComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
 
+/**
+ * This component controls the application's page views and delegates
+ * to other components to take control of the screen and render
+ */
 var AppComponent = React.createClass({
     childContextTypes : {
         muiTheme: React.PropTypes.object,
@@ -34,6 +38,11 @@ var AppComponent = React.createClass({
         };
     },
 
+    /*
+    * Sets the screen view to the given screen
+    *
+    * @param screen
+    */
     setScreenLater : function(screen, ignoreHistory) {
         var self = this;
         return function() {
@@ -56,6 +65,10 @@ var AppComponent = React.createClass({
         this.setState({loading: false});
     },
 
+    /*
+    * returns the initial state of the app based on the user login
+    * and default screen settings
+    */
     getInitialState : function() {
         if (!Auth.isAuth()) {
             return {
@@ -72,6 +85,9 @@ var AppComponent = React.createClass({
         }
     },
 
+    /*
+    * helper used in navigating between pages in history
+    */
     onPopHistory : function() {
         var stack = this.state.history;
         var screen = stack.pop();
@@ -81,11 +97,17 @@ var AppComponent = React.createClass({
         this.setScreenLater(screen, true)();  
     },
 
+    /*
+    * logs user out of the application
+    */
     logout : function() {
         Auth.deAuth();
         this.setScreenLater(Constants.SCREENS.FACEBOOK, true)();
     },
 
+    /*
+    * renders the view
+    */
     render : function() {
         var screen = null;
         var title = 'Check Your Bias';
