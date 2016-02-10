@@ -19,7 +19,7 @@ var Theme = require('../theme/Theme');
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
 var PoliticalProfileComponent = require('./PoliticalProfileComponent.jsx');
-var CrowdsourcingComponent = require('./CrowdSourcingComponent.jsx');
+var CrowdsourcingComponent = require('./crowdsourcing/CrowdsourcingComponent.jsx');
 var CandidateRankingComponent = require('./CandidateRankingComponent.jsx');
 var CYBIconComponent = require('./CYBIconComponent.jsx');
 
@@ -94,7 +94,7 @@ var AppComponent = React.createClass({
 
         this.setState({history : stack});
 
-        this.setScreenLater(screen, true)();  
+        this.setScreenLater(screen, true)();
     },
 
     /*

@@ -5,7 +5,7 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var source = require("vinyl-source-stream");
 
- 
+
 gulp.task('default', ['bundleClient']);
 
 gulp.task('compileTS', function() {
@@ -24,13 +24,13 @@ gulp.task('compileTS', function() {
 
 gulp.task('bundleClient', ['compileTS', 'move'], function() {
 	var b = browserify();
-	
+
 	// USING THE REACT TRANSFORM
 	b.transform(reactify);
-	
+
 	// Grab the file to build the dependency graph from
 	b.add('./bin/client/main.js');
-	
+
 	b.bundle()
 	 .pipe(source('main.js'))
 	 .pipe(gulp.dest('./bin/client/static/js'));
@@ -40,7 +40,7 @@ gulp.task('move', ['move-component', 'move-statics']);
 
 gulp.task('move-component', function(cb) {
     // move components
-    var jsx = gulp.src('src/client/component/*.jsx')
+    var jsx = gulp.src('src/client/component/**/*')
                   .pipe(gulp.dest('./bin/client/component'));
 
     jsx.on('end', function() {

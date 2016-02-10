@@ -1,8 +1,8 @@
 var React = require('react');
-var Constants = require('../Constants');
+var Constants = require('../../Constants');
 
 var Slider = require('material-ui/lib/slider');
-var StanceSelector = require('./StanceSelector.jsx');
+var StanceSelector = require('../StanceSelector.jsx');
 
 /**
  * Component that groups a candidate and a stance slider
@@ -22,9 +22,9 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
         return (
             <div>
                 <p className="candidateLabel">{this.props.candidate}</p>
-                <StanceSelector 
-                    candidate={this.props.candidate} 
-                    handleUpdateSlider={this.handleUpdateSlider} 
+                <StanceSelector
+                    candidate={this.props.candidate}
+                    handleUpdateSlider={this.handleUpdateSlider}
                     value={this.props.value}
                 />
             </div>

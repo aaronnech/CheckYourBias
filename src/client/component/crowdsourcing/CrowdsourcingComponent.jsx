@@ -1,5 +1,5 @@
 var React = require('react');
-var Constants = require('../Constants');
+var Constants = require('../../Constants');
 
 var CrowdsourcingQuoteComponent = require('./CrowdsourcingQuoteComponent.jsx');
 var CrowdsourcingGeneralComponent = require('./CrowdsourcingGeneralComponent.jsx');
@@ -12,7 +12,7 @@ var TextField = require('material-ui/lib/text-field');
 var RaisedButton = require('material-ui/lib/raised-button');
 
 /**
- * Form for a user to submit content to the application. The form is dynamic and 
+ * Form for a user to submit content to the application. The form is dynamic and
  * changes form fields based on the type of content the user is submitting.
  *
  * @author sonjakhan
@@ -21,7 +21,7 @@ var CrowdsourcingComponent = React.createClass({
 
 
     /**
-     * contentType: The Constants.CONTENT_TYPE the user is submitting 
+     * contentType: The Constants.CONTENT_TYPE the user is submitting
      * formComponent: The component to show based on the selected contentType
      * category: The category from Constants.CATEGORIES the content belongs to
      * source: A string representing a url to the source of the content

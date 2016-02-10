@@ -1,5 +1,5 @@
 var React = require('react');
-var Constants = require('../Constants');
+var Constants = require('../../Constants');
 
 var AutoComplete = require('material-ui/lib/auto-complete');
 var TextField = require('material-ui/lib/text-field');
@@ -7,7 +7,7 @@ var TextField = require('material-ui/lib/text-field');
 const QUOTE_MAX = 400;
 
 /**
- * Form fragment for a direct quote content submission. 
+ * Form fragment for a direct quote content submission.
  *
  * @author sonjakhan
  */
@@ -15,7 +15,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
 
     /**
      * candidate: The candidate who said the quote
-     * candidateErrorText: The error text to show when there is invalid candidate 
+     * candidateErrorText: The error text to show when there is invalid candidate
      * quote: The content the user is submitting
      * quoteErrorText: The error text to show when the quote is invalid
      */
@@ -30,7 +30,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
 
 
     /**
-     * Sets the candidate to what the user inputted and updates the 
+     * Sets the candidate to what the user inputted and updates the
      * error text if necessary
      */
     // TODO (sonjakhan): Change to dropdown
@@ -46,7 +46,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
     },
 
     /**
-     * Sets the quote to what the user inputted and updates the 
+     * Sets the quote to what the user inputted and updates the
      * error text if necessary
      */
     handleUpdateQuote : function(event) {
