@@ -126,13 +126,16 @@ input[type="range"]::-ms-thumb {
     margin-top: 20px;
 }
 
-.slider {
-    max-width: 256px;
+.candidateLabel {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0px;
 }
 
 /* stance selector */
 .btn-group {
     display: inline-block;
+    margin-bottom: 12px;
     position: relative;
 }
 
@@ -155,16 +158,16 @@ input[type="range"]::-ms-thumb {
     z-index: -1;
 }
 
-btn:last-child {
+.btn:last-child {
     margin-right: 0px;
 }
 
 .btn.strongly-agree {
-    border: 4px solid #7cd65c;
+    border: 4px solid #52b72e;
 }
 
 .btn.agree {
-    border: 4px solid #ceefc2;
+    border: 4px solid #8cdb70;
 }
 
 .btn.strongly-disagree {
@@ -180,11 +183,11 @@ btn:last-child {
 }
 
 .btn.strongly-agree.selected {
-    background-color: #7cd65c;
+    background-color: #52b72e;
 }
 
 .btn.agree.selected {
-    background-color: #ceefc2;
+    background-color: #8cdb70;
 }
 
 .btn.strongly-disagree.selected {
@@ -197,4 +200,19 @@ btn:last-child {
 
 .btn.neutral.selected {
     background-color: #d9d9d9;
+}
+
+.btn-group .text-container {
+    margin-top: 4px;
+    max-width: 256px;
+    font-size: 16px;
+}
+
+.btn-group .text-container .agree-text {
+    color: #408f24;
+    float: right;
+}
+
+.btn-group .text-container .disagree-text {
+    color: #ac3974;
 }

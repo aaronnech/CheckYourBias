@@ -37,7 +37,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
      * Adds a candidate to map with a neutral stance
      */
     handleUpdateCandidate : function(event, index, value) {
-        this.state.candidateMap[this.state.candidates[value - 1]] = 0.5;
+        this.state.candidateMap[this.state.candidates[value - 1]] = 
+            Math.floor(Constants.STANCES.length / 2);
         this.state.candidates.splice((value - 1), 1);
         this.setState({
             candidates: this.state.candidates,
@@ -99,17 +100,13 @@ var CrowdsourcingGeneralComponent = React.createClass({
      */
     getSelectCandidate : function () {
         return ((this.state.candidates.length > 0) ? (
-            <SelectField value={this.state.candidate} onChange={this.handleUpdateCandidate}>
-                <MenuItem 
-                    className="menu-item-disabled" 
-                    key={0} 
-                    value={0} 
-                    primaryText="Select Candidate" 
-                    disabled={true}
-                />
+            <SelectField 
+                value={this.state.candidate} 
+                hintText={"Add Candidate"}
+                onChange={this.handleUpdateCandidate}>
                 {this.state.candidates.map((function(c, i) {
                     return (
-                        <MenuItem key={i + 1} value={i + 1} primaryText={c} />
+                        <MenuItem key={i} value={i + 1} primaryText={c} />
                     );
                 }).bind(this))}
             </SelectField>
@@ -129,7 +126,6 @@ var CrowdsourcingGeneralComponent = React.createClass({
 
                 <p>Candidate Stances:</p>
                 {this.getCandidateStances()}
-                
                 <div>
                     {this.getSelectCandidate()}
                 </div>

@@ -41,7 +41,7 @@ var StanceSelector = React.createClass({
      */
     getButtons : function() {
         result = [];
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < this.stanceClasses.length; i++) {
             var classes = "btn";
             classes += " " + this.stanceClasses[i];
             if (this.state.value == i) {
@@ -64,6 +64,10 @@ var StanceSelector = React.createClass({
         return (
             <div className="btn-group">
                 {this.getButtons()}
+                <div className="text-container">
+                    <span className="disagree-text">Disagree</span>
+                    <span className="agree-text">Agree</span>
+                </div>
             </div>
         );
     }
