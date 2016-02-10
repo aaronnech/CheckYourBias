@@ -39,6 +39,14 @@ class Constants {
 		'Taxes',
 	];
 
+	public static STANCES: any = [
+		'Strongly Disagree',
+		'Disagree',
+		'Neutral',
+		'Agree',
+		'Strongly Agree',
+	];
+
 	public static ERRORS: any = {
 		REQUIRED: 'This field is required',
 	}

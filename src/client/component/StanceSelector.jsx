@@ -1,7 +1,6 @@
 var React = require('react');
 var Constants = require('../Constants');
 
-
 /**
  * Component to select a stance on a five point scale.
  *
@@ -9,10 +8,22 @@ var Constants = require('../Constants');
  */
 var StanceSelector = React.createClass({
 
+    /**
+     * value: the current value of the selector, set to props.value if given
+     */
     getInitialState : function() {
         return {
             value: this.props.value,
         };
+    },
+
+    /**
+     * Creates an array of classnames for each stance
+     */
+    componentWillMount : function() {
+        this.stanceClasses = Constants.STANCES.map((function(c, i) {
+            return c.replace(/\s+/g, '-').toLowerCase();
+        }).bind(this));
     },
 
     /**
@@ -30,15 +41,9 @@ var StanceSelector = React.createClass({
      */
     getButtons : function() {
         result = [];
-        for (var i = -2; i < 3; i++) {
+        for (var i = 0; i < 5; i++) {
             var classes = "btn";
-            if (i < 0) {
-                classes += " disagree";
-            } else if (i > 0) {
-                classes += " agree";
-            } else {
-                classes += " neutral";
-            }
+            classes += " " + this.stanceClasses[i];
             if (this.state.value == i) {
                 classes += " selected";
             }
