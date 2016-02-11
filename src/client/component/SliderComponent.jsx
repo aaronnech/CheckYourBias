@@ -36,7 +36,7 @@ valueInRangePropType = function(props, propName, componentName) {
 
 
 /**
- * This component is a general slider that is used across the entire application.
+ * This component is a generic slider that is used across the entire application.
  * This component replaces React's <Slider> component.
  *
  * @author g-liu
