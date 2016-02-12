@@ -51,7 +51,7 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
-			callback(new User(id, user.firstname, user.lastname, user.admin, 
+			callback(new User(id, user.firstName, user.lastName, user.admin, 
 				user.age, user.email, user.gender, user.hasSeenHelpText,
 				user.submittedIssueIds, user.ratedIssues, user.categoryWeights));
 		}, function (errorObject) {
