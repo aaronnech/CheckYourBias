@@ -21,10 +21,15 @@ class User {
 	email: string;
 	gender: string;
 	hasSeenHelpText: string;
+	submittedIssueIds: string[];
+	ratedIssues: {[key: string]: string};
+	categoryWeights: {[key: string]: string};
 	firebaseRef: Firebase;
 
 	constructor(id: string, firstName: string, lastName: string, admin: string, 
-				age: string, email: string, gender: string, hasSeenHelpText: string) {
+				age: string, email: string, gender: string, hasSeenHelpText: string,
+				submittedIssueIds: string[], ratedIssues: [key: string]: string,
+				categoryWeights: [key: string]: string) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.admin = admin;
@@ -47,7 +52,8 @@ class User {
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
 			callback(new User(id, user.firstname, user.lastname, user.admin, 
-				user.age, user.email, user.gender, user.hasSeenHelpText));
+				user.age, user.email, user.gender, user.hasSeenHelpText,
+				user.submittedIssueIds, user.ratedIssues, user.categoryWeights));
 		}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
@@ -74,6 +80,13 @@ class User {
 	*/
 	public static getRatedIssues(userId: string, 
 					callback: (ratedIssues: {Issue: string}) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		rootRef.child(id).once("value", function(snapshot) {
+			var user : User = snapshot.val();
+			callback(user.ratedIssues);
+		}, function (errorObject) {
+			console.log("getRatedIssues failed" + errorObject.code);
+		});
 
 	}
 
@@ -84,7 +97,10 @@ class User {
 		invariant: issueId must correspond to an issue in the database
 	*/
 	public static submitRating(userId: string, issueId: string, rating: string): void {
-
+		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		rootRef.child(id).child("ratedIssues").update({
+			issueId : rating
+		});
 	}
 
 	/*
@@ -96,6 +112,8 @@ class User {
 	*/
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
+		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
+		candidates.orderByKey().limitToLast(1).on("value", )
 
 	}
 }

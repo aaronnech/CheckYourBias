@@ -53,6 +53,7 @@ class Constants {
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/";
 	public static FIRE_USER: string = Constants.FIREBASE_URL + 'Users/';
+	public static FIRE_CANDIDATE: string = Constants.FIREBASE_URL + 'Candidates/';
 	public static fireAccess: string = '';
 }
 
