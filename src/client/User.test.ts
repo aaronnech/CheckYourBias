@@ -22,6 +22,17 @@ class UserTest {
 			});
 		test.done();
 	}
+	
+	public static testGetNextIssue(test) {
+		User.getNextIssue("0", "0", function(issue) {
+			test.strictEqual(
+				issue.id,
+				"2",
+				'Returned issue should be issue 2'
+				);
+			});
+		test.done();
+	}
 }
 
 export = UserTest;
