@@ -21,10 +21,15 @@ class User {
 	email: string;
 	gender: string;
 	hasSeenHelpText: string;
+	submittedIssueIds: Array<String>;
+	ratedIssues: {[key: string]: string };
+	categoryWeights: {[key: string]: string };
 	firebaseRef: Firebase;
 
 	constructor(id: string, firstName: string, lastName: string, admin: string, 
-				age: string, email: string, gender: string, hasSeenHelpText: string) {
+				age: string, email: string, gender: string, hasSeenHelpText: string,
+				submittedIssueIds: Array<String>, ratedIssues: {[key: string]: string},
+				categoryWeights: {[key: string]: string}) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.admin = admin;
@@ -46,8 +51,9 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
-			callback(new User(id, user.firstname, user.lastname, user.admin, 
-				user.age, user.email, user.gender, user.hasSeenHelpText));
+			callback(new User(id, user.firstName, user.lastName, user.admin, 
+				user.age, user.email, user.gender, user.hasSeenHelpText,
+				user.submittedIssueIds, user.ratedIssues, user.categoryWeights));
 		}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
