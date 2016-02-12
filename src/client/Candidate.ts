@@ -15,7 +15,7 @@ import Constants = require('./Constants');
 class Candidate {
 	candidateId: string;
 	name: string;
-	affilidatedParty: string;
+	affiliatedParty: string;
 	issueRatings: {[key: string]: string};
 	website: string;
 	firebaseRef: Firebase;

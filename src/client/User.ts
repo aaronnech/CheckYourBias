@@ -127,7 +127,7 @@ class User {
 						if(user.ratedIssues[chosenIssue] == null)
 						{
 							Issue.getIssue(chosenIssue, function(nextIssue) {
-								if(+nextIssue.candidates[chosenCandidate] > 0 &&
+								if(+nextIssue.candidateRatings[chosenCandidate] > 0 &&
 									nextIssue.category.indexOf(categoryId) != -1)
 								{
 									nextIssue.id = chosenIssue;

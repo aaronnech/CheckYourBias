@@ -21,7 +21,7 @@ class Issue {
 	id: string;
 	mainText: string;
 	sources: string[];
-	candidates: {[key: string]: string};
+	candidateRatings: {[key: string]: string};
 	category: string[];
 	submitter: string;
 

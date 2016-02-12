@@ -30,7 +30,13 @@ class UserTest {
 				"2",
 				'Returned issue should be issue 2'
 				);
+			test.strictEqual(
+				issue.candidateRatings[0],
+				"4",
+				'Issue 2 has rating of 4 from candidate 0'
+				);
 			});
+			
 		test.done();
 	}
 }
