@@ -1,7 +1,8 @@
 var React = require('react');
 var Constants = require('../../Constants');
 
-var AutoComplete = require('material-ui/lib/auto-complete');
+var SelectField = require('material-ui/lib/select-field');
+var MenuItem = require('material-ui/lib/menus/menu-item');
 var TextField = require('material-ui/lib/text-field');
 
 const QUOTE_MAX = 400;
@@ -22,7 +23,6 @@ var CrowdsourcingQuoteComponent = React.createClass({
     getInitialState : function() {
         return {
             candidate: null,
-            candidateErrorText: Constants.ERRORS.REQUIRED,
             quote: null,
             quoteErrorText: Constants.ERRORS.REQUIRED,
         };
@@ -30,18 +30,11 @@ var CrowdsourcingQuoteComponent = React.createClass({
 
 
     /**
-     * Sets the candidate to what the user inputted and updates the
-     * error text if necessary
+     * Sets the candidate to what the user selected
      */
-    // TODO (sonjakhan): Change to dropdown
-    handleUpdateCandidate : function(value) {
-        var errorText = null;
-        if (value.length == 0) {
-            errorText = Constants.ERRORS.REQUIRED;
-        }
+    handleUpdateCandidate : function(event, index, value) {
         this.setState({
             candidate: value,
-            candidateErrorText: errorText,
         });
     },
 
@@ -68,13 +61,16 @@ var CrowdsourcingQuoteComponent = React.createClass({
         return (
             <div>
                 <p>Which candidate said it?</p>
-                <AutoComplete
-                    hintText="Candidate"
-                    errorText={this.state.candidateErrorText}
-                    dataSource={Constants.CANDIDATES}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    onUpdateInput={this.handleUpdateCandidate}
-                />
+                <SelectField
+                    value={this.state.candidate}
+                    hintText={"Select Candidate"}
+                    onChange={this.handleUpdateCandidate}>
+                    {Constants.CANDIDATES.map((function(c, i) {
+                        return (
+                            <MenuItem key={i} value={i + 1} primaryText={c} />
+                        );
+                    }).bind(this))}
+                </SelectField>
                 <p>Quote:</p>
                 <TextField
                     hintText="I will make America great again"

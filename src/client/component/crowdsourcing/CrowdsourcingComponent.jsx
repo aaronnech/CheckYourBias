@@ -19,7 +19,6 @@ var RaisedButton = require('material-ui/lib/raised-button');
  */
 var CrowdsourcingComponent = React.createClass({
 
-
     /**
      * contentType: The Constants.CONTENT_TYPE the user is submitting
      * formComponent: The component to show based on the selected contentType
@@ -31,7 +30,7 @@ var CrowdsourcingComponent = React.createClass({
         return {
             contentType: 1,
             formComponent: <CrowdsourcingQuoteComponent />,
-            category: 1,
+            category: null,
             source: null,
             sourceErrorText: Constants.ERRORS.REQUIRED,
         };
@@ -106,7 +105,10 @@ var CrowdsourcingComponent = React.createClass({
                             onChange={this.handleUpdateSource}
                         />
                         <p>Category:</p>
-                        <SelectField value={this.state.category} onChange={this.handleCategory}>
+                        <SelectField 
+                            value={this.state.category}
+                            hintText={"Select Category"}
+                            onChange={this.handleCategory}>
                             {Constants.CATEGORIES.map((function(c, i) {
                                 // need to start value at 1 instead of 0 for highlighting selected option
                                 return (
