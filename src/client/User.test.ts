@@ -8,8 +8,18 @@ class UserTest {
 				"Maegerle",
 				'Last name should be Maegerle'
 			);
-			test.done();
 		});
+		test.done();
+	}
+	
+	public static testGetRatedIssues(test) {
+		User.getRatedIssues("0", function(issues) {
+			test.strictEqual(
+				issues["0"],
+				4,
+				'Rating of first issue should be 4'
+				);
+			});
 		test.done();
 	}
 }

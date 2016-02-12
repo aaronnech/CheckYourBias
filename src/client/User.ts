@@ -51,9 +51,8 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
-			callback(new User(id, user.firstName, user.lastName, user.admin, 
-				user.age, user.email, user.gender, user.hasSeenHelpText,
-				user.submittedIssueIds, user.ratedIssues, user.categoryWeights));
+			user.id = id;
+			callback(user);
 		}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
@@ -116,28 +115,30 @@ class User {
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
 		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
-		var user = this.getUser(userId, function(user) {
-			return user;
+		var user;
+		this.getUser(userId, function(retUser) {
+			user = retUser;
 		});
 		candidates.orderByKey().limitToLast(1).once("value", function(snapshot) {
-			var chosenCandidate = Math.floor((Math.random() * snapshot.val()));
+			var chosenCandidate = Math.floor((Math.random() * snapshot.val())).toString();
 			var issue = 0;
 			var issues: Firebase = new Firebase(Constants.FIRE_ISSUE);
 			while(issue == 0)
 			{				
 				issues.orderByKey().limitToLast(1).once("value", function(snapshot) {
-					var chosenIssue = Math.floor((Math.random() * snapshot.val()));
-					/*
+					var chosenIssue = Math.floor((Math.random() * snapshot.val())).toString();
+					
 					if(user.ratedIssues[chosenIssue] == 0)
 					{
-						var nextIssue = Issue.getIssue(chosenIssue, function(issue) {
-							return issue;
+						var nextIssue;
+						Issue.getIssue(chosenIssue, function(returnedIssue) {
+							nextIssue = returnedIssue;
 						});
 						if(nextIssue.candidateRatings[chosenCandidate] > 0)
 						{
 							callback(nextIssue);
 						}
-					}*/
+					}
 				}, function (errorObject) {
 					// The id given was not valid or something went wrong.
 					console.log("Issue read failed in getNextIssue" + errorObject.code);
