@@ -100,6 +100,9 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).child("ratedIssues").update({
 			issueId : rating
+		}, function (errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("submitRating failed" + errorObject.code);
 		});
 	}
 
@@ -113,8 +116,32 @@ class User {
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
 		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
-		candidates.orderByKey().limitToLast(1).on("value", )
-
+		var user = getUser(userId);
+		candidates.orderByKey().limitToLast(1).once("value", function(snapshot) {
+			var chosenCandidate = Math.floor((Math.random() * snapshot.val()));
+			var issue = 0;
+			var issues: Firebase = new Firebase(Constants.FIRE_ISSUE);
+			while(issue == 0)
+			{				
+				issues.orderByKey().limitToLast(1).once("value", function(snapshot) {
+					var chosenIssue = Math.floor((Math.random() * snapshot.val()));
+					if(user.ratedIssues[chosenIssue] == 0)
+					{
+						Issue nextIssue = Issue.getIssue(chosenIssue);
+						if(nextIssue.candidateRatings[chosenCandidate] > 0)
+						{
+							callback(nextIssue);
+						}
+					}
+				}, function (errorObject) {
+					// The id given was not valid or something went wrong.
+					console.log("Issue read failed in getNextIssue" + errorObject.code);
+				});
+			}
+		}, function (errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("Candidate read failed in getNextIssue" + errorObject.code);
+		});
 	}
 }
 
