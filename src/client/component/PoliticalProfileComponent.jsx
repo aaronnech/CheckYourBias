@@ -23,8 +23,8 @@ var PoliticalProfileComponent = React.createClass({
 	render : function() {
 		return (
 			<div className="political-profile">
-				<div class="rate-scale">
-					<p class="indentSides">403 Issues Voted on!</p>
+				<div className="rate-scale">
+					<p className="indentSides">403 Issues Voted on!</p>
 					<h3>Your Candidates:</h3>
 					<ol>
 						<li>Bernie Sanders</li>

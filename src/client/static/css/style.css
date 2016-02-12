@@ -121,6 +121,21 @@ input[type="range"]::-ms-thumb {
     background-color: #555;
 }
 
+/* User Profile */
+.user-profile-btn {
+    background-color: #eee;
+    cursor: pointer;
+    height: 60px;
+    line-height: 60px;
+    margin: 12px;
+    text-align: center;
+    width: 256px;
+}
+
+.user-profile-btn:hover {
+    background-color: #ddd;
+}
+
 /* Crowdsourcing form */
 .submit-button {
     margin-top: 20px;

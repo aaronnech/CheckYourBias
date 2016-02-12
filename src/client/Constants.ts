@@ -3,7 +3,9 @@ class Constants {
 		FACEBOOK : 0,
 		RATE_VIEWPOINTS: 1,
 		CROWDSOURCING: 2,
-		CANDIDATE_RANKING: 3
+		CANDIDATE_RANKING: 3,
+		POLITICAL_PROFILE: 4,
+		USER_PROFILE: 5,
 	};
 
 	public static AUTH: any = {
