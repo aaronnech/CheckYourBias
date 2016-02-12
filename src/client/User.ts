@@ -28,8 +28,8 @@ class User {
 
 	constructor(id: string, firstName: string, lastName: string, admin: string, 
 				age: string, email: string, gender: string, hasSeenHelpText: string,
-				submittedIssueIds: string[], ratedIssues: [key: string]: string,
-				categoryWeights: [key: string]: string) {
+				submittedIssueIds: string[], ratedIssues: {[key: string]: string},
+				categoryWeights: {[key: string]: string}) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.admin = admin;
@@ -79,9 +79,9 @@ class User {
 		invariant: userId must correspond to a user in the database
 	*/
 	public static getRatedIssues(userId: string, 
-					callback: (ratedIssues: {Issue: string}) => any): void {
+					callback: (ratedIssues: {[key: string]: string}) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
-		rootRef.child(id).once("value", function(snapshot) {
+		rootRef.child(userId).once("value", function(snapshot) {
 			var user : User = snapshot.val();
 			callback(user.ratedIssues);
 		}, function (errorObject) {
@@ -98,7 +98,7 @@ class User {
 	*/
 	public static submitRating(userId: string, issueId: string, rating: string): void {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
-		rootRef.child(id).child("ratedIssues").update({
+		rootRef.child(userId).child("ratedIssues").update({
 			issueId : rating
 		}, function (errorObject) {
 			// The id given was not valid or something went wrong.
@@ -116,7 +116,9 @@ class User {
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
 		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
-		var user = getUser(userId);
+		var user = this.getUser(userId, function(user) {
+			return user;
+		});
 		candidates.orderByKey().limitToLast(1).once("value", function(snapshot) {
 			var chosenCandidate = Math.floor((Math.random() * snapshot.val()));
 			var issue = 0;
@@ -125,14 +127,17 @@ class User {
 			{				
 				issues.orderByKey().limitToLast(1).once("value", function(snapshot) {
 					var chosenIssue = Math.floor((Math.random() * snapshot.val()));
+					/*
 					if(user.ratedIssues[chosenIssue] == 0)
 					{
-						Issue nextIssue = Issue.getIssue(chosenIssue);
+						var nextIssue = Issue.getIssue(chosenIssue, function(issue) {
+							return issue;
+						});
 						if(nextIssue.candidateRatings[chosenCandidate] > 0)
 						{
 							callback(nextIssue);
 						}
-					}
+					}*/
 				}, function (errorObject) {
 					// The id given was not valid or something went wrong.
 					console.log("Issue read failed in getNextIssue" + errorObject.code);
