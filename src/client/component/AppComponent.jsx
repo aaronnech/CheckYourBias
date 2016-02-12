@@ -46,7 +46,6 @@ var AppComponent = React.createClass({
     */
     setScreenLater : function(screen, ignoreHistory) {
         var self = this;
-        console.log(screen);
         return function() {
             var stack = self.state.history;
             if (!ignoreHistory) {
@@ -175,7 +174,6 @@ var AppComponent = React.createClass({
                 title = 'Political Profile';
                 break;
             case Constants.SCREENS.USER_PROFILE:
-                console.log("here");
                 screen =
                     <UserProfileComponent />;
                 title = 'User Profile';
