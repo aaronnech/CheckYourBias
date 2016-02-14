@@ -99,10 +99,10 @@ input[type="radio"] {
 }
 input[type="radio"] + label span {
   display: inline-block;
-  width: 2em;
-  height: 2em;
-  margin-left: 0.6em;
-  margin-right: 0.6em;
+  width: 9vw;
+  height: 9vw;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
   background: white;
   border-radius: 50%;
   border-width: 5px;
