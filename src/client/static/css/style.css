@@ -33,6 +33,7 @@ body, html {
 .slider-wrapper {
   width: 90%;
   margin: 1em auto;
+  text-align: center;
 }
 
 .confirm-choice-wrapper {
@@ -51,7 +52,7 @@ input[type="range"] {
     outline: none; /* no focus outline */
 }
 
-input[type="range"]:before {
+/*input[type="range"]:before {
     content: '-';
     color: red;
     font-weight: bold;
@@ -72,7 +73,7 @@ input[type="range"]:after {
     top: 3px;
     margin-left: -25px;
 }
-
+*/
 input[type="range"]::-moz-range-track {
     border: inherit;
     background: transparent;
@@ -91,6 +92,98 @@ input[type="range"]::-ms-fill-upper {
 
 input[type="range"]::-ms-tooltip {
     display: none;
+}
+
+input[type="radio"] {
+  display: none;
+}
+input[type="radio"] + label span {
+  display: inline-block;
+  width: 9vw;
+  height: 9vw;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+  background: white;
+  border-radius: 50%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+}
+#c1 + label span {
+  border-color: #CC669A;
+}
+#c1:checked + label span {
+  background: #CC669A;
+}
+#c2 + label span {
+  border-color: #E5B3CC;
+}
+#c2:checked + label span {
+  background: #E5B3CC;
+}
+#c3 + label span {
+  border-color: #D9D9D9;
+}
+#c3:checked + label span {
+  background: #D9D9D9;
+}
+#c4 + label span {
+  border-color: #8CDB70;
+}
+#c4:checked + label span {
+  background: #8CDB70;
+}
+#c5 + label span {
+  border-color: #52B72E;
+}
+#c5:checked + label span {
+  background: #52B72E;
+}
+
+input[type="radio"] {
+  display: none;
+}
+input[type="radio"] + label span {
+  display: inline-block;
+  width: 9vw;
+  height: 9vw;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+  background: white;
+  border-radius: 50%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+}
+#c1 + label span {
+  border-color: #CC669A;
+}
+#c1:checked + label span {
+  background: #CC669A;
+}
+#c2 + label span {
+  border-color: #E5B3CC;
+}
+#c2:checked + label span {
+  background: #E5B3CC;
+}
+#c3 + label span {
+  border-color: #D9D9D9;
+}
+#c3:checked + label span {
+  background: #D9D9D9;
+}
+#c4 + label span {
+  border-color: #8CDB70;
+}
+#c4:checked + label span {
+  background: #8CDB70;
+}
+#c5 + label span {
+  border-color: #52B72E;
+}
+#c5:checked + label span {
+  background: #52B72E;
 }
 
 /* thumb */
