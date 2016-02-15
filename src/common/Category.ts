@@ -19,11 +19,27 @@ class Category {
 	submittedIssueIds: string[];	
 	firebaseRef: Firebase;
 
+	constructor(id: string, categoryName: string, description: string,
+			submittedIssueIds: string[]) {
+		this.categoryName = categoryName;
+		this.description = description;
+		this.submittedIssueIds = submittedIssueIds;
+		this.firebaseRef = new Firebase(Constants.FIRE_CATEGORY + "/" + id);
+	}
+
 	/*
 		Fetches the Category with the given categoryId.
 	*/
 	public static getCategory(categoryId: string, callback: (category: Category) => any): void {
-		// TODO: Implement
+		var rootRef: Firebase = new Firebase(Constants.FIRE_CATEGORY);
+		rootRef.child(categoryId).once("value", function(snapshot) {
+			var category = snapshot.val();
+			category.id = category;
+			callback(category);
+		}, function(errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("The read failed" + errorObject.code);
+		});
 	}
 }
 

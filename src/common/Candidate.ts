@@ -21,8 +21,8 @@ class Candidate {
 	firebaseRef: Firebase;
 
 	constructor(id: string, name: string, affiliatedParty: string,
-		issueRatings: { [key: string]: string },
-		website: string) {
+			issueRatings: { [key: string]: string },
+			website: string) {
 		this.name = name;
 		this.affiliatedParty = affiliatedParty;
 		this.issueRatings = issueRatings;
