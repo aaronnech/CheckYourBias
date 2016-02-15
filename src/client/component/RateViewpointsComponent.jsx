@@ -26,8 +26,20 @@ var RateViewpointsComponent = React.createClass({
 	    	 * Whether or not to display the candidate who said the quote
 	    	 */
 	    	candidateShown: false,
+
+	    	/**
+	    	 * A text representation of what the candidate said
+	    	 */
 			issueText: "I am issue text. Duis lectus ligula, fermentum sit amet sapien ut, aliquet varius ante. Sed sit amet gravida orci, eu mollis eros. Fusce vestibulum dolor quis massa tempor consectetur. Sed id placerat neque. Maecenas in justo eget sem faucibus maximus. Morbi sodales varius sem, quis ultricies velit tincidunt sed.",
+
+			/**
+			 * The name of the candidate who said the text
+			 */
 			issueAttributionName: "Bernard Sanders",
+			
+			/**
+			 * A relative path to an image of the candidate
+			 */
 			issueAttributionImage: "bernie_sanders2.jpg"
 	    };
 	},
