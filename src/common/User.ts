@@ -1,7 +1,7 @@
 /// <reference path="../common/def/firebase.d.ts"/>
 
 import Firebase = require("firebase");
-import Constants = require('./Constants');
+import Constants = require('../client/Constants');
 import Candidate = require('./Candidate');
 import Issue = require('./Issue');
 import Category = require('./Category');
@@ -52,7 +52,6 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
-			console.log("User snapshot" + user.firebaseRef);
 			user.id = id;
 			callback(user);
 		}, function (errorObject) {

@@ -1,7 +1,7 @@
 /// <reference path="../common/def/firebase.d.ts"/>
 
 import Firebase = require("firebase");
-import Constants = require('./Constants');
+import Constants = require('../client/Constants');
 
 /*
 	A class that represents a candidate and all the information that corresponds to it.

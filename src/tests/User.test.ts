@@ -1,4 +1,4 @@
-import User = require('./User');
+import User = require('../common/User');
 
 class UserTest {
 	public static testUserValues(test) {

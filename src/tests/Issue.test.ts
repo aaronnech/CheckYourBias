@@ -1,4 +1,4 @@
-import Issue = require('./Issue');
+import Issue = require('../common/Issue');
 
 class IssueTest {
 	public static testIssueValues(test) {
