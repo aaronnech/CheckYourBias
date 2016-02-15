@@ -30,7 +30,7 @@ var StanceSelector = React.createClass({
      * Calls the given callback with the value the user selected
      */
     handleUpdate(value, event) {
-        this.props.handleUpdateSlider(this.props.candidate, value);
+        this.props.handleUpdateStance(value, this.props.candidate);
         this.setState({
             value: value,
         });

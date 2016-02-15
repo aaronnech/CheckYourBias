@@ -6,7 +6,6 @@ var AutoComplete = require('material-ui/lib/auto-complete');
 var TextField = require('material-ui/lib/text-field');
 var SelectField = require('material-ui/lib/select-field');
 var MenuItem = require('material-ui/lib/menus/menu-item');
-var Slider = require('material-ui/lib/slider');
 var RaisedButton = require('material-ui/lib/raised-button');
 
 const CONTENT_MAX = 400;
@@ -68,7 +67,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
     /**
      * Updates the candidate's stance to the value set by the user
      */
-    handleUpdateSlider : function(candidate, value) {
+    handleUpdateStance : function(value, candidate) {
         this.state.candidateMap[candidate] = value;
         this.setState({
             candidateMap: this.state.candidateMap,
@@ -87,7 +86,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
                     key={candidate}
                     candidate={candidate}
                     value={this.state.candidateMap[candidate]}
-                    handleUpdateSlider={this.handleUpdateSlider}
+                    handleUpdateStance={this.handleUpdateStance}
                 />
             );
         }

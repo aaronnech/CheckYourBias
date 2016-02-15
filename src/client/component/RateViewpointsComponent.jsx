@@ -6,7 +6,7 @@ var CardTitle = require('material-ui/lib/card/card-title');
 var CardMedia = require('material-ui/lib/card/card-media');
 var CardText = require('material-ui/lib/card/card-text');
 var CardActions = require('material-ui/lib/card/card-actions');
-var PointRating = require('./PointRatingComponent.jsx');
+var StanceSelector = require('./StanceSelector.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
 
 /**
@@ -40,7 +40,12 @@ var RateViewpointsComponent = React.createClass({
 			/**
 			 * A relative path to an image of the candidate
 			 */
-			issueAttributionImage: "bernie_sanders2.jpg"
+			issueAttributionImage: "bernie_sanders2.jpg",
+
+			/** 
+			 *	The user's stance on the issue
+			 */
+			userStance: null,
 	    };
 	},
 
@@ -76,6 +81,15 @@ var RateViewpointsComponent = React.createClass({
 	},
 
 	/**
+     * Updates the user's stance
+     */
+    handleUpdateStance : function(value) {
+        this.setState({
+            value: value,
+        });
+    },
+
+	/**
 	 * Renders the view
 	 */
 	render : function() {
@@ -93,7 +107,7 @@ var RateViewpointsComponent = React.createClass({
 				</CardText>
 				<CardActions>
 					<div className="rate-scale" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
-						<PointRating leftText={Constants.STANCES[0]} rightText={Constants.STANCES[4]} />
+						<StanceSelector value={this.state.userStance} handleUpdateStance={this.handleUpdateStance} />
 					</div>
 					<div className="confirm-choice-wrapper" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
 						<RaisedButton label="Who said it?"
