@@ -1,6 +1,9 @@
 var React = require('react');
+var Constants = require('../Constants');
+
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
+var CardMedia = require('material-ui/lib/card/card-media');
 var CardText = require('material-ui/lib/card/card-text');
 var CardActions = require('material-ui/lib/card/card-actions');
 var PointRating = require('./PointRatingComponent.jsx');
@@ -14,13 +17,29 @@ var RaisedButton = require('material-ui/lib/raised-button');
  */
 var RateViewpointsComponent = React.createClass({
 	/**
+	 * Initial state of the component
+	 */
+	getInitialState : function() {
+		// TODO: hook up to backend to retrieve quote and attribution
+	    return {
+	    	/**
+	    	 * Whether or not to display the candidate who said the quote
+	    	 */
+	    	candidateShown: false,
+			issueText: "I am issue text. Duis lectus ligula, fermentum sit amet sapien ut, aliquet varius ante. Sed sit amet gravida orci, eu mollis eros. Fusce vestibulum dolor quis massa tempor consectetur. Sed id placerat neque. Maecenas in justo eget sem faucibus maximus. Morbi sodales varius sem, quis ultricies velit tincidunt sed.",
+			issueAttributionName: "Bernard Sanders",
+			issueAttributionImage: "bernie_sanders2.jpg"
+	    };
+	},
+
+	/**
 	 * Callback that fires when user selects this component
 	 * @param page
 	 */
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
-		})
+		});
 	},
 
 	/**
@@ -29,6 +48,19 @@ var RateViewpointsComponent = React.createClass({
 	confirmReaction : function() {
 		// TODO: show user the candidate who said the issue.
 		// console.log("User confirmed reaction");
+		this.setState({
+			candidateShown: true
+		});
+	},
+
+	/**
+	 * Retrieves a random quote from a candidate, and displays it to the user
+	 */
+	getQuote : function() {
+		// TODO: replace text shown with new data from backend source
+		this.setState({
+			candidateShown: false
+		});
 	},
 
 	/**
@@ -38,16 +70,28 @@ var RateViewpointsComponent = React.createClass({
 		return (
 			<Card className="rate-viewpoints">
 				<CardTitle title="Major issue!" />
+				
+				<CardMedia overlay={<CardTitle title={this.state.issueAttributionName} />}
+					style={{display: this.state.candidateShown ? 'block' : 'none'}}>
+					<img src={'img/' + this.state.issueAttributionImage} />
+				</CardMedia>
+				
 				<CardText className="issue-wrapper">
-					<p>The text of the issue will appear here. Duis lectus ligula, fermentum sit amet sapien ut, aliquet varius ante. Sed sit amet gravida orci, eu mollis eros. Fusce vestibulum dolor quis massa tempor consectetur. Sed id placerat neque. Maecenas in justo eget sem faucibus maximus. Morbi sodales varius sem, quis ultricies velit tincidunt sed.
-					</p>
+					<p>{this.state.issueText}</p>
 				</CardText>
 				<CardActions>
-					<div className="rate-scale">
-						<PointRating leftText="Disagree" rightText="Agree" />
+					<div className="rate-scale" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
+						<PointRating leftText={Constants.STANCES[0]} rightText={Constants.STANCES[4]} />
 					</div>
-					<div className="confirm-choice-wrapper">
-						<RaisedButton label="Next" secondary={true} onClick={this.confirmReaction} style={{marginTop: '1em'}} />
+					<div className="confirm-choice-wrapper" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
+						<RaisedButton label="Who said it?"
+							onClick={this.confirmReaction}
+							style={{marginTop: '1em'}} />
+					</div>
+					<div className="next-candidate-wrapper" style={{display: this.state.candidateShown ? 'block' : 'none'}}>
+						<RaisedButton label="Next"
+							onClick={this.getQuote}
+							style={{marginTop: '1em'}} />
 					</div>
 				</CardActions>
 			</Card>

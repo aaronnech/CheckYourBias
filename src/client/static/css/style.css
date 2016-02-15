@@ -36,7 +36,8 @@ body, html {
   text-align: center;
 }
 
-.confirm-choice-wrapper {
+.confirm-choice-wrapper,
+.next-candidate-wrapper {
     text-align: right;
 }
 
