@@ -4,6 +4,7 @@ import Firebase = require("firebase");
 import Constants = require('./Constants');
 import Candidate = require('./Candidate');
 import Issue = require('./Issue');
+import Category = require('./Category');
 
 /*
 	A class that represents a user and all the information that corresponds to them.
@@ -51,6 +52,7 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
+			console.log("User snapshot" + user.firebaseRef);
 			user.id = id;
 			callback(user);
 		}, function (errorObject) {
@@ -69,6 +71,13 @@ class User {
 	*/
 	public static getRankings(userId: string, categoryId: string, 
 					callback: (rankings: Candidate[]) => any): void {
+		var rootref: Firebase = new Firebase(Constants.FIRE_USER);
+		this.getUser(userId, function(user) {
+			var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
+			candidates.orderByKey().once("value", function(snapshot) {
+
+			});
+		});
 	}
 
 	/*
