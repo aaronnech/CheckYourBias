@@ -8,8 +8,8 @@ class IssueTest {
 				0,
 				'Should have been submitted by user with id == 0'
 			);
+			test.done();
 		});
-		test.done();
 	}
 }
 
