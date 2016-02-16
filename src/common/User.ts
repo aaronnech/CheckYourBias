@@ -124,30 +124,29 @@ class User {
 					callback: (issue: Issue) => any): void {
 		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
 		this.getUser(userId, function(user) {
-			candidates.orderByKey().limitToLast(1).once("value", function(snapshot) {
-				var chosenCandidate = Math.floor((Math.random() * snapshot.val())).toString();
-				var issue = 0;
+			candidates.orderByKey().once("value", function(snapshot) {
+				var chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
+				var foundIssue: boolean = false;
 				var issues: Firebase = new Firebase(Constants.FIRE_ISSUE);
-				while(issue == 0)
-				{				
-					issues.orderByKey().limitToLast(1).once("value", function(snapshot) {
-						var chosenIssue = Math.floor((Math.random() * snapshot.val())).toString();					
-						if(user.ratedIssues[chosenIssue] == null)
-						{
+				issues.orderByKey().once("value", function(snapshot) {
+					while(!foundIssue) {
+						var chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
+						console.log(chosenIssue);
+						if (user.ratedIssues[chosenIssue] == null) {
+							foundIssue = true;
 							Issue.getIssue(chosenIssue, function(nextIssue) {
-								if(+nextIssue.candidateRatings[chosenCandidate] > 0 &&
-									nextIssue.category.indexOf(categoryId) != -1)
-								{
+								if (+nextIssue.candidateRatings[chosenCandidate] > 0 &&
+									nextIssue.category.indexOf(categoryId) != -1) {
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
 								}
 							});
 						}
-					}, function (errorObject) {
-					// The id given was not valid or something went wrong.
-					console.log("Issue read failed in getNextIssue" + errorObject.code);
-					});
-				}
+					}
+				}, function (errorObject) {
+				// The id given was not valid or something went wrong.
+				console.log("Issue read failed in getNextIssue" + errorObject.code);
+				});
 			}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("Candidate read failed in getNextIssue" + errorObject.code);
