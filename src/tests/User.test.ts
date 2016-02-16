@@ -1,4 +1,4 @@
-import User = require('./User');
+import User = require('../common/User');
 
 class UserTest {
 	public static testUserValues(test) {
@@ -8,8 +8,8 @@ class UserTest {
 				"Maegerle",
 				'Last name should be Maegerle'
 			);
+			test.done();
 		});
-		test.done();
 	}
 	
 	public static testGetRatedIssues(test) {
@@ -18,9 +18,9 @@ class UserTest {
 				issues["0"],
 				4,
 				'Rating of first issue should be 4'
-				);
-			});
-		test.done();
+			);
+			test.done();
+		});
 	}
 	
 	public static testGetNextIssue(test) {
@@ -29,15 +29,14 @@ class UserTest {
 				issue.id,
 				"2",
 				'Returned issue should be issue 2'
-				);
+			);
 			test.strictEqual(
 				issue.candidateRatings[0],
 				"4",
 				'Issue 2 has rating of 4 from candidate 0'
-				);
-			});
-			
-		test.done();
+			);
+			test.done();
+		});
 	}
 }
 

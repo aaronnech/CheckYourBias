@@ -1,7 +1,7 @@
 /// <reference path="../common/def/firebase.d.ts"/>
 
 import Firebase = require("firebase");
-import Constants = require('./Constants');
+import Constants = require('../client/Constants');
 
 /*
 	A class that represents a user and all the information that corresponds to it.
@@ -41,7 +41,7 @@ class Issue {
 		Fetches the Issue with the given issueId.
 	*/
 	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		var rootRef: Firebase = new Firebase(Constants.FIRE_ISSUE);
 		rootRef.child(issueId).once("value", function(snapshot) {
 			var issue = snapshot.val();
 			issue.id = issueId;
