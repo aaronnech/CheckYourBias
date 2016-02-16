@@ -1,8 +1,22 @@
 var React = require('react');
 var Constants = require('../../Constants');
 
+var Card = require('material-ui/lib/card/card');
+var CardText = require('material-ui/lib/card/card-text');
 var CrowdsourcingCandidateStanceComponent = require('./CrowdsourcingCandidateStanceComponent.jsx');
+var Approve = require('material-ui/lib/svg-icons/action/done');
+var Reject = require('material-ui/lib/svg-icons/content/clear');
 var RaisedButton = require('material-ui/lib/raised-button');
+
+const approveStyle = {
+    fill: '#00ff00',
+    marginRight: 20
+};
+
+const rejectStyle = {
+    fill: '#ff0000',
+    marginRight: 20
+};
 
 /**
  * View to approve components
@@ -10,6 +24,8 @@ var RaisedButton = require('material-ui/lib/raised-button');
  * @author sonjakhan
  */
 var CrowdsourcingApprovalComponent = React.createClass({
+
+    
 
     /**
      * contentMap: A mapping from form category to content
@@ -24,13 +40,23 @@ var CrowdsourcingApprovalComponent = React.createClass({
         };
     },
 
+    handleUpdateApproval : function() {
+
+    },
+
     getContent : function() {
         result = []
         for (var label in this.state.contentMap) {
             result.push(
                 <div>
-                    <p>{label}</p>
+                    <p className="candidateLabel">{label}</p>
                     <p>{this.state.contentMap[label]}</p>
+                    <div className="approve">
+                        <Approve style={approveStyle} />
+                    </div>
+                    <div className="reject">
+                        <Reject style={rejectStyle} />
+                    </div>
                 </div>
             );
         }
@@ -39,9 +65,11 @@ var CrowdsourcingApprovalComponent = React.createClass({
 
     render : function() {
         return (
-            <div>
-                {this.getContent()}
-            </div>
+            <Card className="approvalContent">
+                <CardText>
+                    {this.getContent()}
+                </CardText>
+            </Card>
         );
     }
 });
