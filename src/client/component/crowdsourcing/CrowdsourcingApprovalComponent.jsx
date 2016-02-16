@@ -4,19 +4,7 @@ var Constants = require('../../Constants');
 var Card = require('material-ui/lib/card/card');
 var CardText = require('material-ui/lib/card/card-text');
 var CrowdsourcingCandidateStanceComponent = require('./CrowdsourcingCandidateStanceComponent.jsx');
-var Approve = require('material-ui/lib/svg-icons/action/done');
-var Reject = require('material-ui/lib/svg-icons/content/clear');
 var RaisedButton = require('material-ui/lib/raised-button');
-
-const approveStyle = {
-    fill: '#00ff00',
-    marginRight: 20
-};
-
-const rejectStyle = {
-    fill: '#ff0000',
-    marginRight: 20
-};
 
 /**
  * View to approve components
@@ -24,8 +12,6 @@ const rejectStyle = {
  * @author sonjakhan
  */
 var CrowdsourcingApprovalComponent = React.createClass({
-
-    
 
     /**
      * contentMap: A mapping from form category to content
@@ -36,12 +22,7 @@ var CrowdsourcingApprovalComponent = React.createClass({
     getInitialState : function() {
         return {
             contentMap: this.props.contentMap,
-            approvalMap: {},
         };
-    },
-
-    handleUpdateApproval : function() {
-
     },
 
     getContent : function() {
@@ -51,12 +32,6 @@ var CrowdsourcingApprovalComponent = React.createClass({
                 <div>
                     <p className="candidateLabel">{label}</p>
                     <p>{this.state.contentMap[label]}</p>
-                    <div className="approve">
-                        <Approve style={approveStyle} />
-                    </div>
-                    <div className="reject">
-                        <Reject style={rejectStyle} />
-                    </div>
                 </div>
             );
         }
@@ -68,6 +43,8 @@ var CrowdsourcingApprovalComponent = React.createClass({
             <Card className="approvalContent">
                 <CardText>
                     {this.getContent()}
+                    <RaisedButton label="Reject" backgroundColor="#ff8080" />
+                    <RaisedButton label="Accept" backgroundColor="#97ce5e" />
                 </CardText>
             </Card>
         );

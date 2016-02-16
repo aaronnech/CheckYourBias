@@ -5,7 +5,6 @@ class Constants {
 		CROWDSOURCING: 2,
 		CANDIDATE_RANKING: 3,
 		POLITICAL_PROFILE: 4,
-		USER_PROFILE: 5,
 	};
 
 	public static AUTH: any = {
