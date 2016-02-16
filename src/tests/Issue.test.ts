@@ -5,7 +5,7 @@ class IssueTest {
 		Issue.getIssue("0", function(issue: Issue) {
 			test.strictEqual(
 				issue.submitter,
-				0,
+				"0",
 				'Should have been submitted by user with id == 0'
 			);
 			test.done();
