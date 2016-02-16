@@ -106,7 +106,8 @@ var RateViewpointsComponent = React.createClass({
 					<p>{this.state.issueText}</p>
 				</CardText>
 				<CardActions>
-					<div className="rate-scale" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
+					<div className="rate-scale"
+					  style={{display: this.state.candidateShown ? 'none' : 'block', textAlign: 'center'}}>
 						<StanceSelector value={this.state.userStance} handleUpdateStance={this.handleUpdateStance} />
 					</div>
 					<div className="confirm-choice-wrapper" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
