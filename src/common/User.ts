@@ -131,12 +131,11 @@ class User {
 				issues.orderByKey().once("value", function(snapshot) {
 					while(!foundIssue) {
 						var chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
-						console.log(chosenIssue);
 						if (user.ratedIssues[chosenIssue] == null) {
 							foundIssue = true;
 							Issue.getIssue(chosenIssue, function(nextIssue) {
 								if (+nextIssue.candidateRatings[chosenCandidate] > 0 &&
-									nextIssue.category.indexOf(categoryId) != -1) {
+									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
 								}

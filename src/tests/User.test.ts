@@ -32,7 +32,7 @@ class UserTest {
 			);
 			test.strictEqual(
 				issue.candidateRatings[0],
-				"4",
+				4,
 				'Issue 2 has rating of 4 from candidate 0'
 			);
 			test.done();
