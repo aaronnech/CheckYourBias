@@ -48,9 +48,18 @@ class Constants {
 		'Strongly Agree',
 	];
 
+	public static STANCE_COLORS: any = [
+		'#ff8080',
+		'#ffb3b3',
+		'#d9d9d9',
+		'#99b4ff',
+		'#668eff',
+
+	];
+
 	public static ERRORS: any = {
 		REQUIRED: 'This field is required',
-	}
+	};
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
 	public static FIRE_USER: string = 'Users/';
