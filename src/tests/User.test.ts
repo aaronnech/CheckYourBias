@@ -4,6 +4,17 @@ import Constants = require('../client/Constants')
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class UserTest {
+
+	public static testInitializeUser(test) {
+		User.initializeUser("testid", "testfirst", "testlast", function(error) {
+			test.notEqual(
+				error,
+				true,
+				"Error: " + error + ". There shouldn't be an error when initializing a user" 
+			);
+			test.done();
+		});
+	}
 	public static testUserValues(test) {
 		User.getUser("0", function(user: User) {
 			test.strictEqual(

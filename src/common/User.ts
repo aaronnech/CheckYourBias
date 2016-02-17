@@ -41,6 +41,18 @@ class User {
 		this.hasSeenHelpText = hasSeenHelpText;
 	}
 
+	public static initializeUser(id: string, firstName: string, lastName: string, callback: (error) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
+		rootRef.child(id).set({
+			firstName: firstName,
+			lastName: lastName,
+			admin: false,
+			hasSeenHelpText: false
+		}, function(error) {
+			callback(error);
+		});
+	}
+
 	/*
 		Takes an ID for a user and calls the callback function with a constructed
 		user object as a parameter. If something goes wrong or the ID does not
