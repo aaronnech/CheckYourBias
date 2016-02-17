@@ -142,27 +142,46 @@ class User {
 		var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		this.getUser(userId, function(user) {
 			candidates.orderByKey().once("value", function(snapshot) {
-				var chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
-				var foundIssue: boolean = false;
+				var attemptedCandidates: string[] = [];
+				var chosenCandidate: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+				var foundIssue : boolean = false;
 				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 				issues.orderByKey().once("value", function(snapshot) {
-					while(!foundIssue) {
-						var chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
-						if (user.ratedIssues[chosenIssue] == null) {
-							foundIssue = true;
-							Issue.getIssue(chosenIssue, function(nextIssue) {
+					while(!foundIssue)
+					{
+						if(attemptedCandidates.length >= snapshot.numChildren())
+						{
+							callback(null);
+						}
+						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
+						{
+							chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
+						}
+						attemptedCandidates.push(chosenCandidate);
+						var attemptedIssues: string[] = [];
+						var allIssues = snapshot.val();
+						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
+							var chosenIssue: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							while(attemptedIssues.indexOf(chosenIssue) != -1)
+							{
+								chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							}
+							attemptedIssues.push(chosenIssue);
+							if (user.ratedIssues[chosenIssue] == null) {							
+								var nextIssue = allIssues[chosenIssue];
 								if (+nextIssue.candidateRatings[chosenCandidate] > 0 &&
 									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {
+									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
-								}
-							});
+								}								
+							}
 						}
 					}
 				}, function (errorObject) {
 				// The id given was not valid or something went wrong.
 				console.log("Issue read failed in getNextIssue" + errorObject.code);
-				});
+					});
 			}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("Candidate read failed in getNextIssue" + errorObject.code);
