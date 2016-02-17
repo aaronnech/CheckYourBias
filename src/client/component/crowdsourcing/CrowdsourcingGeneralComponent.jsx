@@ -27,6 +27,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
         return {
             content: null,
             contentErrorText: Constants.ERRORS.REQUIRED,
+            candidateErrorText: Constants.ERRORS.REQUIRED,
             candidates: Constants.CANDIDATES.slice(),
             candidateMap: {},
         };
@@ -42,6 +43,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
         this.setState({
             candidates: this.state.candidates,
             candidateMap: this.state.candidateMap,
+            candidateErrorText: null
         })
     },
 
@@ -62,6 +64,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
             content: content,
             contentErrorText: errorText,
         });
+
+        this.props.handleContent(content);
     },
 
     /**
@@ -72,6 +76,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
         this.setState({
             candidateMap: this.state.candidateMap,
         });
+
+        this.props.handleCandidateMap(this.state.candidateMap);
     },
 
     /**
@@ -102,7 +108,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
             <SelectField
                 value={this.state.candidate}
                 hintText={"Add Candidate"}
-                onChange={this.handleUpdateCandidate}>
+                onChange={this.handleUpdateCandidate}
+                errorText={this.state.candidateErrorText}>
                 {this.state.candidates.map((function(c, i) {
                     return (
                         <MenuItem key={i} value={i + 1} primaryText={c} />

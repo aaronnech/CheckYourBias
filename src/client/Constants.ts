@@ -13,12 +13,12 @@ class Constants {
 		FULL_NAME: "userFullName"
 	};
 
-	public static CONTENT_TYPES: any = [
+	public static CONTENT_TYPES: string[] = [
 		'Direct Quote',
 		'General Content',
 	];
 
-	public static CANDIDATES: any = [
+	public static CANDIDATES: string[] = [
 		'Bernie Sanders',
 		'Hillary Clinton',
 		'Ted Cruz',
@@ -26,7 +26,7 @@ class Constants {
 		'Donald Trump',
 	];
 
-	public static CATEGORIES: any = [
+	public static CATEGORIES: string[] = [
 		'Crime and Safety',
 		'Economy',
 		'Education',
@@ -40,7 +40,7 @@ class Constants {
 		'Taxes',
 	];
 
-	public static STANCES: any = [
+	public static STANCES: string[] = [
 		'Strongly Disagree',
 		'Disagree',
 		'Neutral',
