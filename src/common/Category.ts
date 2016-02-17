@@ -42,6 +42,17 @@ class Category {
 			console.log("The read failed" + errorObject.code);
 		});
 	}
+
+	/*
+		Fetches all the categories
+	*/
+	public static getAllCategories(callback: (categories) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		rootRef.orderByKey().once("value", function(snapshot) {
+			var categories = snapshot.val();
+			callback(categories);
+		});
+	}
 }
 
 export = Category;
