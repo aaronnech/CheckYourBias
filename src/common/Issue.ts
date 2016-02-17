@@ -26,15 +26,25 @@ class Issue {
 	candidateRatings: {[key: string]: string};
 	category: string[];
 	submitter: string;
+	seenByCount: number;
+	skipCount: number;
+	flagCount: number;
+	approved: boolean;
+
 
 	constructor(id: string, mainText: string, sources: string[],
 		candidateRatings: { [key: string]: string },
-		category: string[], submitter: string) {
+		category: string[], submitter: string, seenByCount: number,
+		skipCount: number, flagCount: number, approved: boolean) {
 		this.mainText = mainText;
 		this.sources = sources;
 		this.candidateRatings = candidateRatings;
 		this.category = category;
 		this.submitter = submitter;
+		this.seenByCount = seenByCount;
+		this.skipCount = skipCount;
+		this.flagCount = flagCount;
+		this.approved = approved;
 	}
 
 	/*

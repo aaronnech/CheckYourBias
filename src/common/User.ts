@@ -109,16 +109,6 @@ class User {
 							}
 						}
 					});
-					/*for (var key in ratedIssues) {
-						var rating: number = +ratedIssues[key];
-						Issue.getIssue(key, function(issue) {
-							for (var candidate in issue.candidateRatings) {
-								candArr[candidate] += 5 -
-									Math.abs(+issue.candidateRatings[candidate] - rating);
-							}
-							console.log(candArr);
-						});
-					}*/
 				});
 			});
 		});
