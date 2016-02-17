@@ -4,7 +4,7 @@ var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
-var ContentLabel = require('material-ui/lib/svg-icons/action/grade');
+var ContentLabel = require('material-ui/lib/svg-icons/social/person');
 
 /**
  * This component displays to the user the candidates whom they
