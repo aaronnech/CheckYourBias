@@ -67,7 +67,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
     /**
      * Updates the candidate's stance to the value set by the user
      */
-    handleUpdateStance : function(value, candidate) {
+    handleUpdateStance : function(candidate, value) {
         this.state.candidateMap[candidate] = value;
         this.setState({
             candidateMap: this.state.candidateMap,
