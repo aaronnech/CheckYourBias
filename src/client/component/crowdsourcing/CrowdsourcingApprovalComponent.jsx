@@ -43,8 +43,12 @@ var CrowdsourcingApprovalComponent = React.createClass({
             <Card className="approvalContent">
                 <CardText>
                     {this.getContent()}
-                    <RaisedButton label="Reject" backgroundColor="#ff8080" />
-                    <RaisedButton label="Accept" backgroundColor="#97ce5e" />
+                    <div className="reject">
+                        <RaisedButton label="Reject" backgroundColor="#ff8080" />
+                    </div>
+                    <div className="approve">
+                        <RaisedButton label="Accept" backgroundColor="#97ce5e" />
+                    </div>
                 </CardText>
             </Card>
         );

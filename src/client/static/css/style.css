@@ -149,6 +149,20 @@ input[type="range"]::-ms-thumb {
     margin: 8px 0px;
 }
 
+/* Crowdsourcing Approval */
+.approvalContent {
+    margin: 8px;
+}
+
+.approve, .reject {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.reject {
+    margin-right: 20px;
+}
+
 /* stance selector */
 .btn-group {
     display: inline-block;
