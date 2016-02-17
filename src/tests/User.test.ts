@@ -1,4 +1,7 @@
 import User = require('../common/User');
+import Constants = require('../client/Constants')
+
+Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class UserTest {
 	public static testUserValues(test) {
@@ -37,6 +40,11 @@ class UserTest {
 			);
 			test.done();
 		});
+	}
+	public static testGetRankings(test) {
+		User.getRankings("0", "0", function(rankings) {
+			test.done();
+		})
 	}
 }
 

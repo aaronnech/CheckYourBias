@@ -3,6 +3,8 @@
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
 
+Constants.firebaseUrl = Constants.FIREBASE_URL;
+
 /*
 	A class that represents a candidate and all the information that corresponds to it.
 
@@ -18,7 +20,6 @@ class Candidate {
 	affiliatedParty: string;
 	issueRatings: {[key: string]: string};
 	website: string;
-	firebaseRef: Firebase;
 
 	constructor(id: string, name: string, affiliatedParty: string,
 			issueRatings: { [key: string]: string },
@@ -27,14 +28,13 @@ class Candidate {
 		this.affiliatedParty = affiliatedParty;
 		this.issueRatings = issueRatings;
 		this.website = website;
-		this.firebaseRef = new Firebase(Constants.FIRE_CANDIDATE + "/" + id);
 	}
 
 	/*
 		Fetches the Candidate with the given candidateId.
 	*/
 	public static getCandidate(candidateId: string, callback: (candidate: Candidate) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		rootRef.child(candidateId).once("value", function(snapshot) {
 			var candidate = snapshot.val();
 			candidate.id = candidateId;
