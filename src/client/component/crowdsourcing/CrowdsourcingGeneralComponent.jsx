@@ -25,7 +25,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
      */
     getInitialState : function() {
         return {
-            content: null,
+            content: "",
             contentErrorText: Constants.ERRORS.REQUIRED,
             candidateErrorText: Constants.ERRORS.REQUIRED,
             candidates: Constants.CANDIDATES.slice(),
@@ -119,11 +119,19 @@ var CrowdsourcingGeneralComponent = React.createClass({
         ) : null);
     },
 
+    /**
+     * Resets the component to its initial state.
+     */
+    resetToInitialState : function() {
+        this.replaceState(this.getInitialState());
+    },
+
     render : function() {
         return (
             <div>
                 <p>Content:</p>
                 <TextField
+                    value={this.state.content}
                     hintText="Public universities should be free"
                     errorText={this.state.contentErrorText}
                     multiLine={true}

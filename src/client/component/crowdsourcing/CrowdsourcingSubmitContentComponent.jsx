@@ -35,10 +35,6 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             contentType: 1,
             candidateMap: {},
             content: "",
-            formComponent: <CrowdsourcingQuoteComponent
-                handleCandidateMap={this.handleCandidateMap}
-                handleContent={this.handleContent}
-            />,
             category: null,
             categoryName: "",
             source: "",
@@ -54,42 +50,28 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      * Sets the form to match the selected content type
      */
     handleContentType : function(event, index, value) {
-        var activeForm = null;
-        switch(Constants.CONTENT_TYPES[index]) {
-            case 'Direct Quote':
-                activeForm = <CrowdsourcingQuoteComponent
-                    handleCandidateMap={this.handleCandidateMap}
-                    handleContent={this.handleContent}
-                />;
-                break;
-            case 'General Content':
-                activeForm = <CrowdsourcingGeneralComponent
-                    handleCandidateMap={this.handleCandidateMap}
-                    handleContent={this.handleContent}
-                />;
-
-                break;
-        }
-
         this.setState({
             contentType: value,
-            formComponent: activeForm,
         });
 
         this.resetSavedFields();
     },
 
-    resetAll : function() {
-        this.resetSavedFields();
-        this.setState({
-            formComponent: <CrowdsourcingQuoteComponent
-                handleCandidateMap={this.handleCandidateMap}
-                handleContent={this.handleContent}
-            />,
-        });
-    },
-
+    /**
+     * Resets the saved fields to be empty for more content to be submitted.
+     */
     resetSavedFields : function() {
+        var component = null;
+        if (this.state.contentType === 1) {
+            component = this.refs["quoteComponent"];
+        } else if (this.state.contentType === 2) {
+            component = this.refs["generalComponent"];
+        }
+
+        if (component) {
+            component.resetToInitialState();
+        }
+
         this.setState({
             candidateMap: {},
             content: "",
@@ -156,14 +138,14 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 self.state.candidateMap,
                 user.id,
                 self.state.category,
-                function(error) { 
+                function(error) {
                     if (error === null) {  // success
                         self.setState({
                             hasSubmitted: false,
                             showSnackbar: true,
                             snackbarMessage: "Thank you for submitting new content",
                         });
-                        self.resetAll();
+                        self.resetSavedFields();
                     } else {
                         self.setState({
                             hasSubmitted: false,
@@ -183,6 +165,21 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     },
 
     render : function() {
+        var formComponent = null;
+        if (this.state.contentType === 1) {
+            formComponent = <CrowdsourcingQuoteComponent
+                ref="quoteComponent"
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />;
+        } else if (this.state.contentType === 2) {
+            formComponent = <CrowdsourcingGeneralComponent
+                ref="generalComponent"
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />;
+        }
+
         return (
             <Card className="submit-content">
                 <CardText>
@@ -199,7 +196,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                 );
                             }).bind(this))}
                         </SelectField>
-                        {this.state.formComponent}
+                        {formComponent}
                         <p>Source:</p>
                         <TextField
                             value={this.state.source}

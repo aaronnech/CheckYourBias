@@ -64,6 +64,13 @@ var CrowdsourcingQuoteComponent = React.createClass({
         this.props.handleContent(quote);
     },
 
+    /**
+     * Resets the component to its initial state.
+     */
+    resetToInitialState : function() {
+        this.replaceState(this.getInitialState());
+    },
+
     render : function() {
         return (
             <div>
