@@ -42,7 +42,7 @@ class Auth {
 					var exists = (snapshot.val() !== null);
 
 					if (!exists) {
-						Auth.FIRE.child("users").child((<any>authData).uid).set({
+						Auth.FIRE.child(Constants.FIRE_USER).child((<any>authData).uid).set({
 							name: (<any>authData).facebook.displayName
 						}, function(error) {
 							cb(!error);
