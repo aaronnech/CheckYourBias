@@ -1,8 +1,8 @@
+var Constants = require('../Constants');
+Constants.firebaseUrl = Constants.FIREBASE_URL;
 var React = require('react');
 var Auth = require('../Auth');
 var Cache = require('../Cache');
-var Constants = require('../Constants');
-Constants.firebaseURL = Constants.FIREBASE_URL;
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();

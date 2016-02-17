@@ -34,7 +34,7 @@ class Auth {
 				Cache.setCacheKV(Constants.AUTH.UID, (<any>authData).uid);
 				Cache.setCacheKV(Constants.AUTH.FULL_NAME, (<any>authData).facebook.displayName);
 
-				var url = Constants.fireAccess + Constants.FIRE_USER + (<any>authData).uid + '/';
+				var url = Constants.firebaseUrl + Constants.FIRE_USER + (<any>authData).uid + '/';
 
 				// Create firebase record if one does not exist (e.g. new user)
 				var ref = new Firebase(url);
