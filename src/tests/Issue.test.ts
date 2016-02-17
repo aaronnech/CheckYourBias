@@ -14,6 +14,17 @@ class IssueTest {
 			test.done();
 		});
 	}
+	
+	public static getApprovedIssues(test) {
+		Issue.getApprovedIssues(function(issues) {
+			test.strictEqual(
+				issues.length,
+				3,
+				'There should be 3 approved issues'
+			);
+			test.done();
+		});
+	}
 }
 
 export = IssueTest;

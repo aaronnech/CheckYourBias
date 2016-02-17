@@ -29,13 +29,13 @@ class Issue {
 	seenByCount: number;
 	skipCount: number;
 	flagCount: number;
-	approved: boolean;
+	approved: number;
 
 
 	constructor(id: string, mainText: string, sources: string[],
 		candidateRatings: { [key: string]: string },
 		category: string[], submitter: string, seenByCount: number,
-		skipCount: number, flagCount: number, approved: boolean) {
+		skipCount: number, flagCount: number, approved: number) {
 		this.mainText = mainText;
 		this.sources = sources;
 		this.candidateRatings = candidateRatings;
@@ -61,6 +61,21 @@ class Issue {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
 		});
+	}
+	
+	public static getApprovedIssues(callback) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.orderByChild("approved").equalTo(1).once("value", function(snapshot) {
+			callback(snapshot.val());
+		}, function(errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("getApprovedIssue failed: " + errorObject.code);
+		});
+	}
+	
+	public static approveIssue(issueId: string) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.child(issueId).update({"approved" : true});
 	}
 }
 
