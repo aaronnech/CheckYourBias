@@ -31,7 +31,6 @@ class Category {
 		Fetches the Category with the given categoryId.
 	*/
 	public static getCategory(categoryId: string, callback: (category: Category) => any): void {
-		console.log(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.child(categoryId).once("value", function(snapshot) {
 			var category = snapshot.val();
