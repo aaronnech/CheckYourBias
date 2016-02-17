@@ -25,6 +25,19 @@ class IssueTest {
 			test.done();
 		});
 	}
+	
+	public static testApprove(test) {
+		Issue.approveIssue("3", function(issue) {
+			test.done();
+		});
+	}
+	
+	public static testUnapprove(test) {
+		Issue.unapproveIssue("3", function(issue) {
+			test.done();
+		});
+	}
+	
 }
 
 export = IssueTest;

@@ -59,10 +59,13 @@ class Issue {
 			callback(issue);
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
-			console.log("The read failed" + errorObject.code);
+			console.log("getIssue failed: " + errorObject.code);
 		});
 	}
 	
+	/*
+		Returns all issues that have been approved.
+	*/
 	public static getApprovedIssues(callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.orderByChild("approved").equalTo(1).once("value", function(snapshot) {
@@ -73,9 +76,26 @@ class Issue {
 		});
 	}
 	
-	public static approveIssue(issueId: string) {
+	/*
+		Approves the issue with the given id.
+		
+		Calls the callback function with the updated issue.
+	*/
+	public static approveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : true});
+		rootRef.child(issueId).update({"approved" : 1});
+		callback(rootRef.child(issueId));
+	}
+	
+	/*
+		Unapproves the issue with the given id.
+		
+		Calls the callback function with the updated issue.
+	*/
+	public static unapproveIssue(issueId: string, callback) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.child(issueId).update({"approved" : 0});
+		callback(rootRef.child(issueId));
 	}
 }
 
