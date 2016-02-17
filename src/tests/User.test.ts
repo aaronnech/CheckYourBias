@@ -63,6 +63,16 @@ class UserTest {
 			test.done();
 		});
 	}
+	public static testGetNextIssueWithNewUser(test) {
+		User.getNextIssue("testid", "0", function(issue) {
+			test.notEqual(
+				issue,
+				null,
+				'Returned issue should not be null'
+			);
+			test.done();
+		});
+		
 	public static testGetRankings(test) {
 		User.getRankings("0", "0", function(rankings) {
 			test.done();

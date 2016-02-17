@@ -213,7 +213,7 @@ class User {
 								chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
 							}
 							attemptedIssues.push(chosenIssue);
-							if (user.ratedIssues[chosenIssue] == null) {							
+							if ((user.ratedIssues == null) || (user.ratedIssues[chosenIssue] == null)) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
 									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {

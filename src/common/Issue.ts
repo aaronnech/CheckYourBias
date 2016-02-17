@@ -71,7 +71,7 @@ class Issue {
 			seenByCount: 0,
 			skipCount: 0,
 			flagCount: 0,
-			approved: false
+			approved: 0
 		}, function(error) {
 			callback(error);
 		});
