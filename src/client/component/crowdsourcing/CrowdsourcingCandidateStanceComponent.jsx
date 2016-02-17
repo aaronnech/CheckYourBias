@@ -21,11 +21,13 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
         return (
             <div>
                 <p className="candidateLabel">{this.props.candidate}</p>
-                <StanceSelector
-                    candidate={this.props.candidate}
-                    handleUpdateStance={this.handleUpdateStance}
-                    value={this.props.value}
-                />
+                <div style={{display: 'block', textAlign: 'center'}}>
+                    <StanceSelector
+                        candidate={this.props.candidate}
+                        handleUpdateStance={this.handleUpdateStance}
+                        value={this.props.value}
+                    />
+                </div>
             </div>
         );
     }

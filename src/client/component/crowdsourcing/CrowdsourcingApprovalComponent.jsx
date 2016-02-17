@@ -29,7 +29,7 @@ var CrowdsourcingApprovalComponent = React.createClass({
         result = []
         for (var label in this.state.contentMap) {
             result.push(
-                <div>
+                <div key={label}>
                     <p className="candidateLabel">{label}</p>
                     <p>{this.state.contentMap[label]}</p>
                 </div>

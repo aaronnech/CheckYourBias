@@ -64,7 +64,7 @@ var StanceSelector = React.createClass({
         return (
             <div className="btn-group">
                 {this.getButtons()}
-                <div className="text-container" style={{'text-align': 'left'}}>
+                <div className="text-container" style={{'textAlign': 'left'}}>
                     <span className="disagree-text">Disagree</span>
                     <span className="agree-text">Agree</span>
                 </div>
