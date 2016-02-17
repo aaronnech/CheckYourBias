@@ -4,9 +4,39 @@ var nodeunit = require('gulp-nodeunit');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var source = require("vinyl-source-stream");
+var webdriver = require("gulp-webdriver");
+var child_process = require("child_process");
 
 
 gulp.task('default', ['bundleClient']);
+
+gulp.task('webdriver', function(cb) {
+	runTests = function(success) {
+		if(success) {
+		    var tests = gulp.src('webdriver/config.js');
+
+		    tests.pipe(webdriver());
+		}
+	};
+
+	var child = child_process.spawn('node_modules\\.bin\\selenium-standalone.cmd', ['start'], {
+      stdio: 'pipe'
+    });
+ 	// var child = exec('node_modules\\.bin\\selenium-standalone.cmd start', function(err, stdout, stderr) {
+ 	// 	console.log(err);
+ 	// 	console.log(stdout);
+ 	// 	console.log(stderr);
+ 	// });
+    // child.once('close', runTests);
+
+    child.stdout.on('data', function(data) {
+      console.log(data.toString());
+      var sentinal = 'Selenium started';
+      if (data.toString().indexOf(sentinal) != -1) {
+        runTests(true);
+      }
+    });
+});
 
 gulp.task('compileTS', function() {
 	var tsResult = gulp
