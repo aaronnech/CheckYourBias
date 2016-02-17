@@ -4,6 +4,7 @@
 import Firebase = require("firebase");
 import Cache = require('./Cache');
 import Constants = require('./Constants');
+import User = require('../common/User');
 
 /**
  * Static application API for Authentication
@@ -42,9 +43,8 @@ class Auth {
 					var exists = (snapshot.val() !== null);
 
 					if (!exists) {
-						Auth.FIRE.child(Constants.FIRE_USER).child((<any>authData).uid).set({
-							name: (<any>authData).facebook.displayName
-						}, function(error) {
+						var names = (<any>authData).facebook.displayName.split(' ');
+						User.initializeUser((<any>authData).uid, names[0], names[1], (error) => {
 							cb(!error);
 						});
 					} else {
