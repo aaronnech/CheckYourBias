@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Weekly Update 2/16}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\subsection{Previous Week's Plan (2/09)}
+
+Last week's plan was to finish the setup required for the beta release to go smoothly in the implementation phase.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] The plan for this week is to continue working on the models and methods that each model will support for the beta release in 2 weeks.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Continue working on the front-end and when the time is right, integrate into the back-end with the methods and modules that are provided (and ask for any additional requirements that may have been missed).
+    \item[Full-stack (Sonja, Ryan)] Integrate the crowdsourcing view into the back-end (which needs to be made for the crowdsourced form to be submitted to). Ask for any additional requirements from the back-end team.
+\end{description}
+
+\subsection{Progress}
+
+During this week's progress we have made significant progress in finishing most of the features for the beta release, which is due at end of day this Friday.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Finished implementing the database and interface to the frontend that connects all of the data needed to display the application views.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Connected the frontend to the backend using the interface that was created by the backend team. Also polished the application views to have a better look to them. Changed the scale that users use to rank candidates to be a 5 point scale instead of a slider.
+    \item[Full-stack (Sonja, Ryan)] Completed the crowdsourcing view of the application. Data is first verified on the frontend before it is submitted to the backend when the user hits the submit button.
+\end{description}
+
+\subsection{Current Week's Plan}
+
+For this week, our overall goal is to submit our feature complete release before the deadline.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Making our app more open and connected by testing thoroughly / reporting any bugs to the appropriate people.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Connecting Firebase to Facebook in order to store the user ids that each user will have when the sign up to use the application.
+    \item[Full-stack (Sonja, Ryan)] Validate that data is able to be submitted through the crowdsourcing part of the application. Once submitted, verify that the content can be approved through the application.
+\end{description}
+
+\end{document}
