@@ -1,6 +1,8 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
 
+var User = require('../../../common/User');
 var CrowdsourcingSubmitContentComponent = require('./CrowdsourcingSubmitContentComponent.jsx');
 var CrowdsourcingApprovalComponent = require('./CrowdsourcingApprovalComponent.jsx');
 var Tabs = require('material-ui/lib/tabs/tabs');
@@ -20,19 +22,43 @@ const contentMap = {
  * @author sonjakhan
  */
 var CrowdsourcingComponent = React.createClass({
+
+	getInitialState : function() {
+		return {
+			isAdmin: null,
+		}
+	},
+
+	componentWillMount : function() {
+		var self = this;
+		User.getUser(Cache.getCacheV(Constants.AUTH.UID), function(user) {
+			self.setState({
+				isAdmin: user.admin,
+			});
+		});
+	},
+
 	render : function() {
-		return (
-			<Tabs>
-				<Tab label="Submit Content" >
-					<div>
-						<CrowdsourcingSubmitContentComponent />
-					</div>
-				</Tab>
-				<Tab label="Approve Content" >
-					<CrowdsourcingApprovalComponent contentMap={contentMap} />
-				</Tab>
-			</Tabs>
-		)
+		if (this.state.isAdmin === null) {
+			return <div>LOADING</div>;
+		} else if (this.state.isAdmin) {
+			return (
+				<Tabs>
+					<Tab label="Submit Content" >
+						<div>
+							<CrowdsourcingSubmitContentComponent />
+						</div>
+					</Tab>
+					<Tab label="Approve Content" >
+						<CrowdsourcingApprovalComponent contentMap={contentMap} />
+					</Tab>
+				</Tabs>
+			);
+		} else {
+			return (
+				<CrowdsourcingSubmitContentComponent />
+			)
+		}
 	},
 });
 

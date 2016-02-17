@@ -26,7 +26,18 @@ class UserTest {
 		});
 	}
 	
-	public static testGetNextIssue(test) {
+	public static testGetNextIssue1(test) {
+		User.getNextIssue("0", "0", function(issue) {
+			test.notEqual(
+				issue,
+				null,
+				'Returned issue should not be null'
+			);
+			test.done();
+		});
+	}
+	
+	public static testGetNextIssue2(test) {
 		User.getNextIssue("0", "0", function(issue) {
 			test.strictEqual(
 				issue.id,
