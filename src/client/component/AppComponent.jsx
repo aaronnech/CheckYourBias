@@ -62,8 +62,12 @@ var AppComponent = React.createClass({
     },
 
     componentWillMount : function() {
-        // Any loading here...
-        this.setState({loading: false});
+        Auth.isAuth((authed) => {
+            if (!authed) {
+                this.setState({active : Constants.SCREENS.FACEBOOK});
+            }
+            this.setState({loading: false});
+        });
     },
 
     /*
@@ -71,19 +75,11 @@ var AppComponent = React.createClass({
     * and default screen settings
     */
     getInitialState : function() {
-        if (!Auth.isAuth()) {
-            return {
-                active : Constants.SCREENS.FACEBOOK,
-                history : [],
-                loading : true,
-            };
-        } else {
-            return {
-                active : Constants.SCREENS.RATE_VIEWPOINTS,
-                history : [],
-                loading : true,
-            };
-        }
+        return {
+            active : Constants.SCREENS.RATE_VIEWPOINTS,
+            history : [],
+            loading : true,
+        };
     },
 
     /*

@@ -12,22 +12,36 @@ import User = require('../common/User');
 class Auth {
 	public static FIRE = new Firebase(Constants.FIREBASE_URL);
 
-	public static isAuth(): boolean {
+	public static isAuth(cb: Function): void {
 		var uid = Cache.getCacheV(Constants.AUTH.UID);
 		if (uid) {
-			return !!Auth.FIRE.getAuth();
+			if (!Auth.FIRE.getAuth()) {
+				cb(false);
+			} else {
+				this.userExists(uid, cb);
+			}
 		} else {
-			return false;
+			cb(false);
 		}
-		return true;
+		cb(true);
 	}
 
 	public static deAuth(): void {
 		Cache.clear();
 	}
 
+	private static userExists(uid : string, cb: Function) {
+		var url = Constants.firebaseUrl + Constants.FIRE_USER + uid + '/';
+
+		// Create firebase record if one does not exist (e.g. new user)
+		var ref = new Firebase(url);
+		ref.once("value", function(snapshot) {
+			cb((snapshot.val() !== null));
+		});
+	}
+
 	public static authFacebook(cb: Function): void {
-		Auth.FIRE.authWithOAuthPopup("facebook", function(error, authData) {
+		Auth.FIRE.authWithOAuthPopup("facebook", (error, authData) => {
 			if (error) {
 				cb(false);
 			} else {
@@ -35,13 +49,8 @@ class Auth {
 				Cache.setCacheKV(Constants.AUTH.UID, (<any>authData).uid);
 				Cache.setCacheKV(Constants.AUTH.FULL_NAME, (<any>authData).facebook.displayName);
 
-				var url = Constants.firebaseUrl + Constants.FIRE_USER + (<any>authData).uid + '/';
-
 				// Create firebase record if one does not exist (e.g. new user)
-				var ref = new Firebase(url);
-				ref.once("value", function(snapshot) {
-					var exists = (snapshot.val() !== null);
-
+				this.userExists((<any>authData).uid, (exists) => {
 					if (!exists) {
 						var names = (<any>authData).facebook.displayName.split(' ');
 						User.initializeUser((<any>authData).uid, names[0], names[1], (error) => {
