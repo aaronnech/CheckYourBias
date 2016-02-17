@@ -215,9 +215,8 @@ class User {
 							attemptedIssues.push(chosenIssue);
 							if (user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
-								if (+nextIssue.candidateRatings[chosenCandidate] > 0 &&
-									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1) &&
-									nextIssue.approved) {
+								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
+									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
