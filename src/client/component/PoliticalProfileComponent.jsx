@@ -8,6 +8,7 @@ var MenuItem = require('material-ui/lib/menus/menu-item');
 var PoliticalIssueComponent = require('./PoliticalIssueComponent.jsx');
 
 var User = require('../../common/User');
+var Issue = require('../../common/Issue');
 
 /**
  * This component displays to the user their previously answered questions
@@ -21,10 +22,12 @@ var PoliticalProfileComponent = React.createClass({
 	 */
 	getInitialState : function() {
 	    return {
+
+	    	currentIssueIndex: 0,
 	    	/**
 	    	 * Whether or not to display the candidate who said the quote
 	    	 */
-	    	currentIssue: 0,
+	    	currentIssue: '',
 
 	    	/**
 	    	 * list of categories that the user can see voting record for
@@ -40,11 +43,32 @@ var PoliticalProfileComponent = React.createClass({
 	    	 *
 	    	 */
 	    	currentSelectedIssues: [],
+
+	    	issueRatings: {},
 	    };
+	},
+
+	updateNewIssue : function(issue) {
+		var curIssues = this.state.issues;
+
+		curIssues.push(issue);
+
+		this.setState({
+			issues: curIssues,
+		});
 	},
 
 	updateAllIssues : function(issueToRating) {
 		console.log(issueToRating);
+		for (var issueID in issueToRating) {
+		  if (issueToRating.hasOwnProperty(issueID)) {
+		    Issue.getIssue(issueID, updateNewIssue);
+		  }
+		}
+
+		this.setState({
+			issueRatings: issueToRating,
+		});
 	},
 
 	componentDidMount : function() {
@@ -56,15 +80,19 @@ var PoliticalProfileComponent = React.createClass({
 		  category_names.push(<MenuItem value={i} key={i} primaryText={Constants.CATEGORIES[i]}/>);
 		}
 
-		issue_items = [];
-		for (var i = 0; i < 3; i++) {
-			issue_items.push(<PoliticalIssueComponent key={i} className="issue-card"/>);
+		current_issues = [];
+		for (var issue_index in this.state.issues) {
+			var issue = this.state.issues[issue_index];
+			if (issue.category.indexOf(currentIssue) > -1) {
+				current_issues.push(<PoliticalIssueComponent key={issue_index} issue={issue} rating={this.state.issueRatings[issue.id]} className="issue-card"/>);
+			}
 		}
 
 		this.setState({
+			currentIssueIndex: 0,
+			currentIssue: Constants.CATEGORIES[this.state.currentIssueIndex],
 			categories: category_names,
-			issues: issue_items,
-			currentSelectedIssues: issue_items,
+			currentSelectedIssues: current_issues,
 		});
 	},
 
@@ -94,7 +122,7 @@ var PoliticalProfileComponent = React.createClass({
 		return (
 			<div className="political-profile">
 				<div className="issue-category-selector">
-					<DropDownMenu className="display-inline" value={this.state.currentIssue} onChange={this.changeIssue}>
+					<DropDownMenu className="display-inline" value={this.state.currentIssueIndex} onChange={this.changeIssue}>
 						{this.state.categories}
 					</DropDownMenu>
 					<p className="display-inline">{this.state.currentSelectedIssues.length} {this.state.currentSelectedIssues.length == 1 ? "Issue" : "Issues"} Voted on!</p>
