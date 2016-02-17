@@ -31,7 +31,6 @@ class Issue {
 	flagCount: number;
 	approved: number;
 
-
 	constructor(id: string, mainText: string, sources: string[],
 		candidateRatings: { [key: string]: string },
 		category: string[], submitter: string, seenByCount: number,
@@ -45,6 +44,37 @@ class Issue {
 		this.skipCount = skipCount;
 		this.flagCount = flagCount;
 		this.approved = approved;
+	}
+
+	/*
+		Creates an unapproved issue with the given parameters. Sets approved to false and
+		skip count, flag count and seen by count all to 0.
+
+		contentType: One of Constants.CONTENT_TYPES
+		mainText: main text that will be displayed for this issue
+		sources: The websites that are the sources for this issue
+		candidateRatings: A map from the id of the candidate to their rating for this issue
+		submitter: The id of the user who submitted this
+		category: The categories that this issue falss under
+	*/
+	public static initiliazeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
+								candidateRatings: { [key: string]: number }, submitter: string,
+								category: string[], callback: (error) => any) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.push({
+			contentType: contentType,
+			mainText: mainText,
+			sources: sources,
+			candidateRatings: candidateRatings,
+			submitter: submitter,
+			category: category,
+			seenByCount: 0,
+			skipCount: 0,
+			flagCount: 0,
+			approved: false
+		}, function(error) {
+			callback(error);
+		});
 	}
 
 	/*
