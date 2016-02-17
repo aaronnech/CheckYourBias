@@ -59,7 +59,6 @@ var PoliticalProfileComponent = React.createClass({
 	},
 
 	updateAllIssues : function(issueToRating) {
-		console.log(issueToRating);
 		for (var issueID in issueToRating) {
 		  if (issueToRating.hasOwnProperty(issueID)) {
 		    Issue.getIssue(issueID, updateNewIssue);
@@ -111,6 +110,7 @@ var PoliticalProfileComponent = React.createClass({
 	 */
 	changeIssue : function(event, index, value) {
 		this.setState({
+			currentIssueIndex: index,
 			currentIssue: value
 		});
 	},
