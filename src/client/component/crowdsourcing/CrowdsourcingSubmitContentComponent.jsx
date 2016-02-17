@@ -29,10 +29,17 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     getInitialState : function() {
         return {
             contentType: 1,
-            formComponent: <CrowdsourcingQuoteComponent />,
+            candidateMap: {},
+            content: "",
+            formComponent: <CrowdsourcingQuoteComponent
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />,
             category: null,
-            source: null,
+            categoryName: "",
+            source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
+            categoryErrorText: Constants.ERRORS.REQUIRED
         };
     },
 
@@ -43,10 +50,17 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         var activeForm = null;
         switch(Constants.CONTENT_TYPES[index]) {
             case 'Direct Quote':
-                activeForm = <CrowdsourcingQuoteComponent />
+                activeForm = <CrowdsourcingQuoteComponent
+                    handleCandidateMap={this.handleCandidateMap}
+                    handleContent={this.handleContent}
+                />;
                 break;
             case 'General Content':
-                activeForm = <CrowdsourcingGeneralComponent />
+                activeForm = <CrowdsourcingGeneralComponent
+                    handleCandidateMap={this.handleCandidateMap}
+                    handleContent={this.handleContent}
+                />;
+
                 break;
         }
 
@@ -54,6 +68,34 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             contentType: value,
             formComponent: activeForm,
         });
+
+        this.resetSavedFields();
+    },
+
+    resetSavedFields : function() {
+        this.setState({
+            candidateMap: {},
+            content: "",
+            category: null,
+            categoryName: "",
+            source: "",
+            sourceErrorText: Constants.ERRORS.REQUIRED,
+            categoryErrorText: Constants.ERRORS.REQUIRED
+        });
+    },
+
+    /**
+     * Updates the content that was set in the general content or quote tab
+     */
+    handleContent : function(content) {
+        this.setState({content: content});
+    },
+
+    /**
+     * Updates the candidate map that was set in the general content component
+     */
+    handleCandidateMap : function(candidateMap) {
+        this.setState({candidateMap: candidateMap});
     },
 
     /**
@@ -62,6 +104,8 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     handleCategory : function(event, index, value) {
         this.setState({
             category: value,
+            categoryName: Constants.CATEGORIES[value - 1],
+            categoryErrorText: null
         });
     },
 
@@ -72,14 +116,14 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         var source = event.target.value;
         var errorText = null;
 
-        if (source.length == 0) {
+        if (source.length === 0) {
             errorText = Constants.ERRORS.REQUIRED;
         }
 
         this.setState({
             source: source,
             sourceErrorText: errorText,
-        })
+        });
     },
 
     render : function() {
@@ -88,7 +132,10 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 <CardText>
                     <div className="main-content">
                         <p>What is the type of content?</p>
-                        <SelectField value={this.state.contentType} onChange={this.handleContentType}>
+                        <SelectField
+                            value={this.state.contentType}
+                            onChange={this.handleContentType}
+                        >
                             {Constants.CONTENT_TYPES.map((function(c, i) {
                                 // need to start value at 1 instead of 0 for highlighting selected option
                                 return (
@@ -99,15 +146,17 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                         {this.state.formComponent}
                         <p>Source:</p>
                         <TextField
+                            value={this.state.source}
                             hintText="Link to reliable source"
                             errorText={this.state.sourceErrorText}
                             multiLine={true}
                             onChange={this.handleUpdateSource}
                         />
                         <p>Category:</p>
-                        <SelectField 
+                        <SelectField
                             value={this.state.category}
                             hintText={"Select Category"}
+                            errorText={this.state.categoryErrorText}
                             onChange={this.handleCategory}>
                             {Constants.CATEGORIES.map((function(c, i) {
                                 // need to start value at 1 instead of 0 for highlighting selected option
@@ -117,7 +166,16 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                             }).bind(this))}
                         </SelectField>
                         <div className="submit-button">
-                            <RaisedButton label="Submit" primary={true} />
+                            <RaisedButton
+                                disabled={
+                                    !Boolean(this.state.content.length)
+                                    || !Boolean(Object.keys(this.state.candidateMap).length)
+                                    || !Boolean(this.state.source.length)
+                                    || !Boolean(this.state.categoryName.length)
+                                }
+                                label="Submit"
+                                primary={true}
+                            />
                         </div>
                     </div>
                 </CardText>

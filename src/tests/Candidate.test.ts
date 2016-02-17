@@ -1,4 +1,7 @@
 import Candidate = require('../common/Candidate');
+import Constants = require('../client/Constants')
+
+Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class CandidateTest {
 	public static testCandidateValues(test) {

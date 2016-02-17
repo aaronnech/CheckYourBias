@@ -1,7 +1,11 @@
 Description
 -----------
 
-This is minimum boilerplate code for my TypeScript projects. It is targeted toward complex object-oriented applications in the browser or phone via PhoneGap, where TypeScript maintainability is important.
+This is the source code for Check Your Bias, an election application that let's you "vote" on important political issues without any indication of which candidate supports or opposes the presented issue. The application then shows you how your political views align with each of the candidates, and for various categories.
+
+[Product Website](http://aaronnech.github.io/CheckYourBias/product_website)
+
+[Project Website](http://aaronnech.github.io/CheckYourBias/)
 
 Set Up
 ------
@@ -21,9 +25,10 @@ To compile all TypeScript, and launch the main.js server located in the `server`
 
 To just compile all TypeScript.
 
+
 Methodology Overview
 --------------------
-Both Client and Server are written in TypeScript and ultimately compiled to JavaScript. This is cool because:
+Both Client and Server are written in TypeScript and ultimately compiled to JavaScript
 
 1. Both Client and Server can share code. For example the client and server both use a Pizza object for various functionality, we only need to write that object once (this kind of code I'm calling `common` and goes in the `src/common` directory).
 2. We use NodeJS to run server code on a server computer
@@ -33,9 +38,9 @@ Both Client and Server are written in TypeScript and ultimately compiled to Java
 Directory Breakdown
 -------------------
 
-There are three directories in the source:
+There are four top level directories in the source:
 
-1. `src/server` - This contains all code only pertaining to the server side application. If there is no server, you can safely delete this directory and remove `express` as a dependency.
+1. `src/server` - This contains all code only pertaining to the server side application.
 2. `src/client` - This contains all code only pertaining to the client side application. Browserify is used with the start point `client/main.ts` to scoop up all client code and bundle it into `client/static/js/main.js`
 3. `src/common` - This contains all code that is shared by both client and server. Including files such as typescript definitions. NodeJS processes dependencies on its own via support for `require()`, so any `src/server` code that depends on common code will do so automatically. `src/client` code will scoop up common code via the same mechanism, but employed by Browserify.
 4. `src/vendor` - This contains all JS source that is not available via NPM.
@@ -44,6 +49,23 @@ Unit Testing
 ------------
 
 Unit testing is done with NodeUnit and is available immediately by running `npm run-script test`. Tests should reside in static TypeScript classes as per NodeUnit standards such that each static function is one unit test. Test files are automatically recognized if they end with the postfix `-test.ts`.
+
+h3. Running Selenium tests
+If you wish to run Selenium tests, you will need to setup the Selenium server. This is only required once:
+
+`npm run-script setup-selenium`
+
+For Windows users, you want to run
+
+`npm run-script setup-selenium-windows`
+
+Now run the tests with:
+
+`npm run-script webdriver`
+
+For Windows, run
+
+`npm run-script webdriver-windows`
 
 Vendors
 -------
@@ -59,8 +81,6 @@ The project is initially setup to ignore common ide files, and built JavaScript 
 
 Development Style
 -----------------
-
-The application development style I follow is similar to many Java applications:
 
 - Every class resides in their own TypeScript file
 - Every class TypeScript file ends with an `export = ClassName;` statement to make itself available for import

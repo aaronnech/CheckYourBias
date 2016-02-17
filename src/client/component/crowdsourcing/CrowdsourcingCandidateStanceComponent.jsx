@@ -13,7 +13,7 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
     /**
      * Calls the given callback with the value the user updated the slider to
      */
-    handleUpdateStance(event, value) {
+    handleUpdateStance(value) {
         this.props.handleUpdateStance(this.props.candidate, value);
     },
 
@@ -23,7 +23,6 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
                 <p className="candidateLabel">{this.props.candidate}</p>
                 <div style={{display: 'block', textAlign: 'center'}}>
                     <StanceSelector
-                        candidate={this.props.candidate}
                         handleUpdateStance={this.handleUpdateStance}
                         value={this.props.value}
                     />

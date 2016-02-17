@@ -25,9 +25,9 @@ var CrowdsourcingQuoteComponent = React.createClass({
             candidate: null,
             quote: null,
             quoteErrorText: Constants.ERRORS.REQUIRED,
+            candidateErrorText: Constants.ERRORS.REQUIRED
         };
     },
-
 
     /**
      * Sets the candidate to what the user selected
@@ -35,7 +35,12 @@ var CrowdsourcingQuoteComponent = React.createClass({
     handleUpdateCandidate : function(event, index, value) {
         this.setState({
             candidate: value,
+            candidateErrorText: null
         });
+
+        var candidateMap = {};
+        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES[Constants.STANCES.length - 1];
+        this.props.handleCandidateMap(candidateMap);
     },
 
     /**
@@ -55,6 +60,8 @@ var CrowdsourcingQuoteComponent = React.createClass({
             quote: quote,
             quoteErrorText: errorText,
         });
+
+        this.props.handleContent(quote);
     },
 
     render : function() {
@@ -64,7 +71,9 @@ var CrowdsourcingQuoteComponent = React.createClass({
                 <SelectField
                     value={this.state.candidate}
                     hintText={"Select Candidate"}
-                    onChange={this.handleUpdateCandidate}>
+                    onChange={this.handleUpdateCandidate}
+                    errorText={this.state.candidateErrorText}
+                >
                     {Constants.CANDIDATES.map((function(c, i) {
                         return (
                             <MenuItem key={i} value={i + 1} primaryText={c} />

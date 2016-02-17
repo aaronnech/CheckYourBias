@@ -79,35 +79,69 @@ class User {
 	}
 
 	/*
-		Takes a user id and a category id and gets an ordered list of candidates
-		in order of agreeement for the given category based on the user's issue ratings.
-		The callback function will be called with the list of candidates as a parameter.
+		Takes a user id and a category id and gets an list of objects that
+		correspond to candidates and their rankings, in order of agreement. Each object
+		in the array has the following fields:
+
+		candidateId: The id of the candidate
+		candidateName: The name of the candidate
+		rank: The similarity ranking this user has with this candidate (higher ranking
+				corresponds to higher agreement)
+
 
 		invariant: userId must correspond to a user in the database
 		invariant: categoryId must correspond to a category in the database
 	*/
 	public static getRankings(userId: string, categoryId: string,
-		callback: (rankings: Candidate[]) => any): void {
+		callback: (rankings) => any): void {
 		var rootref: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		var userObject = this;
 		this.getUser(userId, function(user) {
 			var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 			candidates.orderByKey().once("value", function(snapshot) {
-				var candArr: number[] = [];
-				for (var i = 0; i < snapshot.numChildren(); i++) {
-					candArr[i] = 0;
+				
+				var candidateRatings: { [key: string]: number } = {};
+				
+				var candidates = snapshot.val();
+				for (var candidateId in candidates) {
+					candidateRatings[candidateId] = 0;
 				}
+
 				userObject.getRatedIssues(userId, function(ratedIssues) {
 					var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+ 
 					issues.orderByKey().once("value", function(snapshot) {
-						for (var key in ratedIssues) {
-							var rating: number = +ratedIssues[key];
-							var candidateRatings = snapshot.val()[key].candidateRatings;
-							for (var candidate in candidateRatings) {
-								candArr[candidate] += 5 - 
-									Math.abs(+candidateRatings[candidate] - rating);
+
+						// Filter issues by categoryId
+						var allIssues = snapshot.val();
+
+						for (var issueId in ratedIssues) {
+							if (categoryId in allIssues[issueId].category) {
+								var rating: number = +ratedIssues[issueId];
+								var candidateRatingsVal = snapshot.val()[issueId].candidateRatings;
+								for (var candidateId in candidateRatingsVal) {
+									candidateRatings[candidateId] += 5 -
+										Math.abs(+candidateRatingsVal[candidateId] - rating);
+								}
 							}
 						}
+
+						var resultObjects = [];
+						for (var candidateId in candidateRatings) {
+							var resultObject = {};
+							resultObject["candidateId"] = candidateId;
+							resultObject["candidateName"] = candidates[candidateId].name;
+							resultObject["rating"] = candidateRatings[candidateId];
+							resultObjects.push(resultObject);
+						}
+
+						// Sort from most to least agreeing
+						resultObjects.sort(function(a, b) {
+							return b.rating - a.rating;
+						});
+						// return resultObjects
+						callback(resultObjects);
+
 					});
 				});
 			});
@@ -142,27 +176,46 @@ class User {
 		var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		this.getUser(userId, function(user) {
 			candidates.orderByKey().once("value", function(snapshot) {
-				var chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
-				var foundIssue: boolean = false;
+				var attemptedCandidates: string[] = [];
+				var chosenCandidate: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+				var foundIssue : boolean = false;
 				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 				issues.orderByKey().once("value", function(snapshot) {
-					while(!foundIssue) {
-						var chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
-						if (user.ratedIssues[chosenIssue] == null) {
-							foundIssue = true;
-							Issue.getIssue(chosenIssue, function(nextIssue) {
+					while(!foundIssue)
+					{
+						if(attemptedCandidates.length >= snapshot.numChildren())
+						{
+							callback(null);
+						}
+						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
+						{
+							chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
+						}
+						attemptedCandidates.push(chosenCandidate);
+						var attemptedIssues: string[] = [];
+						var allIssues = snapshot.val();
+						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
+							var chosenIssue: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							while(attemptedIssues.indexOf(chosenIssue) != -1)
+							{
+								chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							}
+							attemptedIssues.push(chosenIssue);
+							if (user.ratedIssues[chosenIssue] == null) {							
+								var nextIssue = allIssues[chosenIssue];
 								if (+nextIssue.candidateRatings[chosenCandidate] > 0 &&
 									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {
+									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
-								}
-							});
+								}								
+							}
 						}
 					}
 				}, function (errorObject) {
 				// The id given was not valid or something went wrong.
 				console.log("Issue read failed in getNextIssue" + errorObject.code);
-				});
+					});
 			}, function (errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("Candidate read failed in getNextIssue" + errorObject.code);

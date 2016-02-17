@@ -31,7 +31,6 @@ class Category {
 		Fetches the Category with the given categoryId.
 	*/
 	public static getCategory(categoryId: string, callback: (category: Category) => any): void {
-		console.log(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.child(categoryId).once("value", function(snapshot) {
 			var category = snapshot.val();
@@ -40,6 +39,17 @@ class Category {
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
+		});
+	}
+
+	/*
+		Fetches all the categories
+	*/
+	public static getAllCategories(callback: (categories) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		rootRef.orderByKey().once("value", function(snapshot) {
+			var categories = snapshot.val();
+			callback(categories);
 		});
 	}
 }

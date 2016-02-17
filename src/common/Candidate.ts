@@ -44,6 +44,17 @@ class Candidate {
 			console.log("The read failed" + errorObject.code);
 		});
 	}
+
+	/*
+		Fetches all the candidates
+	*/
+	public static getAllCandidates(callback: (candidates) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		rootRef.orderByKey().once("value", function(snapshot) {
+			var candidates = snapshot.val();
+			callback(candidates);
+		});
+	}
 }
 
 export = Candidate;
