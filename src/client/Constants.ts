@@ -52,7 +52,7 @@ class Constants {
 		REQUIRED: 'This field is required',
 	}
 
-	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Test/";
+	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
 	public static FIRE_USER: string = 'Users/';
 	public static FIRE_CANDIDATE: string = 'Candidates/';
 	public static FIRE_CATEGORY: string = 'Categories/';
