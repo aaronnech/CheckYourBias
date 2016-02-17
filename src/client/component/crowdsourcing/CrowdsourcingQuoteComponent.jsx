@@ -39,7 +39,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
         });
 
         var candidateMap = {};
-        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES[Constants.STANCES.length - 1];
+        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES.length - 1;
         this.props.handleCandidateMap(candidateMap);
     },
 
@@ -62,6 +62,13 @@ var CrowdsourcingQuoteComponent = React.createClass({
         });
 
         this.props.handleContent(quote);
+    },
+
+    /**
+     * Resets the component to its initial state.
+     */
+    resetToInitialState : function() {
+        this.replaceState(this.getInitialState());
     },
 
     render : function() {

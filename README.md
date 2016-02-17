@@ -50,23 +50,6 @@ Unit Testing
 
 Unit testing is done with NodeUnit and is available immediately by running `npm run-script test`. Tests should reside in static TypeScript classes as per NodeUnit standards such that each static function is one unit test. Test files are automatically recognized if they end with the postfix `-test.ts`.
 
-h3. Running Selenium tests
-If you wish to run Selenium tests, you will need to setup the Selenium server. This is only required once:
-
-`npm run-script setup-selenium`
-
-For Windows users, you want to run
-
-`npm run-script setup-selenium-windows`
-
-Now run the tests with:
-
-`npm run-script webdriver`
-
-For Windows, run
-
-`npm run-script webdriver-windows`
-
 Vendors
 -------
 

@@ -31,7 +31,6 @@ class Issue {
 	flagCount: number;
 	approved: number;
 
-
 	constructor(id: string, mainText: string, sources: string[],
 		candidateRatings: { [key: string]: string },
 		category: string[], submitter: string, seenByCount: number,
@@ -48,6 +47,37 @@ class Issue {
 	}
 
 	/*
+		Creates an unapproved issue with the given parameters. Sets approved to false and
+		skip count, flag count and seen by count all to 0.
+
+		contentType: One of Constants.CONTENT_TYPES
+		mainText: main text that will be displayed for this issue
+		sources: The websites that are the sources for this issue
+		candidateRatings: A map from the id of the candidate to their rating for this issue
+		submitter: The id of the user who submitted this
+		category: The categories that this issue falss under
+	*/
+	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
+								candidateRatings: { [key: string]: number }, submitter: string,
+								category: string[], callback: (error) => any) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.push({
+			contentType: contentType,
+			mainText: mainText,
+			sources: sources,
+			candidateRatings: candidateRatings,
+			submitter: submitter,
+			category: category,
+			seenByCount: 0,
+			skipCount: 0,
+			flagCount: 0,
+			approved: 0
+		}, function(error) {
+			callback(error);
+		});
+	}
+
+	/*
 		Fetches the Issue with the given issueId.
 	*/
 	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
@@ -59,10 +89,13 @@ class Issue {
 			callback(issue);
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
-			console.log("The read failed" + errorObject.code);
+			console.log("getIssue failed: " + errorObject.code);
 		});
 	}
 	
+	/*
+		Returns all issues that have been approved.
+	*/
 	public static getApprovedIssues(callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.orderByChild("approved").equalTo(1).once("value", function(snapshot) {
@@ -73,9 +106,26 @@ class Issue {
 		});
 	}
 	
-	public static approveIssue(issueId: string) {
+	/*
+		Approves the issue with the given id.
+		
+		Calls the callback function with the updated issue.
+	*/
+	public static approveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : true});
+		rootRef.child(issueId).update({"approved" : 1});
+		callback(rootRef.child(issueId));
+	}
+	
+	/*
+		Unapproves the issue with the given id.
+		
+		Calls the callback function with the updated issue.
+	*/
+	public static unapproveIssue(issueId: string, callback) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.child(issueId).update({"approved" : 0});
+		callback(rootRef.child(issueId));
 	}
 }
 

@@ -1,5 +1,8 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
+var Issue = require('../../../common/Issue');
+var User = require('../../../common/User');
 
 var CrowdsourcingQuoteComponent = require('./CrowdsourcingQuoteComponent.jsx');
 var CrowdsourcingGeneralComponent = require('./CrowdsourcingGeneralComponent.jsx');
@@ -10,6 +13,7 @@ var SelectField = require('material-ui/lib/select-field');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var TextField = require('material-ui/lib/text-field');
 var RaisedButton = require('material-ui/lib/raised-button');
+var Snackbar = require('material-ui/lib/snackbar');
 
 /**
  * Form for a user to submit content to the application. The form is dynamic and
@@ -31,15 +35,14 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             contentType: 1,
             candidateMap: {},
             content: "",
-            formComponent: <CrowdsourcingQuoteComponent
-                handleCandidateMap={this.handleCandidateMap}
-                handleContent={this.handleContent}
-            />,
             category: null,
             categoryName: "",
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
-            categoryErrorText: Constants.ERRORS.REQUIRED
+            categoryErrorText: Constants.ERRORS.REQUIRED,
+            showSnackbar: false,
+            snackbarMessage: "",
+            hasSubmitted: false,  // should be true while request is being processed
         };
     },
 
@@ -47,32 +50,28 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      * Sets the form to match the selected content type
      */
     handleContentType : function(event, index, value) {
-        var activeForm = null;
-        switch(Constants.CONTENT_TYPES[index]) {
-            case 'Direct Quote':
-                activeForm = <CrowdsourcingQuoteComponent
-                    handleCandidateMap={this.handleCandidateMap}
-                    handleContent={this.handleContent}
-                />;
-                break;
-            case 'General Content':
-                activeForm = <CrowdsourcingGeneralComponent
-                    handleCandidateMap={this.handleCandidateMap}
-                    handleContent={this.handleContent}
-                />;
-
-                break;
-        }
-
         this.setState({
             contentType: value,
-            formComponent: activeForm,
         });
 
         this.resetSavedFields();
     },
 
+    /**
+     * Resets the saved fields to be empty for more content to be submitted.
+     */
     resetSavedFields : function() {
+        var component = null;
+        if (this.state.contentType === 1) {
+            component = this.refs["quoteComponent"];
+        } else if (this.state.contentType === 2) {
+            component = this.refs["generalComponent"];
+        }
+
+        if (component) {
+            component.resetToInitialState();
+        }
+
         this.setState({
             candidateMap: {},
             content: "",
@@ -126,7 +125,61 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         });
     },
 
+    /**
+     * Creates a new unapprovedIssue in Firebase
+     */
+    handleSubmit : function() {
+        var self = this;
+        User.getUser(Cache.getCacheV(Constants.AUTH.UID), function(user) {
+            Issue.initializeUnapprovedIssue(
+                Constants.CONTENT_TYPES[self.state.contentType - 1],
+                self.state.content,
+                self.state.source,
+                self.state.candidateMap,
+                user.id,
+                self.state.category,
+                function(error) {
+                    if (error === null) {  // success
+                        self.setState({
+                            hasSubmitted: false,
+                            showSnackbar: true,
+                            snackbarMessage: "Thank you for submitting new content",
+                        });
+                        self.resetSavedFields();
+                    } else {
+                        self.setState({
+                            hasSubmitted: false,
+                            showSnackbar: true,
+                            snackbarMessage: "There was an error. Please try again",
+                        });
+                    }
+                }
+            );
+        });
+    },
+
+    hideSnackbar : function() {
+        this.setState({
+            showSnackbar: false,
+        });
+    },
+
     render : function() {
+        var formComponent = null;
+        if (this.state.contentType === 1) {
+            formComponent = <CrowdsourcingQuoteComponent
+                ref="quoteComponent"
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />;
+        } else if (this.state.contentType === 2) {
+            formComponent = <CrowdsourcingGeneralComponent
+                ref="generalComponent"
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />;
+        }
+
         return (
             <Card className="submit-content">
                 <CardText>
@@ -143,7 +196,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                 );
                             }).bind(this))}
                         </SelectField>
-                        {this.state.formComponent}
+                        {formComponent}
                         <p>Source:</p>
                         <TextField
                             value={this.state.source}
@@ -172,11 +225,19 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                     || !Boolean(Object.keys(this.state.candidateMap).length)
                                     || !Boolean(this.state.source.length)
                                     || !Boolean(this.state.categoryName.length)
+                                    || this.state.hasSubmitted
                                 }
                                 label="Submit"
                                 primary={true}
+                                onClick={this.handleSubmit}
                             />
                         </div>
+                        <Snackbar
+                          open={this.state.showSnackbar}
+                          message={this.state.snackbarMessage}
+                          autoHideDuration={4000}
+                          onRequestClose={this.hideSnackbar}
+                        />
                     </div>
                 </CardText>
             </Card>
