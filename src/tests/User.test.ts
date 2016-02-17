@@ -78,7 +78,7 @@ class UserTest {
 	public static testGetRankings(test) {
 		User.getRankings("0", "0", function(rankings) {
 			test.done();
-		})
+		});
 	}
 
 	public static testGetRankingsNewUser(test) {
