@@ -62,6 +62,17 @@ class User {
 	*/
 	public static getUser(id: string, callback: (user: User) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
+
+		// rootRef.child("testid").once("value", function(snapshot) {
+		// 	var user = snapshot.val();
+		// 	user.id = id;
+		// 	console.log(user.email);
+		// 	console.log(user.ratedIssues);
+		// }, function(errorObject) {
+		// 	// The id given was not valid or something went wrong.
+		// 	console.log("The read failed" + errorObject.code);
+		// });
+
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
 			user.id = id;
@@ -206,14 +217,19 @@ class User {
 						attemptedCandidates.push(chosenCandidate);
 						var attemptedIssues: string[] = [];
 						var allIssues = snapshot.val();
+						var allIssuesIdArray = Object.keys(allIssues);
 						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
-							var chosenIssue: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
-							while(attemptedIssues.indexOf(chosenIssue) != -1)
+
+							var chosenIssueIndex: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
 							{
-								chosenIssue = Math.floor((Math.random() * snapshot.numChildren())).toString();
+								chosenIssueIndex = Math.floor((Math.random() * snapshot.numChildren())).toString();
 							}
-							attemptedIssues.push(chosenIssue);
-							if (user.ratedIssues[chosenIssue] == null) {							
+							attemptedIssues.push(chosenIssueIndex);
+
+							var chosenIssue = allIssuesIdArray[chosenIssueIndex];
+
+							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
 									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {

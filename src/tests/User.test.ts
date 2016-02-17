@@ -63,8 +63,26 @@ class UserTest {
 			test.done();
 		});
 	}
+
+	public static testGetNextIssueNewUser(test) {
+		User.getNextIssue("testid", "0", function(issue) {
+			test.notEqual(
+				issue,
+				null,
+				'Returned issue should not be null'
+			);
+			test.done();
+		});
+	}
+
 	public static testGetRankings(test) {
 		User.getRankings("0", "0", function(rankings) {
+			test.done();
+		})
+	}
+
+	public static testGetRankingsNewUser(test) {
+		User.getRankings("testid", "0", function(rankings) {
 			test.done();
 		})
 	}
