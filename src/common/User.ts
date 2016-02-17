@@ -137,7 +137,7 @@ class User {
 
 						// Sort from most to least agreeing
 						resultObjects.sort(function(a, b) {
-							return a.rating - b.rating;
+							return b.rating - a.rating;
 						});
 						// return resultObjects
 						callback(resultObjects);
