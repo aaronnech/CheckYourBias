@@ -72,11 +72,12 @@ class UserTest {
 			);
 			test.done();
 		});
+	}
 		
 	public static testGetRankings(test) {
 		User.getRankings("0", "0", function(rankings) {
 			test.done();
-		})
+		});
 	}
 }
 
