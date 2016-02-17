@@ -3,6 +3,8 @@
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
 
+Constants.firebaseUrl = Constants.FIREBASE_URL;
+
 /*
 	A class that represents a category and all the information that corresponds to it.
 
@@ -17,21 +19,20 @@ class Category {
 	categoryName: string;
 	description: string;
 	submittedIssueIds: string[];	
-	firebaseRef: Firebase;
 
 	constructor(id: string, categoryName: string, description: string,
 			submittedIssueIds: string[]) {
 		this.categoryName = categoryName;
 		this.description = description;
 		this.submittedIssueIds = submittedIssueIds;
-		this.firebaseRef = new Firebase(Constants.FIRE_CATEGORY + "/" + id);
 	}
 
 	/*
 		Fetches the Category with the given categoryId.
 	*/
 	public static getCategory(categoryId: string, callback: (category: Category) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_CATEGORY);
+		console.log(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.child(categoryId).once("value", function(snapshot) {
 			var category = snapshot.val();
 			category.id = category;
@@ -39,6 +40,17 @@ class Category {
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("The read failed" + errorObject.code);
+		});
+	}
+
+	/*
+		Fetches all the categories
+	*/
+	public static getAllCategories(callback: (categories) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		rootRef.orderByKey().once("value", function(snapshot) {
+			var categories = snapshot.val();
+			callback(categories);
 		});
 	}
 }

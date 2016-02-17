@@ -1,7 +1,8 @@
+var Constants = require('../Constants');
+Constants.firebaseUrl = Constants.FIREBASE_URL;
 var React = require('react');
 var Auth = require('../Auth');
 var Cache = require('../Cache');
-var Constants = require('../Constants');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
@@ -133,7 +134,7 @@ var AppComponent = React.createClass({
                 />
                 <MenuItem
                     primaryText="Political Profile"
-                    onClick={this.setScreenLater(Constants.SCREENS.POLITICAL_PROFILE)}
+                    onClick={this.setScreenLater(Constants.SCREENS.POLITICAL_PROFILE, true)}
                 />
                 <MenuItem primaryText="Logout" onClick={this.logout} />
             </IconMenu>

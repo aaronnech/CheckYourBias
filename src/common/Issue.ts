@@ -3,6 +3,8 @@
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
 
+Constants.firebaseUrl = Constants.FIREBASE_URL;
+
 /*
 	A class that represents a user and all the information that corresponds to it.
 	Main text represents the bulk of the issue and what will be displayed to the user.
@@ -24,24 +26,32 @@ class Issue {
 	candidateRatings: {[key: string]: string};
 	category: string[];
 	submitter: string;
-	firebaseRef: Firebase;
+	seenByCount: number;
+	skipCount: number;
+	flagCount: number;
+	approved: boolean;
+
 
 	constructor(id: string, mainText: string, sources: string[],
 		candidateRatings: { [key: string]: string },
-		category: string[], submitter: string) {
+		category: string[], submitter: string, seenByCount: number,
+		skipCount: number, flagCount: number, approved: boolean) {
 		this.mainText = mainText;
 		this.sources = sources;
 		this.candidateRatings = candidateRatings;
 		this.category = category;
 		this.submitter = submitter;
-		this.firebaseRef = new Firebase(Constants.FIRE_ISSUE + "/" + id);
+		this.seenByCount = seenByCount;
+		this.skipCount = skipCount;
+		this.flagCount = flagCount;
+		this.approved = approved;
 	}
 
 	/*
 		Fetches the Issue with the given issueId.
 	*/
 	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_ISSUE);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.child(issueId).once("value", function(snapshot) {
 			var issue = snapshot.val();
 			issue.id = issueId;

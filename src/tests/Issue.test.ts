@@ -1,4 +1,7 @@
 import Issue = require('../common/Issue');
+import Constants = require('../client/Constants')
+
+Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class IssueTest {
 	public static testIssueValues(test) {

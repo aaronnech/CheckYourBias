@@ -52,12 +52,15 @@ class Constants {
 		REQUIRED: 'This field is required',
 	}
 
-	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Test/";
-	public static FIRE_USER: string = Constants.FIREBASE_URL + 'Users/';
-	public static FIRE_CANDIDATE: string = Constants.FIREBASE_URL + 'Candidates/';
-	public static FIRE_CATEGORY: string = Constants.FIREBASE_URL + 'Categories/';
-	public static FIRE_ISSUE: string = Constants.FIREBASE_URL + 'Issues/';
-	public static fireAccess: string = '';
+	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
+	public static FIRE_USER: string = 'Users/';
+	public static FIRE_CANDIDATE: string = 'Candidates/';
+	public static FIRE_CATEGORY: string = 'Categories/';
+	public static FIRE_ISSUE: string = 'Issues/';
+	public static firebaseUrl: string = '';
+
+	public static FIREBASE_URL_TEST: string = "https://check-your-bias.firebaseio.com/Test/";
+
 }
 
 export = Constants;

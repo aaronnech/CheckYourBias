@@ -6,6 +6,8 @@ import Candidate = require('./Candidate');
 import Issue = require('./Issue');
 import Category = require('./Category');
 
+Constants.firebaseUrl = Constants.FIREBASE_URL;
+
 /*
 	A class that represents a user and all the information that corresponds to them.
 	
@@ -25,7 +27,6 @@ class User {
 	submittedIssueIds: string[];
 	ratedIssues: {[key: string]: string};
 	categoryWeights: {[key: string]: string};
-	firebaseRef: Firebase;
 
 	constructor(id: string, firstName: string, lastName: string, admin: string, 
 				age: string, email: string, gender: string, hasSeenHelpText: string,
@@ -38,7 +39,6 @@ class User {
 		this.email = email;
 		this.gender = gender;
 		this.hasSeenHelpText = hasSeenHelpText;
-		this.firebaseRef = new Firebase(Constants.FIRE_USER + "/" + id);
 	}
 
 	/*
@@ -49,7 +49,7 @@ class User {
 		invariant: id must represent one of the users already in the database
 	*/
 	public static getUser(id: string, callback: (user: User) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
 			user.id = id;
@@ -61,25 +61,6 @@ class User {
 	}
 
 	/*
-		Takes a user id and a category id and gets an ordered list of candidates
-		in order of agreeement for the given category based on the user's issue ratings.
-		The callback function will be called with the list of candidates as a parameter.
-
-		invariant: userId must correspond to a user in the database
-		invariant: categoryId must correspond to a category in the database
-	*/
-	public static getRankings(userId: string, categoryId: string, 
-					callback: (rankings: Candidate[]) => any): void {
-		var rootref: Firebase = new Firebase(Constants.FIRE_USER);
-		this.getUser(userId, function(user) {
-			var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
-			candidates.orderByKey().once("value", function(snapshot) {
-
-			});
-		});
-	}
-
-	/*
 		Takes a user id and gets all the issues the user has rated along with the user's
 		rating on it. Calls the callback function with the dictionary as a parameter.
 
@@ -87,7 +68,7 @@ class User {
 	*/
 	public static getRatedIssues(userId: string, 
 					callback: (ratedIssues: {[key: string]: string}) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(userId).once("value", function(snapshot) {
 			var user : User = snapshot.val();
 			callback(user.ratedIssues);
@@ -98,13 +79,49 @@ class User {
 	}
 
 	/*
+		Takes a user id and a category id and gets an ordered list of candidates
+		in order of agreeement for the given category based on the user's issue ratings.
+		The callback function will be called with the list of candidates as a parameter.
+
+		invariant: userId must correspond to a user in the database
+		invariant: categoryId must correspond to a category in the database
+	*/
+	public static getRankings(userId: string, categoryId: string,
+		callback: (rankings: Candidate[]) => any): void {
+		var rootref: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
+		var userObject = this;
+		this.getUser(userId, function(user) {
+			var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+			candidates.orderByKey().once("value", function(snapshot) {
+				var candArr: number[] = [];
+				for (var i = 0; i < snapshot.numChildren(); i++) {
+					candArr[i] = 0;
+				}
+				userObject.getRatedIssues(userId, function(ratedIssues) {
+					var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+					issues.orderByKey().once("value", function(snapshot) {
+						for (var key in ratedIssues) {
+							var rating: number = +ratedIssues[key];
+							var candidateRatings = snapshot.val()[key].candidateRatings;
+							for (var candidate in candidateRatings) {
+								candArr[candidate] += 5 - 
+									Math.abs(+candidateRatings[candidate] - rating);
+							}
+						}
+					});
+				});
+			});
+		});
+	}
+
+	/*
 		Takes a user id, issue id and a rating and puts it into the database.
 
 		invariant: userId must correspond to a user in the database
 		invariant: issueId must correspond to an issue in the database
 	*/
 	public static submitRating(userId: string, issueId: string, rating: string): void {
-		var rootRef: Firebase = new Firebase(Constants.FIRE_USER);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(userId).child("ratedIssues").update({
 			issueId : rating
 		}, function (errorObject) {
@@ -122,7 +139,7 @@ class User {
 	*/
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
-		var candidates: Firebase = new Firebase(Constants.FIRE_CANDIDATE);
+		var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		this.getUser(userId, function(user) {
 			candidates.orderByKey().once("value", function(snapshot) {
 				var attemptedCandidates: string[] = [];

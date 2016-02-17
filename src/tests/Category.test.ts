@@ -1,4 +1,7 @@
 import Category = require('../common/Category');
+import Constants = require('../client/Constants')
+
+Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class CategoryTest {
 	public static testCategoryValues(test) {
