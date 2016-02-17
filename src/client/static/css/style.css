@@ -26,6 +26,14 @@ body, html {
     display: none;
 }
 
+.display-inline {
+	display: inline;
+}
+
+.issue-category-selector {
+	margin-bottom: 3%;
+}
+
 .issue-wrapper {
     background-color: #eee;
 }

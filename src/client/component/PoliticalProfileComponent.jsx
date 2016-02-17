@@ -1,10 +1,13 @@
 var React = require('react');
 var Constants = require('../Constants');
+var Cache = require('../Cache');
 
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 
 var PoliticalIssueComponent = require('./PoliticalIssueComponent.jsx');
+
+var User = require('../../common/User');
 
 /**
  * This component displays to the user their previously answered questions
@@ -21,8 +24,48 @@ var PoliticalProfileComponent = React.createClass({
 	    	/**
 	    	 * Whether or not to display the candidate who said the quote
 	    	 */
-	    	currentIssue: 1,
+	    	currentIssue: 0,
+
+	    	/**
+	    	 * list of categories that the user can see voting record for
+	    	 */
+	    	categories: [],
+
+	    	/**
+	    	 * List of all Issues that the user has voted on
+	    	 */
+	    	issues: [],
+
+	    	/**
+	    	 *
+	    	 */
+	    	currentSelectedIssues: [],
 	    };
+	},
+
+	updateAllIssues : function(issueToRating) {
+		console.log(issueToRating);
+	},
+
+	componentDidMount : function() {
+		User.getRatedIssues(Cache.getCacheV(Constants.AUTH.UID), this.updateAllIssues);
+
+
+		category_names = [];
+		for (var i = 0; i < Constants.CATEGORIES.length; i++) {
+		  category_names.push(<MenuItem value={i} key={i} primaryText={Constants.CATEGORIES[i]}/>);
+		}
+
+		issue_items = [];
+		for (var i = 0; i < 3; i++) {
+			issue_items.push(<PoliticalIssueComponent key={i} className="issue-card"/>);
+		}
+
+		this.setState({
+			categories: category_names,
+			issues: issue_items,
+			currentSelectedIssues: issue_items,
+		});
 	},
 
 	/**
@@ -32,15 +75,13 @@ var PoliticalProfileComponent = React.createClass({
 	onSelectPage : function(page) {
 		this.setState({
 			currentScreen: page
-		})
+		});
 	},
 
 	/**
 	 * Callback that fires when the user has chosen a different issues category to examine
 	 */
 	changeIssue : function(event, index, value) {
-		// TODO: show user the candidate who said the issue.
-		// console.log("User confirmed reaction");
 		this.setState({
 			currentIssue: value
 		});
@@ -52,18 +93,14 @@ var PoliticalProfileComponent = React.createClass({
 	render : function() {
 		return (
 			<div className="political-profile">
-				<div className="issue-selector">
-					<DropDownMenu value={this.state.currentIssue} onChange={this.changeIssue}>
-						<MenuItem value={1} primaryText="Economy"/>
-						<MenuItem value={2} primaryText="Foreign Policy"/>
-						<MenuItem value={3} primaryText="Social Justice"/>
-						<MenuItem value={4} primaryText="Marijuana Legalization"/>
-						<MenuItem value={5} primaryText="Election Reform"/>
+				<div className="issue-category-selector">
+					<DropDownMenu className="display-inline" value={this.state.currentIssue} onChange={this.changeIssue}>
+						{this.state.categories}
 					</DropDownMenu>
+					<p className="display-inline">{this.state.currentSelectedIssues.length} {this.state.currentSelectedIssues.length == 1 ? "Issue" : "Issues"} Voted on!</p>
 				</div>
 				<div className="rate-scale">
-					<p className="indentSides">403 Issues Voted on!</p>
-					<PoliticalIssueComponent className="issue-card"/>
+					{this.state.currentSelectedIssues}
 				</div>
 			</div>
 		);
