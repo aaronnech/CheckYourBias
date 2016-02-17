@@ -1,4 +1,9 @@
 var React = require('react');
+var User = require('../../common/User');
+var Category = require('../../common/Category');
+var Cache = require('../Cache');
+var Constants = require('../Constants');
+
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
@@ -21,6 +26,18 @@ var CandidateRankingComponent = React.createClass({
 		this.setState({
 			currentScreen: page
 		})
+	},
+
+	componentDidMount : function() {
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+
+		Category.getAllCategories(function(categories) {
+			console.log(categories);
+		});
+
+		User.getRankings(userId, "1", function(rankings) {
+			console.log(rankings);
+		});
 	},
 
 	/**

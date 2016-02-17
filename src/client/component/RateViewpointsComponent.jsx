@@ -1,5 +1,8 @@
 var React = require('react');
 var Constants = require('../Constants');
+var Cache = require('../Cache');
+var User = require('../../common/User');
+var Issue = require('../../common/Issue');
 
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
@@ -20,7 +23,6 @@ var RateViewpointsComponent = React.createClass({
 	 * Initial state of the component
 	 */
 	getInitialState : function() {
-		// TODO: hook up to backend to retrieve quote and attribution
 	    return {
 	    	/**
 	    	 * Whether or not to display the candidate who said the quote
@@ -28,25 +30,50 @@ var RateViewpointsComponent = React.createClass({
 	    	candidateShown: false,
 
 	    	/**
+	    	 * Internal identifier of the issue
+	    	 */
+	    	issueId: -1,
+
+	    	/**
 	    	 * A text representation of what the candidate said
 	    	 */
-			issueText: "I am issue text. Duis lectus ligula, fermentum sit amet sapien ut, aliquet varius ante. Sed sit amet gravida orci, eu mollis eros. Fusce vestibulum dolor quis massa tempor consectetur. Sed id placerat neque. Maecenas in justo eget sem faucibus maximus. Morbi sodales varius sem, quis ultricies velit tincidunt sed.",
+			issueText: "Loading...",
 
 			/**
 			 * The name of the candidate who said the text
 			 */
-			issueAttributionName: "Bernard Sanders",
+			issueAttributionName: "",
 			
 			/**
 			 * A relative path to an image of the candidate
 			 */
-			issueAttributionImage: "bernie_sanders2.jpg",
+			issueAttributionImage: "anonymous.png",
 
 			/** 
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
 	    };
+	},
+
+	componentWillMount : function() {
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+
+		// User.getNextIssue(userId, "0", function(issue) {
+		// 	if (issue !== null) {
+		// 		self.setState({
+		// 			issueText: issue.mainText,
+		// 			issueId: issue.id
+		// 		});
+		// 	}
+		// 	else {
+		// 		// TODO: More proper handling of this case
+		// 		self.setState({
+		// 			issueText: "No more issues to vote on. Hang in there.",
+		// 		});
+		// 	}
+		// });
 	},
 
 	/**
@@ -65,6 +92,9 @@ var RateViewpointsComponent = React.createClass({
 	confirmReaction : function() {
 		// TODO: show user the candidate who said the issue.
 		// console.log("User confirmed reaction");
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		User.submitRating(userId, this.state.issueId, this.state.userStance);
+
 		this.setState({
 			candidateShown: true
 		});
@@ -75,6 +105,16 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	getQuote : function() {
 		// TODO: replace text shown with new data from backend source
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+		
+		User.getNextIssue(userId, "0", function(issue) {
+			self.setState({
+				issueText: issue.mainText,
+				issueId: issue.id
+			});
+		});
+
 		this.setState({
 			candidateShown: false
 		});
