@@ -1,5 +1,8 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
+var Issue = require('../../../common/Issue');
+var User = require('../../../common/User');
 
 var CrowdsourcingQuoteComponent = require('./CrowdsourcingQuoteComponent.jsx');
 var CrowdsourcingGeneralComponent = require('./CrowdsourcingGeneralComponent.jsx');
@@ -10,6 +13,7 @@ var SelectField = require('material-ui/lib/select-field');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var TextField = require('material-ui/lib/text-field');
 var RaisedButton = require('material-ui/lib/raised-button');
+var Snackbar = require('material-ui/lib/snackbar');
 
 /**
  * Form for a user to submit content to the application. The form is dynamic and
@@ -39,7 +43,10 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             categoryName: "",
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
-            categoryErrorText: Constants.ERRORS.REQUIRED
+            categoryErrorText: Constants.ERRORS.REQUIRED,
+            showSnackbar: false,
+            snackbarMessage: "",
+            hasSubmitted: false,  // should be true while request is being processed
         };
     },
 
@@ -70,6 +77,16 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         });
 
         this.resetSavedFields();
+    },
+
+    resetAll : function() {
+        this.resetSavedFields();
+        this.setState({
+            formComponent: <CrowdsourcingQuoteComponent
+                handleCandidateMap={this.handleCandidateMap}
+                handleContent={this.handleContent}
+            />,
+        });
     },
 
     resetSavedFields : function() {
@@ -126,6 +143,45 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         });
     },
 
+    /**
+     * Creates a new unapprovedIssue in Firebase
+     */
+    handleSubmit : function() {
+        var self = this;
+        User.getUser(Cache.getCacheV(Constants.AUTH.UID), function(user) {
+            Issue.initializeUnapprovedIssue(
+                Constants.CONTENT_TYPES[self.state.contentType - 1],
+                self.state.content,
+                self.state.source,
+                self.state.candidateMap,
+                user.id,
+                self.state.category,
+                function(error) { 
+                    if (error === null) {  // success
+                        self.setState({
+                            hasSubmitted: false,
+                            showSnackbar: true,
+                            snackbarMessage: "Thank you for submitting new content",
+                        });
+                        self.resetAll();
+                    } else {
+                        self.setState({
+                            hasSubmitted: false,
+                            showSnackbar: true,
+                            snackbarMessage: "There was an error. Please try again",
+                        });
+                    }
+                }
+            );
+        });
+    },
+
+    hideSnackbar : function() {
+        this.setState({
+            showSnackbar: false,
+        });
+    },
+
     render : function() {
         return (
             <Card className="submit-content">
@@ -172,11 +228,19 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                     || !Boolean(Object.keys(this.state.candidateMap).length)
                                     || !Boolean(this.state.source.length)
                                     || !Boolean(this.state.categoryName.length)
+                                    || this.state.hasSubmitted
                                 }
                                 label="Submit"
                                 primary={true}
+                                onClick={this.handleSubmit}
                             />
                         </div>
+                        <Snackbar
+                          open={this.state.showSnackbar}
+                          message={this.state.snackbarMessage}
+                          autoHideDuration={4000}
+                          onRequestClose={this.hideSnackbar}
+                        />
                     </div>
                 </CardText>
             </Card>

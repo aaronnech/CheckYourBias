@@ -39,7 +39,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
         });
 
         var candidateMap = {};
-        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES[Constants.STANCES.length - 1];
+        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES.length - 1;
         this.props.handleCandidateMap(candidateMap);
     },
 

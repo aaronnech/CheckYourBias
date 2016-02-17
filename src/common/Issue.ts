@@ -57,7 +57,7 @@ class Issue {
 		submitter: The id of the user who submitted this
 		category: The categories that this issue falss under
 	*/
-	public static initiliazeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
+	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
 								candidateRatings: { [key: string]: number }, submitter: string,
 								category: string[], callback: (error) => any) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);

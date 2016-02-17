@@ -6,7 +6,7 @@ Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 class IssueTest {
 
 	public static testInitializeUnapprovedTest(test) {
-		Issue.initiliazeUnapprovedIssue(Constants.CONTENT_TYPES[0], "main text example",
+		Issue.initializeUnapprovedIssue(Constants.CONTENT_TYPES[0], "main text example",
 			["www.coolkids.com", "wwww.kanyewest.com"], { "0": 4, "2": 3 }, "0",
 			["0", "1"], function(error) {
 				test.notEqual(
