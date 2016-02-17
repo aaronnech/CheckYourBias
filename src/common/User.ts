@@ -145,7 +145,7 @@ class User {
 				var attemptedCandidates: string[] = [];
 				var chosenCandidate: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
 				var foundIssue : boolean = false;
-				var issues: Firebase = new Firebase(Constants.FIRE_ISSUE);
+				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 				issues.orderByKey().once("value", function(snapshot) {
 					while(!foundIssue)
 					{
