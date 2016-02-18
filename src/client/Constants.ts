@@ -48,6 +48,15 @@ class Constants {
 		'Strongly Agree',
 	];
 
+	public static STANCE_COLORS: any = [
+		'#ff8080',
+		'#ffb3b3',
+		'#d9d9d9',
+		'#99b4ff',
+		'#668eff',
+
+	];
+
 	public static ERRORS: any = {
 		REQUIRED: 'This field is required',
 		NO_ISSUE: 'No issues are available for voting. Hang in there.'
