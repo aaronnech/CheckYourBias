@@ -19,48 +19,45 @@ var PoliticalIssueComponent = React.createClass({
 	    	/**
 	    	 * The unique ID of the issue
 	    	 */
-	    	issueID: 420,
+	    	issue: null,
 
 	    	/**
 	    	 * The issue's quoted text
 	    	 */
-	    	content: "I want to sleep with my daughter",
+	    	cardContent: "",
 
 	    	/**
 	    	 * The author of the quote
 	    	 */
-	    	author: "Donald Trump",
+	    	author: "",
 
 	    	/**
 	    	 * Short version of the content text with author identity for the card's title
 	    	 */
-	    	cardTitle: "I want to sleep... - Donald Trump",
-
-	    	/**
-	    	 * Short version of the content text with author identity for the card's title
-	    	 */
-	    	cardContent: "I want to sleep with my daughter. - Donald Trump",
+	    	cardTitle: "",
 
 	    	/**
 	    	 * How the user voted on agreement with this quote
 	    	 */
-	    	userVote: Constants.STANCES[0],
+	    	userVote: Constants.STANCES[4],
 
 	    	/**
 	    	 * The color corresponding to the user's vote
 	    	 */
-	    	userVoteColor: Constants.STANCE_COLORS[0],
+	    	userVoteColor: Constants.STANCE_COLORS[4],
 	    };
 	},
 
-	/**
-	 * Callback that fires when the user has chosen a different issues category to examine
-	 */
-	changeIssue : function(event, index, value) {
-		// TODO: show user the candidate who said the issue.
-		// console.log("User confirmed reaction");
+	componentDidMount : function() {
+		var cur_issue = this.props.issue;
+		var main_text = cur_issue.mainText;
+
+		var short_text = main_text.split(" ").slice(0,3).join(" ") + "...";
+
 		this.setState({
-			currentIssue: value
+			issue: cur_issue,
+			cardContent: main_text,
+			cardTitle: short_text,
 		});
 	},
 
@@ -71,6 +68,7 @@ var PoliticalIssueComponent = React.createClass({
 		return (
 			<Card>
 			  <CardHeader
+			  	avatar="http://lorempixel.com/100/100/"
 			    title={this.state.cardTitle}
 			    subtitle={this.state.userVote}
 			    subtitleColor={this.state.userVoteColor}

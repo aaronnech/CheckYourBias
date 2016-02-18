@@ -48,51 +48,52 @@ var PoliticalProfileComponent = React.createClass({
 	    };
 	},
 
-	updateNewIssue : function(issue) {
-		var curIssues = this.state.issues;
+	filterIssuesByCategory : function() {
+		console.log(this.state.issues);
+		console.log(this.state.issueRatings);
 
-		curIssues.push(issue);
+		// TODO: actually filter the issues here
+
+		var cur_issues = []
+		for (var issue_index in this.state.issues) {
+			var issue = this.state.issues[issue_index];
+			cur_issues.push(<PoliticalIssueComponent key={issue_index} issue={issue} />);
+		}
 
 		this.setState({
-			issues: curIssues,
+			currentSelectedIssues: cur_issues,
 		});
 	},
 
-	updateAllIssues : function(issueToRating) {
-		for (var issueID in issueToRating) {
-		  if (issueToRating.hasOwnProperty(issueID)) {
-		    Issue.getIssue(issueID, updateNewIssue);
-		  }
-		}
+	updateAllIssues : function(allIssues) {
+		this.setState({
+			issues: allIssues,
+		});
 
+		this.filterIssuesByCategory();
+	},
+
+	updateUserRatings : function(issueToRating) {
 		this.setState({
 			issueRatings: issueToRating,
 		});
+
+		Issue.getApprovedIssues(this.updateAllIssues);
 	},
 
 	componentDidMount : function() {
-		User.getRatedIssues(Cache.getCacheV(Constants.AUTH.UID), this.updateAllIssues);
-
-
 		category_names = [];
 		for (var i = 0; i < Constants.CATEGORIES.length; i++) {
 		  category_names.push(<MenuItem value={i} key={i} primaryText={Constants.CATEGORIES[i]}/>);
-		}
-
-		current_issues = [];
-		for (var issue_index in this.state.issues) {
-			var issue = this.state.issues[issue_index];
-			if (issue.category.indexOf(currentIssue) > -1) {
-				current_issues.push(<PoliticalIssueComponent key={issue_index} issue={issue} rating={this.state.issueRatings[issue.id]} className="issue-card"/>);
-			}
 		}
 
 		this.setState({
 			currentIssueIndex: 0,
 			currentIssue: Constants.CATEGORIES[this.state.currentIssueIndex],
 			categories: category_names,
-			currentSelectedIssues: current_issues,
 		});
+
+		User.getRatedIssues(Cache.getCacheV(Constants.AUTH.UID), this.updateUserRatings);
 	},
 
 	/**
@@ -113,6 +114,8 @@ var PoliticalProfileComponent = React.createClass({
 			currentIssueIndex: index,
 			currentIssue: value
 		});
+
+		this.filterIssuesByCategory();
 	},
 
 	/**
