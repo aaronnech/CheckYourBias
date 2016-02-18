@@ -61,13 +61,23 @@ class IssueTest {
 	}
 	
 	public static testApprove(test) {
-		Issue.approveIssue("3", function(issue) {
+		Issue.approveIssue("3", function(error) {
+			test.notEqual(
+				error,
+				true,
+				"Error: " + error + ". There shouldn't be an error when approving an issue"
+			);
 			test.done();
 		});
 	}
 	
 	public static testUnapprove(test) {
-		Issue.unapproveIssue("3", function(issue) {
+		Issue.unapproveIssue("3", function(error) {
+			test.notEqual(
+				error,
+				true,
+				"Error: " + error + ". There shouldn't be an error when unapproving an issue"
+			);
 			test.done();
 		});
 	}

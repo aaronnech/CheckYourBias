@@ -152,8 +152,9 @@ class Issue {
 	*/
 	public static approveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : 1});
-		callback(rootRef.child(issueId));
+		rootRef.child(issueId).update({"approved" : 1}, function(error) {	
+			callback(error);
+		});
 	}
 	
 	/*
@@ -163,8 +164,9 @@ class Issue {
 	*/
 	public static unapproveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : 0});
-		callback(rootRef.child(issueId));
+		rootRef.child(issueId).update({"approved" : 0}, function(error) {
+			callback(error);
+		});	
 	}
 }
 
