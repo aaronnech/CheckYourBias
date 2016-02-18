@@ -14,6 +14,17 @@ class CategoryTest {
 			test.done();
 		});
 	}
+	
+	public static testGetAllCategories(test) {
+		Category.getAllCategories(function(catList) {
+			test.strictEqual(
+				catList[0].categoryName,
+				'Education',
+				'Category with id 0 should have categoryName == \'Education\''
+			);
+			test.done();
+		});
+	}
 }
 
 export = CategoryTest;

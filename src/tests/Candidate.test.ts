@@ -14,6 +14,17 @@ class CandidateTest {
 			test.done();
 		});
 	}
+	
+	public static testGetAllCandidates(test) {
+		Candidate.getAllCandidates(function(candList) {
+			test.strictEqual(
+				candList[0].name,
+				"Bernie Sanders",
+				'Candidate with id 0 should have name \'Bernie Sanders\''
+			);
+			test.done();
+		});
+	}
 }
 
 export = CandidateTest;

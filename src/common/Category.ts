@@ -46,7 +46,7 @@ class Category {
 		Fetches all the categories
 	*/
 	public static getAllCategories(callback: (categories) => any): void {
-		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.orderByKey().once("value", function(snapshot) {
 			var categories = snapshot.val();
 			callback(categories);
