@@ -1,5 +1,6 @@
 import Issue = require('../common/Issue');
-import Constants = require('../client/Constants')
+import Constants = require('../client/Constants');
+import Firebase = require("firebase");
 
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
@@ -14,6 +15,14 @@ class IssueTest {
 					true,
 					"Error: " + error + ". There shouldn't be an error when initializing a user"
 				);
+				var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+				rootRef.orderByChild("mainText").equalTo("main text example").once("value", function(snapshot) {
+					snapshot.forEach(function(childSnapshot) {
+						var key = childSnapshot.key();
+						var childRootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE + key);
+						childRootRef.remove();
+					});
+				});
 				test.done();
 		});
 	}

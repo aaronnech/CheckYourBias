@@ -81,7 +81,6 @@ class Issue {
 		Fetches the Issue with the given issueId.
 	*/
 	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
-		console.log(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.child(issueId).once("value", function(snapshot) {
 			var issue = snapshot.val();

@@ -1,5 +1,5 @@
 import User = require('../common/User');
-import Constants = require('../client/Constants')
+import Constants = require('../client/Constants');
 
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
