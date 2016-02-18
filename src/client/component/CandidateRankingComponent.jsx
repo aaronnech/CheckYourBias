@@ -18,6 +18,12 @@ var ContentLabel = require('material-ui/lib/svg-icons/social/person');
  * @author g-liu
  */
 var CandidateRankingComponent = React.createClass({
+	getInitialState : function() {
+	    return {
+	    	candidateList: null
+	    };
+	},
+
 	/**
 	 * Callback that fires when user selects this component
 	 * @param page
@@ -28,16 +34,46 @@ var CandidateRankingComponent = React.createClass({
 		})
 	},
 
-	componentDidMount : function() {
+	/**
+	 * Overrides React's componentWillMount
+	 */
+	componentWillMount : function() {
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
-
-		Category.getAllCategories(function(categories) {
-			console.log(categories);
-		});
+		var self = this;
 
 		User.getRankings(userId, "1", function(rankings) {
-			console.log(rankings);
+			console.info(rankings);
+			self.setState({
+				candidateList: rankings
+			});
 		});
+	},
+
+	/**
+	 * Returns a list of candidates to be displayed to the user.
+	 */
+	getCandidates : function() {
+		var candidates = this.state.candidateList;
+
+		if (candidates === null) {
+			return (<p>Fetching candidates...</p>);
+		}
+
+		if (candidates.length === 0) {
+			return (<p>No candidates to display.</p>);
+		}
+
+		var listChildren = [];
+		for (var i = 0, len = candidates.length; i < len; i++) {
+			listChildren.push(<ListItem
+				key={i}
+				primaryText={candidates[i].candidate.name}
+				leftIcon={<ContentLabel />} />
+			);
+		}
+
+		var resultList = React.createElement(List, {}, listChildren);
+		return resultList;
 	},
 
 	/**
@@ -48,11 +84,8 @@ var CandidateRankingComponent = React.createClass({
 			<Card className="submit-content">
 				<CardTitle title="Economy" />
 
-				<List subtitle="Economy">
-					<ListItem primaryText="Bernie Sanders" leftIcon={<ContentLabel />} />
-					<ListItem primaryText="Ted Cruz" leftIcon={<ContentLabel />} />
-					<ListItem primaryText="Donald Trump" leftIcon={<ContentLabel />} />
-					<ListItem primaryText="Benjamin Carson" leftIcon={<ContentLabel />} />
+				<List>
+					{this.getCandidates()}
 				</List>
 			</Card>
 		);
