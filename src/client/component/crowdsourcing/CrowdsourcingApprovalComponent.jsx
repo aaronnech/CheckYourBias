@@ -1,5 +1,6 @@
 var React = require('react');
 var Constants = require('../../Constants');
+var Issue = require('../../../common/Issue');
 
 var Card = require('material-ui/lib/card/card');
 var CardText = require('material-ui/lib/card/card-text');
@@ -21,8 +22,23 @@ var CrowdsourcingApprovalComponent = React.createClass({
      */
     getInitialState : function() {
         return {
-            contentMap: this.props.contentMap,
+            contentMap: null,
         };
+    },
+
+    componentWillMount : function() {
+        this.generateContent();
+    },
+
+    generateContent : function() {
+        var self = this;
+        Issue.getUnapprovedIssues(function(issues) {
+            console.log(issues.key());
+            console.log(issues.val());
+            self.setState({
+                contentMap: issues[0],
+            });
+        });
     },
 
     getContent : function() {
@@ -38,16 +54,32 @@ var CrowdsourcingApprovalComponent = React.createClass({
         return result;
     },
 
+    handleApprove : function() {
+        Issue.approveIssue();
+    },
+
+    handleReject : function() {
+        Issue.unapproveIssue();
+    },
+
     render : function() {
         return (
             <Card className="approvalContent">
                 <CardText>
                     {this.getContent()}
                     <div className="reject">
-                        <RaisedButton label="Reject" backgroundColor="#ff8080" />
+                        <RaisedButton 
+                            label="Reject" 
+                            backgroundColor="#ff8080"
+                            onClick={this.handleReject} 
+                        />
                     </div>
                     <div className="approve">
-                        <RaisedButton label="Accept" backgroundColor="#97ce5e" />
+                        <RaisedButton 
+                            label="Accept" 
+                            backgroundColor="#97ce5e" 
+                            onClick={this.handleApprove} 
+                        />
                     </div>
                 </CardText>
             </Card>

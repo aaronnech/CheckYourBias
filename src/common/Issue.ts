@@ -105,6 +105,22 @@ class Issue {
 			console.log("getApprovedIssue failed: " + errorObject.code);
 		});
 	}
+
+	/*
+		Returns all issues that have been not yet been approved.
+	*/
+	public static getUnapprovedIssues(callback) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.orderByChild("approved").equalTo(0).once("value", function(snapshot) {
+			snapshot.forEach(function(unapprovedIssue) {
+				callback(unapprovedIssue);
+				return true;
+			});
+		}, function(errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("getApprovedIssue failed: " + errorObject.code);
+		});
+	}
 	
 	/*
 		Approves the issue with the given id.
