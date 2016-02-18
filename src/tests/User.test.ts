@@ -1,9 +1,26 @@
 import User = require('../common/User');
-import Constants = require('../client/Constants')
+import Constants = require('../client/Constants');
+import Firebase = require("firebase");
 
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class UserTest {
+
+	public static testSubmitIssue(test) {
+		User.submitRating("0", "2", "3", function(errorObject) {
+			User.getUser("0", function(user) {
+				test.strictEqual(
+					user.ratedIssues["2"],
+					"3",
+					"Should have a new rating for issue 2 of 3"
+				);
+				var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER + "/0/ratedIssues/2");
+				rootRef.remove(function(error) {
+					test.done();
+				});
+			});
+		});
+	}
 
 	public static testInitializeUser(test) {
 		User.initializeUser("testid", "testfirst", "testlast", function(error) {
@@ -60,6 +77,16 @@ class UserTest {
 				4,
 				'Issue 2 has rating of 4 from candidate 0'
 			);
+			test.done();
+		});
+	}
+
+	public static testGetNextIssueWhenNoIssues(test) {
+		User.getNextIssue("1", "0", function(issue) {
+			test.strictEqual(
+				issue,
+				null,
+				"Should return null when no issues can be given");
 			test.done();
 		});
 	}

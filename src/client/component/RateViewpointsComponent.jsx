@@ -1,5 +1,9 @@
 var React = require('react');
 var Constants = require('../Constants');
+var Cache = require('../Cache');
+var User = require('../../common/User');
+var Issue = require('../../common/Issue');
+var Category = require('../../common/Category');
 
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
@@ -20,33 +24,42 @@ var RateViewpointsComponent = React.createClass({
 	 * Initial state of the component
 	 */
 	getInitialState : function() {
-		// TODO: hook up to backend to retrieve quote and attribution
 	    return {
 	    	/**
-	    	 * Whether or not to display the candidate who said the quote
+	    	 * Issue object containing the issue
 	    	 */
-	    	candidateShown: false,
-
-	    	/**
-	    	 * A text representation of what the candidate said
-	    	 */
-			issueText: "I am issue text. Duis lectus ligula, fermentum sit amet sapien ut, aliquet varius ante. Sed sit amet gravida orci, eu mollis eros. Fusce vestibulum dolor quis massa tempor consectetur. Sed id placerat neque. Maecenas in justo eget sem faucibus maximus. Morbi sodales varius sem, quis ultricies velit tincidunt sed.",
-
-			/**
-			 * The name of the candidate who said the text
-			 */
-			issueAttributionName: "Bernard Sanders",
-			
-			/**
-			 * A relative path to an image of the candidate
-			 */
-			issueAttributionImage: "bernie_sanders2.jpg",
+	    	issue: null,
 
 			/** 
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
 	    };
+	},
+
+	/**
+     * Updates the user's stance
+     */
+    handleUpdateStance : function(value) {
+        this.setState({
+            userStance: value,
+        });
+    },
+
+    /**
+     * Sets the user stance back to the default (no stance)
+     */
+    resetStance : function() {
+    	this.setState({
+    		userStance: null
+    	});
+    },
+
+	/**
+	 * Overrides React's componentWillMount
+	 */
+	componentWillMount : function() {
+		this.getQuote();
 	},
 
 	/**
@@ -63,31 +76,44 @@ var RateViewpointsComponent = React.createClass({
 	 * Callback that fires when the user has confirmed their level of agreement
 	 */
 	confirmReaction : function() {
-		// TODO: show user the candidate who said the issue.
-		// console.log("User confirmed reaction");
-		this.setState({
-			candidateShown: true
+		if (this.state.userStance === null) {
+			// TODO: Error message to the user here
+			console.error("User did not select a stance.")
+			return;
+		}
+
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+
+		console.log(userId);
+		console.log(this.state.issue.id);
+		console.log(this.state.userStance);
+		User.submitRating(userId, this.state.issue.id, this.state.userStance, function() {
+			// TODO: Display a visible message to the user
+			console.log("User rated issue.");
+
+			self.resetStance();
+
+			// retrieve the next quote
+			self.getQuote();
 		});
 	},
 
 	/**
-	 * Retrieves a random quote from a candidate, and displays it to the user
+	 * Retrieves a random quote from a category, and displays it to the user
 	 */
 	getQuote : function() {
 		// TODO: replace text shown with new data from backend source
-		this.setState({
-			candidateShown: false
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+		
+		User.getNextIssue(userId, "0", function(result) {
+			console.log(result);
+			self.setState({
+				issue: result,
+			});
 		});
 	},
-
-	/**
-     * Updates the user's stance
-     */
-    handleUpdateStance : function(value) {
-        this.setState({
-            value: value,
-        });
-    },
 
 	/**
 	 * Renders the view
@@ -97,28 +123,21 @@ var RateViewpointsComponent = React.createClass({
 			<Card className="rate-viewpoints">
 				<CardTitle title="Major issue!" />
 				
-				<CardMedia overlay={<CardTitle title={this.state.issueAttributionName} />}
-					style={{display: this.state.candidateShown ? 'block' : 'none'}}>
-					<img src={'img/' + this.state.issueAttributionImage} />
-				</CardMedia>
-				
 				<CardText className="issue-wrapper">
-					<p>{this.state.issueText}</p>
+					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
 				</CardText>
 				<CardActions>
 					<div className="rate-scale"
-					  style={{display: this.state.candidateShown ? 'none' : 'block', textAlign: 'center'}}>
-						<StanceSelector value={this.state.userStance} handleUpdateStance={this.handleUpdateStance} />
+						style={{display: (this.state.issue === null ? 'none' : 'block')}}>
+						<StanceSelector
+							value={this.state.userStance}
+							handleUpdateStance={this.handleUpdateStance} />
 					</div>
-					<div className="confirm-choice-wrapper" style={{display: this.state.candidateShown ? 'none' : 'block'}}>
-						<RaisedButton label="Who said it?"
+					<div className="confirm-choice-wrapper">
+						<RaisedButton label="Next Issue"
 							onClick={this.confirmReaction}
-							style={{marginTop: '1em'}} />
-					</div>
-					<div className="next-candidate-wrapper" style={{display: this.state.candidateShown ? 'block' : 'none'}}>
-						<RaisedButton label="Next"
-							onClick={this.getQuote}
-							style={{marginTop: '1em'}} />
+							style={{marginTop: '1em'}}
+							disabled={this.state.issue === null} />
 					</div>
 				</CardActions>
 			</Card>

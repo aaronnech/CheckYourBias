@@ -55,25 +55,48 @@ class Issue {
 		sources: The websites that are the sources for this issue
 		candidateRatings: A map from the id of the candidate to their rating for this issue
 		submitter: The id of the user who submitted this
-		category: The categories that this issue falss under
+		category: The categories that this issue falls under
 	*/
 	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
-								candidateRatings: { [key: string]: number }, submitter: string,
+								candidateMap: { [key: string]: number }, submitter: string,
 								category: string[], callback: (error) => any) {
-		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.push({
-			contentType: contentType,
-			mainText: mainText,
-			sources: sources,
-			candidateRatings: candidateRatings,
-			submitter: submitter,
-			category: category,
-			seenByCount: 0,
-			skipCount: 0,
-			flagCount: 0,
-			approved: 0
-		}, function(error) {
-			callback(error);
+		var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		this.convertCandidateNamesToIds(candidateMap, function(candidateRatings) {
+			issues.push({
+				contentType: contentType,
+				mainText: mainText,
+				sources: sources,
+				candidateRatings: candidateRatings,
+				submitter: submitter,
+				category: category,
+				seenByCount: 0,
+				skipCount: 0,
+				flagCount: 0,
+				approved: 0
+			}, function(error) {
+				callback(error);
+			});
+		});
+	}
+	
+	/*
+		Takes a map of candidate names to ratings and returns an equivalent
+		map of candidate ids to ratings via the callback.
+		
+		candidateMap: map from candidate names to ratings
+	*/
+	public static convertCandidateNamesToIds(candidateMap: { [key: string]: number }, callback): void {
+		var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		var candidateRatings: { [key: number]: number } = [];
+		candidates.once("value", function(snapshot) {
+			var candList = snapshot.val();
+			for(var i = 0; i < candList.length; i++) {
+				if(candList[i].name in candidateMap)
+				{
+					candidateRatings[i] = candidateMap[candList[i].name];
+				}
+			}
+			callback(candidateRatings);
 		});
 	}
 
@@ -81,7 +104,6 @@ class Issue {
 		Fetches the Issue with the given issueId.
 	*/
 	public static getIssue(issueId: string, callback: (issue: Issue) => any): void {
-		console.log(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.child(issueId).once("value", function(snapshot) {
 			var issue = snapshot.val();
@@ -100,6 +122,23 @@ class Issue {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.orderByChild("approved").equalTo(1).once("value", function(snapshot) {
 			callback(snapshot.val());
+		}, function(errorObject) {
+			// The id given was not valid or something went wrong.
+			console.log("getApprovedIssue failed: " + errorObject.code);
+		});
+	}
+
+	/*
+		Returns all issues that have been not yet been approved. In the callback,
+		unapprovedIssue should be accessed by .val(), and the key is .key()
+	*/
+	public static getUnapprovedIssues(callback) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.orderByChild("approved").equalTo(0).once("value", function(snapshot) {
+			snapshot.forEach(function(unapprovedIssue) {
+				callback(unapprovedIssue);
+				return true;
+			});
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("getApprovedIssue failed: " + errorObject.code);

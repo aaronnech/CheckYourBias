@@ -106,9 +106,8 @@ class User {
 		correspond to candidates and their rankings, in order of agreement. Each object
 		in the array has the following fields:
 
-		candidateId: The id of the candidate
-		candidateName: The name of the candidate
-		rank: The similarity ranking this user has with this candidate (higher ranking
+		candidate: The Candidate object that this entry corresponds to.
+		rating: The similarity ranking this user has with this candidate (higher ranking
 				corresponds to higher agreement)
 
 
@@ -152,8 +151,7 @@ class User {
 						var resultObjects = [];
 						for (var candidateId in candidateRatings) {
 							var resultObject = {};
-							resultObject["candidateId"] = candidateId;
-							resultObject["candidateName"] = candidates[candidateId].name;
+							resultObject["candidate"] = candidates[candidateId];
 							resultObject["rating"] = candidateRatings[candidateId];
 							resultObjects.push(resultObject);
 						}
@@ -177,13 +175,13 @@ class User {
 		invariant: userId must correspond to a user in the database
 		invariant: issueId must correspond to an issue in the database
 	*/
-	public static submitRating(userId: string, issueId: string, rating: string): void {
+	public static submitRating(userId: string, issueId: string, rating: string, 
+		callback: (errorObject) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
-		rootRef.child(userId).child("ratedIssues").update({
-			issueId : rating
-		}, function (errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("submitRating failed" + errorObject.code);
+		var temp = {}
+		temp[issueId] = rating;
+		rootRef.child(userId).child("ratedIssues").update(temp, function (errorObject) {
+			callback(errorObject);
 		});
 	}
 
@@ -209,6 +207,7 @@ class User {
 						if(attemptedCandidates.length >= snapshot.numChildren())
 						{
 							callback(null);
+							return;
 						}
 						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
 						{
@@ -219,7 +218,6 @@ class User {
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
 						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
-
 							var chosenIssueIndex: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
 							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
 							{

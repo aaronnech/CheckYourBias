@@ -14,6 +14,7 @@ var StanceSelector = React.createClass({
     getInitialState : function() {
         return {
             value: this.props.value,
+            isStatic: this.props.isStatic ? this.props.isStatic : false,
         };
     },
 
@@ -30,10 +31,13 @@ var StanceSelector = React.createClass({
      * Calls the given callback with the value the user selected
      */
     handleUpdate(value, event) {
-        this.props.handleUpdateStance(value);
-        this.setState({
-            value: value,
-        });
+        // only update if the component is not static
+        if (!this.state.isStatic) {
+            this.props.handleUpdateStance(value);
+            this.setState({
+                value: value,
+            });
+        }
     },
 
     /**
