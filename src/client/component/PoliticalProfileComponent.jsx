@@ -57,7 +57,10 @@ var PoliticalProfileComponent = React.createClass({
 		var cur_issues = []
 		for (var issue_index in this.state.issues) {
 			var issue = this.state.issues[issue_index];
-			cur_issues.push(<PoliticalIssueComponent key={issue_index} issue={issue} />);
+
+			if (issue.category.constructor === Array && issue.category.indexOf(this.state.currentIssueIndex) > -1) {
+				cur_issues.push(<PoliticalIssueComponent key={issue_index} issue={issue} />);
+			}
 		}
 
 		this.setState({
