@@ -209,6 +209,7 @@ class User {
 						if(attemptedCandidates.length >= snapshot.numChildren())
 						{
 							callback(null);
+							return;
 						}
 						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
 						{
@@ -219,7 +220,6 @@ class User {
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
 						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
-
 							var chosenIssueIndex: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
 							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
 							{

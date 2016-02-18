@@ -64,6 +64,16 @@ class UserTest {
 		});
 	}
 
+	public static testGetNextIssueWhenNoIssues(test) {
+		User.getNextIssue("1", "0", function(issue) {
+			test.strictEqual(
+				issue,
+				null,
+				"Should return null when no issues can be given");
+			test.done();
+		});
+	}
+
 	public static testGetNextIssueNewUser(test) {
 		User.getNextIssue("testid", "0", function(issue) {
 			test.notEqual(
