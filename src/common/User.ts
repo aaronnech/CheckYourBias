@@ -177,13 +177,13 @@ class User {
 		invariant: userId must correspond to a user in the database
 		invariant: issueId must correspond to an issue in the database
 	*/
-	public static submitRating(userId: string, issueId: string, rating: string): void {
+	public static submitRating(userId: string, issueId: string, rating: string, 
+		callback: (errorObject) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
-		rootRef.child(userId).child("ratedIssues").update({
-			issueId : rating
-		}, function (errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("submitRating failed" + errorObject.code);
+		var temp = {}
+		temp[issueId] = rating;
+		rootRef.child(userId).child("ratedIssues").update(temp, function (errorObject) {
+			callback(errorObject);
 		});
 	}
 
