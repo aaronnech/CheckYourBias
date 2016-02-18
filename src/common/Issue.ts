@@ -129,7 +129,8 @@ class Issue {
 	}
 
 	/*
-		Returns all issues that have been not yet been approved.
+		Returns all issues that have been not yet been approved. In the callback,
+		unapprovedIssue should be accessed by .val(), and the key is .key()
 	*/
 	public static getUnapprovedIssues(callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);

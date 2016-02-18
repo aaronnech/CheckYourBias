@@ -23,6 +23,8 @@ var CrowdsourcingApprovalComponent = React.createClass({
     getInitialState : function() {
         return {
             contentMap: null,
+            contentType: null,
+            issueId: null,
         };
     },
 
@@ -33,10 +35,15 @@ var CrowdsourcingApprovalComponent = React.createClass({
     generateContent : function() {
         var self = this;
         Issue.getUnapprovedIssues(function(issues) {
-            console.log(issues.key());
-            console.log(issues.val());
             self.setState({
-                contentMap: issues[0],
+                issueId: issues.key(),
+                contentType: issues.val().contentType,
+                contentMap: {
+                    'Content': issues.val().mainText,
+                    'Category': issues.val().category,
+                    'Candidate Ratings': issues.val().candidateRatings,
+                    'Sources': issues.val().sources,
+                },
             });
         });
     },
@@ -44,12 +51,27 @@ var CrowdsourcingApprovalComponent = React.createClass({
     getContent : function() {
         result = []
         for (var label in this.state.contentMap) {
-            result.push(
-                <div key={label}>
-                    <p className="candidateLabel">{label}</p>
-                    <p>{this.state.contentMap[label]}</p>
-                </div>
-            );
+            if (label == "Candidate Ratings") {
+                console.log(this.state.contentMap[label]);
+                for (candidate in this.state.contentMap[label]) {
+                    result.push(
+                        <CrowdsourcingCandidateStanceComponent
+                            key={candidate}
+                            candidate={candidate}
+                            value={this.state.contentMap[label][candidate]}
+                            handleUpdateStance={function(){}}
+                            isStatic={true}
+                        />
+                    );
+                }
+            } else {
+                result.push(
+                    <div key={label}>
+                        <p className="candidateLabel">{label}</p>
+                        <p>{this.state.contentMap[label]}</p>
+                    </div>
+                );
+            }
         }
         return result;
     },

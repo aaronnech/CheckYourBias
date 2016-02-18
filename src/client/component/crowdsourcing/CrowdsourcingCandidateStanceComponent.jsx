@@ -25,6 +25,7 @@ var CrowdsourcingCandidateStanceComponent = React.createClass({
                     <StanceSelector
                         handleUpdateStance={this.handleUpdateStance}
                         value={this.props.value}
+                        isStatic={this.props.isStatic}
                     />
                 </div>
             </div>
