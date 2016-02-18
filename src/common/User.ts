@@ -106,9 +106,8 @@ class User {
 		correspond to candidates and their rankings, in order of agreement. Each object
 		in the array has the following fields:
 
-		candidateId: The id of the candidate
-		candidateName: The name of the candidate
-		rank: The similarity ranking this user has with this candidate (higher ranking
+		candidate: The Candidate object that this entry corresponds to.
+		rating: The similarity ranking this user has with this candidate (higher ranking
 				corresponds to higher agreement)
 
 
@@ -152,8 +151,7 @@ class User {
 						var resultObjects = [];
 						for (var candidateId in candidateRatings) {
 							var resultObject = {};
-							resultObject["candidateId"] = candidateId;
-							resultObject["candidateName"] = candidates[candidateId].name;
+							resultObject["candidate"] = candidates[candidateId];
 							resultObject["rating"] = candidateRatings[candidateId];
 							resultObjects.push(resultObject);
 						}
