@@ -4,6 +4,8 @@ var Category = require('../../common/Category');
 var Cache = require('../Cache');
 var Constants = require('../Constants');
 
+var DropDownMenu = require('material-ui/lib/DropDownMenu');
+var MenuItem = require('material-ui/lib/menus/menu-item');
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
@@ -20,7 +22,9 @@ var ContentLabel = require('material-ui/lib/svg-icons/social/person');
 var CandidateRankingComponent = React.createClass({
 	getInitialState : function() {
 	    return {
-	    	candidateList: null
+	    	categoryList: null,
+	    	candidateList: null,
+	    	selectedCategoryId: -1
 	    };
 	},
 
@@ -41,12 +45,32 @@ var CandidateRankingComponent = React.createClass({
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
+		// retrieve candidates for the user
 		User.getRankings(userId, "1", function(rankings) {
+			console.info("Here are your candidates rankings");
 			console.info(rankings);
 			self.setState({
 				candidateList: rankings
 			});
 		});
+
+		// retrieve categories
+		Category.getAllCategories(function(categories) {
+			console.info("Here are your categories");
+			console.info(categories);
+			self.setState({
+				categoryList: categories,
+				selectedCategoryId: categories !== null ? 0 : this.getInitialState().selectedCategoryId
+			});
+		});
+	},
+
+	/**
+	 * Callback that is fired whenever the user selects a new item in the menu
+	 */
+	handleMenuUpdate : function(evt) {
+		// TODO: handle menu update
+		console.log("TODO: Handling menu update...");
 	},
 
 	/**
@@ -76,13 +100,40 @@ var CandidateRankingComponent = React.createClass({
 		return resultList;
 	},
 
+	/** 
+	 * Returns a menu of categories to be displayed to the user.
+	 */
+	getCategories : function() {
+		var categories = this.state.categoryList;
+
+		if (categories === null) {
+			return (<DropDownMenu value={-1} disabled={true}>
+				<MenuItem value={-1} primaryText="(no categories)" />
+			</DropDownMenu>);
+		}
+
+		var categoryItems = [];
+		for (var i = 0, len = categories.length; i < len; i++) {
+			categoryItems.push(
+				<MenuItem value={i} key={i} primaryText={categories[i].categoryName} />
+			);
+		}
+
+		var menu = React.createElement(DropDownMenu,
+			{value: this.state.selectedCategoryId,
+			 onChange: this.handleMenuUpdate},
+			categoryItems
+		);
+		return menu;
+	},
+
 	/**
 	 * Renders the view
 	 */
 	render : function() {
 		return (
 			<Card className="submit-content">
-				<CardTitle title="Economy" />
+				{this.getCategories()}
 
 				<List>
 					{this.getCandidates()}
