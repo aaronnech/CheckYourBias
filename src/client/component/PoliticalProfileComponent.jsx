@@ -9,6 +9,7 @@ var PoliticalIssueComponent = require('./PoliticalIssueComponent.jsx');
 
 var User = require('../../common/User');
 var Issue = require('../../common/Issue');
+var Category = require('../../common/Category');
 
 /**
  * This component displays to the user their previously answered questions
@@ -22,12 +23,10 @@ var PoliticalProfileComponent = React.createClass({
 	 */
 	getInitialState : function() {
 	    return {
-
-	    	currentIssueIndex: 0,
 	    	/**
 	    	 * Whether or not to display the candidate who said the quote
 	    	 */
-	    	currentIssue: '',
+	    	currentIssue: 0,
 
 	    	/**
 	    	 * list of categories that the user can see voting record for
@@ -76,6 +75,7 @@ var PoliticalProfileComponent = React.createClass({
 		this.filterIssuesByCategory();
 	},
 
+
 	updateUserRatings : function(issueToRating) {
 		this.setState({
 			issueRatings: issueToRating,
@@ -84,19 +84,27 @@ var PoliticalProfileComponent = React.createClass({
 		Issue.getApprovedIssues(this.updateAllIssues);
 	},
 
-	componentDidMount : function() {
+	updateAllCategories : function(categories) {
+
 		category_names = [];
-		for (var i = 0; i < Constants.CATEGORIES.length; i++) {
-		  category_names.push(<MenuItem value={i} key={i} primaryText={Constants.CATEGORIES[i]}/>);
+		category_names.push(<MenuItem value={-1} key={-1} primaryText={"All"}/>);
+		for (var category_index in categories) {
+			var cat = categories[category_index];
+			console.log(cat);
+			var name = cat.categoryName;
+			category_names.push(<MenuItem value={category_index} key={category_index} primaryText={name}/>);
 		}
 
 		this.setState({
-			currentIssueIndex: 0,
-			currentIssue: Constants.CATEGORIES[this.state.currentIssueIndex],
+			currentIssue: -1,
 			categories: category_names,
 		});
 
 		User.getRatedIssues(Cache.getCacheV(Constants.AUTH.UID), this.updateUserRatings);
+	},
+
+	componentDidMount : function() {
+		Category.getAllCategories(this.updateAllCategories);
 	},
 
 	/**
@@ -113,12 +121,12 @@ var PoliticalProfileComponent = React.createClass({
 	 * Callback that fires when the user has chosen a different issues category to examine
 	 */
 	changeIssue : function(event, index, value) {
+		console.log(value);
 		this.setState({
-			currentIssueIndex: index,
-			currentIssue: value
+			currentIssue: value,
 		});
 
-		this.filterIssuesByCategory();
+		//this.filterIssuesByCategory();
 	},
 
 	/**
@@ -128,7 +136,7 @@ var PoliticalProfileComponent = React.createClass({
 		return (
 			<div className="political-profile">
 				<div className="issue-category-selector">
-					<DropDownMenu className="display-inline" value={this.state.currentIssueIndex} onChange={this.changeIssue}>
+					<DropDownMenu className="display-inline" value={this.state.currentIssue} onChange={this.changeIssue}>
 						{this.state.categories}
 					</DropDownMenu>
 					<p className="display-inline">{this.state.currentSelectedIssues.length} {this.state.currentSelectedIssues.length == 1 ? "Issue" : "Issues"} Voted on!</p>
