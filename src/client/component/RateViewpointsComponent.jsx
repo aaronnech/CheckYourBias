@@ -127,13 +127,17 @@ var RateViewpointsComponent = React.createClass({
 					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
 				</CardText>
 				<CardActions>
-					<div className="rate-scale">
-						<StanceSelector value={this.state.userStance} handleUpdateStance={this.handleUpdateStance} />
+					<div className="rate-scale"
+						style={{display: (this.state.issue === null ? 'none' : 'block')}}>
+						<StanceSelector
+							value={this.state.userStance}
+							handleUpdateStance={this.handleUpdateStance} />
 					</div>
 					<div className="confirm-choice-wrapper">
 						<RaisedButton label="Next Issue"
 							onClick={this.confirmReaction}
-							style={{marginTop: '1em'}} />
+							style={{marginTop: '1em'}}
+							disabled={this.state.issue === null} />
 					</div>
 				</CardActions>
 			</Card>
