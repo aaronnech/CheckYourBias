@@ -50,6 +50,25 @@ Unit Testing
 
 Unit testing is done with NodeUnit and is available immediately by running `npm run-script test`. Tests should reside in static TypeScript classes as per NodeUnit standards such that each static function is one unit test. Test files are automatically recognized if they end with the postfix `-test.ts`.
 
+Front-end Testing
+-----------------
+
+Testing of all front-end components is done via [WebdriverIO](http://webdriver.io/api.html), with the [Mocha](https://mochajs.org/) test framework.
+
+To run front-end tests for Windows:
+
+<pre>
+npm install
+npm run-script webdriver-windows
+</pre>
+
+On Unix based plaforms:
+
+<pre>
+npm install
+npm run-script webdriver
+</pre>
+
 Vendors
 -------
 
