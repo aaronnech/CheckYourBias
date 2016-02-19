@@ -30,6 +30,8 @@ var RateViewpointsComponent = React.createClass({
 	    	 */
 	    	issue: null,
 
+	    	categories: [],
+
 			/** 
 			 *	The user's stance on the issue
 			 */
@@ -119,7 +121,7 @@ var RateViewpointsComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="rate-viewpoints">
-				<CardTitle title="Major issue!" />
+				<CardTitle title="Issue" />
 				
 				<CardText className="issue-wrapper">
 					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
