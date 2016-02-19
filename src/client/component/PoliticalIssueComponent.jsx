@@ -78,7 +78,6 @@ var PoliticalIssueComponent = React.createClass({
 		return (
 			<Card>
 			  <CardHeader
-			  	avatar="http://lorempixel.com/100/100/"
 			    title={this.state.cardTitle}
 			    subtitle={Constants.STANCES[this.state.userVote]}
 			    subtitleColor={Constants.STANCE_COLORS[this.state.userVote]}
