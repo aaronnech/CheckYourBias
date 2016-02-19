@@ -30,13 +30,7 @@ var RateViewpointsComponent = React.createClass({
 	    	 */
 	    	issue: null,
 
-<<<<<<< HEAD
 			/**
-=======
-	    	categories: [],
-
-			/**
->>>>>>> cae5d1dcf9debb80cd8e59c0d105808a2f17dfcd
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
