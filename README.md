@@ -7,6 +7,8 @@ This is the source code for Check Your Bias, an election application that let's 
 
 [Project Website](http://aaronnech.github.io/CheckYourBias/)
 
+[Updated SRS](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/requirements%20(updated)/requirements.pdf)
+
 Set Up
 ------
 Run the following from the root directory:
