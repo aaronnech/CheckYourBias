@@ -8,9 +8,6 @@
     "test": "npm run-script make && ./node_modules/.bin/gulp test",
     "windows-test": "npm run-script make && node_modules\\.bin\\gulp test",
 
-    "setup-selenium": "./node_modules/.bin/selenium-standalone install",
-    "setup-selenium-windows": "node_modules\\.bin\\selenium-standalone install",
-
     "webdriver": "./node_modules/.bin/gulp webdriver",
     "webdriver-windows": "node_modules\\.bin\\gulp webdriver",
 
