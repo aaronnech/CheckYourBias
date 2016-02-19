@@ -22,9 +22,9 @@ var ContentLabel = require('material-ui/lib/svg-icons/social/person');
 var CandidateRankingComponent = React.createClass({
 	getInitialState : function() {
 	    return {
-	    	categoryList: null,
+	    	categoryList: [],
 	    	candidateList: null,
-	    	selectedCategoryId: -1
+	    	selectedCategoryId: 0,
 	    };
 	},
 
@@ -38,10 +38,30 @@ var CandidateRankingComponent = React.createClass({
 		})
 	},
 
+	createAllCategories : function(categories) {
+		console.info("Here are your categories");
+		console.info(categories);
+
+		category_items = [];
+		for (var category_index in categories) {
+			var cat = categories[category_index];
+			var name = cat.categoryName;
+			category_items.push(<MenuItem value={parseInt(category_index)} key={category_index} primaryText={name}/>);
+		}
+
+		this.setState({
+			selectedCategoryId: 0,
+			categoryList: category_items,
+		});
+	},
+
 	/**
-	 * Overrides React's componentWillMount
+	 * Overrides React's componentDidMount
 	 */
-	componentWillMount : function() {
+	componentDidMount : function() {
+		// retrieve categories
+		Category.getAllCategories(this.createAllCategories);
+
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
@@ -53,24 +73,16 @@ var CandidateRankingComponent = React.createClass({
 				candidateList: rankings
 			});
 		});
-
-		// retrieve categories
-		Category.getAllCategories(function(categories) {
-			console.info("Here are your categories");
-			console.info(categories);
-			self.setState({
-				categoryList: categories,
-				selectedCategoryId: categories !== null ? 0 : this.getInitialState().selectedCategoryId
-			});
-		});
 	},
 
 	/**
 	 * Callback that is fired whenever the user selects a new item in the menu
 	 */
-	handleMenuUpdate : function(evt) {
-		// TODO: handle menu update
-		console.log("TODO: Handling menu update...");
+	handleMenuUpdate : function(event, index, value) {
+		console.log(value);
+		this.setState({
+			selectedCategoryId: value,
+		});
 	},
 
 	/**
@@ -100,32 +112,32 @@ var CandidateRankingComponent = React.createClass({
 		return resultList;
 	},
 
-	/** 
-	 * Returns a menu of categories to be displayed to the user.
-	 */
-	getCategories : function() {
-		var categories = this.state.categoryList;
+	// /** 
+	//  * Returns a menu of categories to be displayed to the user.
+	//  */
+	// getCategories : function() {
+	// 	var categories = this.state.categoryList;
 
-		if (categories === null) {
-			return (<DropDownMenu value={-1} disabled={true}>
-				<MenuItem value={-1} primaryText="(no categories)" />
-			</DropDownMenu>);
-		}
+	// 	if (categories === null) {
+	// 		return (<DropDownMenu value={-1} disabled={true}>
+	// 			<MenuItem value={-1} primaryText="(no categories)" />
+	// 		</DropDownMenu>);
+	// 	}
 
-		var categoryItems = [];
-		for (var i = 0, len = categories.length; i < len; i++) {
-			categoryItems.push(
-				<MenuItem value={i} key={i} primaryText={categories[i].categoryName} />
-			);
-		}
+	// 	var categoryItems = [];
+	// 	for (var i in categories) {
+	// 		categoryItems.push(
+	// 			<MenuItem value={i} key={i} primaryText={categories[i].categoryName} />
+	// 		);
+	// 	}
 
-		var menu = React.createElement(DropDownMenu,
-			{value: this.state.selectedCategoryId,
-			 onChange: this.handleMenuUpdate},
-			categoryItems
-		);
-		return menu;
-	},
+	// 	var menu = React.createElement(DropDownMenu,
+	// 		{value: this.state.selectedCategoryId,
+	// 		 onChange: this.handleMenuUpdate},
+	// 		categoryItems
+	// 	);
+	// 	return menu;
+	// },
 
 	/**
 	 * Renders the view
@@ -133,8 +145,9 @@ var CandidateRankingComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="submit-content">
-				{this.getCategories()}
-
+				<DropDownMenu value={this.state.selectedCategoryId} onChange={this.handleMenuUpdate}>
+					{this.state.categoryList}
+				</DropDownMenu>
 				<List>
 					{this.getCandidates()}
 				</List>

@@ -119,7 +119,7 @@ var RateViewpointsComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="rate-viewpoints">
-				<CardTitle title="Issue" />
+				<CardTitle title="Rate a New Issue!" />
 				<CardText className="issue-wrapper">
 					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
 				</CardText>
