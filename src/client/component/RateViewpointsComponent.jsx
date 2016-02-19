@@ -126,7 +126,7 @@ var RateViewpointsComponent = React.createClass({
 				</CardText>
 				<CardActions>
 					<div className="rate-scale"
-						style={{display: (this.state.issue === null ? 'none' : 'block')}}>
+						style={{display: (this.state.issue === null ? 'none' : 'block'), textAlign: 'center'}}>
 						<StanceSelector
 							value={this.state.userStance}
 							handleUpdateStance={this.handleUpdateStance} />
