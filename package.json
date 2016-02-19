@@ -4,13 +4,18 @@
   "description": "Project Description",
   "scripts": {
     "make": "./node_modules/.bin/gulp",
+
     "test": "npm run-script make && ./node_modules/.bin/gulp test",
+    "windows-test": "npm run-script make && node_modules\\.bin\\gulp test",
+
     "setup-selenium": "./node_modules/.bin/selenium-standalone install",
     "setup-selenium-windows": "node_modules\\.bin\\selenium-standalone install",
-    "windows-test": "npm run-script make && node_modules\\.bin\\gulp test",
+
     "webdriver": "./node_modules/.bin/gulp webdriver",
     "webdriver-windows": "node_modules\\.bin\\gulp webdriver",
+
     "serve": "npm run-script make && node bin/server/main.js",
+
     "pg-android": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
     "pg-ios": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run ios --verbose && cd ../",
     "pg-setup": "./node_modules/.bin/phonegap create _cordova",
@@ -18,6 +23,7 @@
   },
   "dependencies": {
     "browserify": "latest",
+    "mocha" : "latest",
     "express": "latest",
     "firebase": "latest",
     "gulp": "latest",

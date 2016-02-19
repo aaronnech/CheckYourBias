@@ -5,37 +5,51 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var source = require("vinyl-source-stream");
 var webdriver = require("gulp-webdriver");
+var selenium = require('selenium-standalone');
 var child_process = require("child_process");
 
+seleniumServer = null;
 
 gulp.task('default', ['bundleClient']);
 
-gulp.task('webdriver', function(cb) {
-	runTests = function(success) {
-		if(success) {
-		    var tests = gulp.src('webdriver/config.js');
+gulp.task('webdriver', ['selenium'], function(cb) {
+	var app = child_process.spawn(
+		'npm',
+		['run-script', 'serve'],
+		{stdio: 'pipe'}
+	);
+	console.log('Building / Starting app...');
 
-		    tests.pipe(webdriver());
-		}
+	startTests = function() {
+		var tests = gulp.src('webdriver/config.js');
+		var p = tests.pipe(webdriver());
+		p.on('error', function() {
+			seleniumServer.kill();
+			app.kill();
+			process.exit(1);
+		});
+		p.on('finish', function() {
+			seleniumServer.kill();
+			app.kill();
+			cb();
+		});
 	};
 
-	var child = child_process.spawn('node_modules\\.bin\\selenium-standalone.cmd', ['start'], {
-      stdio: 'pipe'
-    });
- 	// var child = exec('node_modules\\.bin\\selenium-standalone.cmd start', function(err, stdout, stderr) {
- 	// 	console.log(err);
- 	// 	console.log(stdout);
- 	// 	console.log(stderr);
- 	// });
-    // child.once('close', runTests);
+	app.stdout.on('data', function(data) {
+		var testCommand = 'Listening on port 1337...';
+		if (data.toString().indexOf(testCommand) != -1) {
+			startTests();
+		}
+	});
+});
 
-    child.stdout.on('data', function(data) {
-      console.log(data.toString());
-      var sentinal = 'Selenium started';
-      if (data.toString().indexOf(sentinal) != -1) {
-        runTests(true);
-      }
-    });
+gulp.task('selenium', function(cb) {
+	selenium.install({logger: console.log}, function() {
+		selenium.start(function(err, child) {
+			seleniumServer = child;
+			cb();
+		});
+	});
 });
 
 gulp.task('compileTS', function() {
