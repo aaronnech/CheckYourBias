@@ -16,6 +16,7 @@ var ThemeManager = require('material-ui/lib/styles/theme-manager');
 var IconMenu = require('material-ui/lib/menus/icon-menu')
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var Theme = require('../theme/Theme');
+var Colors = require('material-ui/lib/styles/colors');
 
 var FacebookAuthPageComponent = require('./FacebookAuthPageComponent.jsx');
 var RateViewpointsComponent = require('./RateViewpointsComponent.jsx');
@@ -111,8 +112,14 @@ var AppComponent = React.createClass({
         var topMenu = (
             <IconMenu
                 iconButtonElement={
-                    <IconButton><MenuIcon /></IconButton>
+                    <IconButton>
+                        <MenuIcon />
+                    </IconButton>
                 }
+                iconStyle={{
+                    color: Colors.grey800,
+                    fill: Colors.grey800
+                }}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             >
@@ -177,6 +184,12 @@ var AppComponent = React.createClass({
                     iconElementLeft={topIcon}
                     iconElementRight={topMenu}
                     title={title}
+                    style={{
+                        backgroundColor: Colors.grey100,
+                    }}
+                    titleStyle={{
+                        color: Colors.grey800
+                    }}
                 />
                 <div className='screen'>
                     {this.state.loading ? <CircularProgress size={1.5} /> : screen}

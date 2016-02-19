@@ -6,6 +6,7 @@ var Card = require('material-ui/lib/card/card');
 var CardText = require('material-ui/lib/card/card-text');
 var CrowdsourcingCandidateStanceComponent = require('./CrowdsourcingCandidateStanceComponent.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
+var Snackbar = require('material-ui/lib/snackbar');
 
 /**
  * View to approve components
@@ -24,7 +25,10 @@ var CrowdsourcingApprovalComponent = React.createClass({
         return {
             contentMap: null,
             contentType: null,
+            hasContentToShow: false,
             issueId: null,
+            showSnackbar: false,
+            snackbarMessage: "",
         };
     },
 
@@ -34,17 +38,24 @@ var CrowdsourcingApprovalComponent = React.createClass({
 
     generateContent : function() {
         var self = this;
-        Issue.getUnapprovedIssues(function(issues) {
-            self.setState({
-                issueId: issues.key(),
-                contentType: issues.val().contentType,
-                contentMap: {
-                    'Content': issues.val().mainText,
-                    'Category': issues.val().category,
-                    'Candidate Ratings': issues.val().candidateRatings,
-                    'Sources': issues.val().sources,
-                },
-            });
+        Issue.getUnapprovedIssue(function(issues) {
+            if (issues === null) {
+                self.setState({
+                    hasContentToShow: false,
+                });
+            } else {
+                self.setState({
+                    hasContentToShow: true,
+                    issueId: issues.key(),
+                    contentType: issues.val().contentType,
+                    contentMap: {
+                        'Content': issues.val().mainText,
+                        'Category': Constants.CATEGORIES[issues.val().category],
+                        'Candidate Ratings': issues.val().candidateRatings,
+                        'Sources': issues.val().sources,
+                    },
+                });
+            }
         });
     },
 
@@ -52,12 +63,11 @@ var CrowdsourcingApprovalComponent = React.createClass({
         result = []
         for (var label in this.state.contentMap) {
             if (label == "Candidate Ratings") {
-                console.log(this.state.contentMap[label]);
                 for (candidate in this.state.contentMap[label]) {
                     result.push(
                         <CrowdsourcingCandidateStanceComponent
                             key={candidate}
-                            candidate={candidate}
+                            candidate={Constants.CANDIDATES[candidate]}
                             value={this.state.contentMap[label][candidate]}
                             handleUpdateStance={function(){}}
                             isStatic={true}
@@ -76,36 +86,87 @@ var CrowdsourcingApprovalComponent = React.createClass({
         return result;
     },
 
+
     handleApprove : function() {
-        Issue.approveIssue();
+        var self = this;
+        Issue.approveIssue(this.state.issueId, function(error) {
+            if (error === null) {  // success
+                self.setState({
+                    showSnackbar: true,
+                    snackbarMessage: "Content has been accepted",
+                });
+                self.generateContent();
+            } else {
+                self.setState({
+                    showSnackbar: true,
+                    snackbarMessage: "There was an error. Please try again",
+                });
+            }
+        });
     },
 
     handleReject : function() {
-        Issue.unapproveIssue();
+        var self = this;
+        Issue.unapproveIssue(this.state.issueId, function(error) {
+            if (error === null) {  // success
+                self.setState({
+                    showSnackbar: true,
+                    snackbarMessage: "Content has been rejected",
+                });
+                self.generateContent();
+            } else {
+                self.setState({
+                    showSnackbar: true,
+                    snackbarMessage: "There was an error. Please try again",
+                });
+            }
+        });
+    },
+
+    hideSnackbar : function() {
+        this.setState({
+            showSnackbar: false,
+        });
     },
 
     render : function() {
-        return (
-            <Card className="approvalContent">
-                <CardText>
-                    {this.getContent()}
-                    <div className="reject">
-                        <RaisedButton 
-                            label="Reject" 
-                            backgroundColor="#ff8080"
-                            onClick={this.handleReject} 
-                        />
-                    </div>
-                    <div className="approve">
-                        <RaisedButton 
-                            label="Accept" 
-                            backgroundColor="#97ce5e" 
-                            onClick={this.handleApprove} 
-                        />
-                    </div>
-                </CardText>
-            </Card>
-        );
+        if (this.state.hasContentToShow) {
+            return (
+                <Card className="approvalContent">
+                    <CardText>
+                        {this.getContent()}
+                        <div className="reject">
+                            <RaisedButton 
+                                label="Reject" 
+                                backgroundColor="#ff8080"
+                                onClick={this.handleReject} 
+                            />
+                        </div>
+                        <div className="approve">
+                            <RaisedButton 
+                                label="Accept" 
+                                backgroundColor="#97ce5e" 
+                                onClick={this.handleApprove} 
+                            />
+                        </div>
+                        <Snackbar
+                              open={this.state.showSnackbar}
+                              message={this.state.snackbarMessage}
+                              autoHideDuration={4000}
+                              onRequestClose={this.hideSnackbar}
+                            />
+                    </CardText>
+                </Card>
+            );
+        } else {
+            return (
+                <Card>
+                    <CardText>
+                        There is no content to approve at this time
+                    </CardText>
+                </Card>
+            );
+        }
     }
 });
 

@@ -5,37 +5,44 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var source = require("vinyl-source-stream");
 var webdriver = require("gulp-webdriver");
+var selenium = require('selenium-standalone');
 var child_process = require("child_process");
+var connect = require('connect');
+var serveStatic = require('serve-static');
+var http = require('http');
 
+seleniumServer = null;
 
 gulp.task('default', ['bundleClient']);
 
-gulp.task('webdriver', function(cb) {
-	runTests = function(success) {
-		if(success) {
-		    var tests = gulp.src('webdriver/config.js');
+gulp.task('serve', ['default'], function(cb) {
+	var app = connect().use(serveStatic('./bin/client/static'));
+	appServer = http.createServer(app).listen(1337, cb);
+	console.log('Listening on 1337...');
+});
 
-		    tests.pipe(webdriver());
-		}
-	};
+gulp.task('webdriver', ['selenium', 'serve'], function(cb) {
+	var tests = gulp.src('webdriver/config.js');
+	var p = tests.pipe(webdriver());
+	p.on('error', function() {
+		seleniumServer.close();
+		appServer.close();
+		process.exit(1);
+	});
+	p.on('finish', function() {
+		seleniumServer.kill();
+		appServer.close();
+		cb();
+	});
+});
 
-	var child = child_process.spawn('node_modules\\.bin\\selenium-standalone.cmd', ['start'], {
-      stdio: 'pipe'
-    });
- 	// var child = exec('node_modules\\.bin\\selenium-standalone.cmd start', function(err, stdout, stderr) {
- 	// 	console.log(err);
- 	// 	console.log(stdout);
- 	// 	console.log(stderr);
- 	// });
-    // child.once('close', runTests);
-
-    child.stdout.on('data', function(data) {
-      console.log(data.toString());
-      var sentinal = 'Selenium started';
-      if (data.toString().indexOf(sentinal) != -1) {
-        runTests(true);
-      }
-    });
+gulp.task('selenium', function(cb) {
+	selenium.install({logger: console.log}, function() {
+		selenium.start(function(err, child) {
+			seleniumServer = child;
+			cb();
+		});
+	});
 });
 
 gulp.task('compileTS', function() {
@@ -62,6 +69,10 @@ gulp.task('bundleClient', ['compileTS', 'move'], function() {
 	b.add('./bin/client/main.js');
 
 	b.bundle()
+	 .on('error', function(err) {
+	 	console.error(err.message);
+	 	this.emit('end');
+	 })
 	 .pipe(source('main.js'))
 	 .pipe(gulp.dest('./bin/client/static/js'));
 });

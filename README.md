@@ -3,9 +3,13 @@ Description
 
 This is the source code for Check Your Bias, an election application that let's you "vote" on important political issues without any indication of which candidate supports or opposes the presented issue. The application then shows you how your political views align with each of the candidates, and for various categories.
 
-[Product Website](http://aaronnech.github.io/CheckYourBias/product_website)
+[Product Website (User and Developer Info)](http://aaronnech.github.io/CheckYourBias/product_website)
 
 [Project Website](http://aaronnech.github.io/CheckYourBias/)
+
+[Updated SRS](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/requirements%20(updated)/requirements.pdf)
+
+[Updated SDS](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/software_design%20(updated)/software_design_specification.pdf)
 
 Set Up
 ------
@@ -49,6 +53,25 @@ Unit Testing
 ------------
 
 Unit testing is done with NodeUnit and is available immediately by running `npm run-script test`. Tests should reside in static TypeScript classes as per NodeUnit standards such that each static function is one unit test. Test files are automatically recognized if they end with the postfix `-test.ts`.
+
+Front-end Testing
+-----------------
+
+Testing of all front-end components is done via [WebdriverIO](http://webdriver.io/api.html), with the [Mocha](https://mochajs.org/) test framework.
+
+To run front-end tests for Windows:
+
+<pre>
+npm install
+npm run-script webdriver-windows
+</pre>
+
+On Unix based plaforms:
+
+<pre>
+npm install
+npm run-script webdriver
+</pre>
 
 Vendors
 -------

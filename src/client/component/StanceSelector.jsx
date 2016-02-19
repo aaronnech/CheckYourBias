@@ -28,6 +28,15 @@ var StanceSelector = React.createClass({
     },
 
     /**
+     * Lets this component know of a state change that needs to be handled
+     */
+    componentWillReceiveProps : function(nextProps) {
+        this.setState({
+            value: nextProps.value
+        });
+    },
+
+    /**
      * Calls the given callback with the value the user selected
      */
     handleUpdate(value, event) {
@@ -48,7 +57,7 @@ var StanceSelector = React.createClass({
         for (var i = 0; i < this.stanceClasses.length; i++) {
             var classes = "btn";
             classes += " " + this.stanceClasses[i];
-            if (this.state.value == i) {
+            if (this.state.value === i) {
                 classes += " selected";
             }
             result.push(
