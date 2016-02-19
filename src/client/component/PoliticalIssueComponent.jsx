@@ -17,7 +17,12 @@ var PoliticalIssueComponent = React.createClass({
 	getInitialState : function() {
 	    return {
 	    	/**
-	    	 * The unique ID of the issue
+	    	 * The issue's unique ID
+	    	 */
+	    	issue_id: null,
+
+	    	/**
+	    	 * The issue object
 	    	 */
 	    	issue: null,
 
@@ -39,7 +44,7 @@ var PoliticalIssueComponent = React.createClass({
 	    	/**
 	    	 * How the user voted on agreement with this quote
 	    	 */
-	    	userVote: Constants.STANCES[4],
+	    	userVote: 0,
 
 	    	/**
 	    	 * The color corresponding to the user's vote
@@ -49,12 +54,17 @@ var PoliticalIssueComponent = React.createClass({
 	},
 
 	componentDidMount : function() {
+		var issue_id = this.props.issue_id;
+		var user_rating = this.props.rating;
+
 		var cur_issue = this.props.issue;
 		var main_text = cur_issue.mainText;
 
 		var short_text = main_text.split(" ").slice(0,3).join(" ") + "...";
 
 		this.setState({
+			issue_id: issue_id,
+			userVote: user_rating,
 			issue: cur_issue,
 			cardContent: main_text,
 			cardTitle: short_text,
@@ -68,10 +78,9 @@ var PoliticalIssueComponent = React.createClass({
 		return (
 			<Card>
 			  <CardHeader
-			  	avatar="http://lorempixel.com/100/100/"
 			    title={this.state.cardTitle}
-			    subtitle={this.state.userVote}
-			    subtitleColor={this.state.userVoteColor}
+			    subtitle={Constants.STANCES[this.state.userVote]}
+			    subtitleColor={Constants.STANCE_COLORS[this.state.userVote]}
 			    actAsExpander={true}
 			    showExpandableButton={true}
 			  />
