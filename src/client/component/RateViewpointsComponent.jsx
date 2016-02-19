@@ -30,7 +30,13 @@ var RateViewpointsComponent = React.createClass({
 	    	 */
 	    	issue: null,
 
+<<<<<<< HEAD
 			/**
+=======
+	    	categories: [],
+
+			/**
+>>>>>>> cae5d1dcf9debb80cd8e59c0d105808a2f17dfcd
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
@@ -119,14 +125,13 @@ var RateViewpointsComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="rate-viewpoints">
-				<CardTitle title="Major issue!" />
-
+				<CardTitle title="Issue" />
 				<CardText className="issue-wrapper">
 					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
 				</CardText>
 				<CardActions>
 					<div className="rate-scale"
-						style={{display: (this.state.issue === null ? 'none' : 'block')}}>
+						style={{display: (this.state.issue === null ? 'none' : 'block'), textAlign: 'center'}}>
 						<StanceSelector
 							value={this.state.userStance}
 							handleUpdateStance={this.handleUpdateStance} />

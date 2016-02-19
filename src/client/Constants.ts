@@ -59,7 +59,8 @@ class Constants {
 
 	public static ERRORS: any = {
 		REQUIRED: 'This field is required',
-		NO_ISSUE: 'No issues are available for voting. Hang in there.'
+		NO_ISSUE: 'No issues are available for voting. Hang in there.',
+		NO_ISSUE_HEADER: 'No more issues'
 	}
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
