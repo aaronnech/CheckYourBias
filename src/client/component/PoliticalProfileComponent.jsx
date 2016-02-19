@@ -54,8 +54,8 @@ var PoliticalProfileComponent = React.createClass({
 		return (issue.category.indexOf(parseInt(this.state.currentCategory)) > -1);
 	},
 
-	userHasRated : function() {
-		return true;
+	userHasRated : function(issue_id) {
+		return issue_id in this.state.issueRatings;
 	},
 
 	filterIssues : function() {
@@ -65,7 +65,7 @@ var PoliticalProfileComponent = React.createClass({
 		for (var issue_id in this.state.issues) {
 			var issue = this.state.issues[issue_id];
 
-			if (this.belongsToCategory(issue) && this.userHasRated()) {
+			if (this.belongsToCategory(issue) && this.userHasRated(issue_id)) {
 				cur_issues.push(<PoliticalIssueComponent key={issue_id} 
 						issue_id={issue_id} issue={issue} 
 						rating={this.state.issueRatings[issue_id]} />);
