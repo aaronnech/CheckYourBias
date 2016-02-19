@@ -30,7 +30,7 @@ var RateViewpointsComponent = React.createClass({
 	    	 */
 	    	issue: null,
 
-			/** 
+			/**
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
@@ -104,7 +104,7 @@ var RateViewpointsComponent = React.createClass({
 		// TODO: replace text shown with new data from backend source
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
-		
+
 		User.getNextIssue(userId, "0", function(result) {
 			console.log(result);
 			self.setState({
@@ -120,7 +120,7 @@ var RateViewpointsComponent = React.createClass({
 		return (
 			<Card className="rate-viewpoints">
 				<CardTitle title="Major issue!" />
-				
+
 				<CardText className="issue-wrapper">
 					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
 				</CardText>

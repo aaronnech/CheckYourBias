@@ -4,6 +4,7 @@ var Constants = require('../../Constants');
 var SelectField = require('material-ui/lib/select-field');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var TextField = require('material-ui/lib/text-field');
+var Candidate = require('../../../common/Candidate');
 
 const QUOTE_MAX = 400;
 
@@ -25,8 +26,22 @@ var CrowdsourcingQuoteComponent = React.createClass({
             candidate: null,
             quote: null,
             quoteErrorText: Constants.ERRORS.REQUIRED,
-            candidateErrorText: Constants.ERRORS.REQUIRED
+            candidateErrorText: Constants.ERRORS.REQUIRED,
+            candidates: [],
         };
+    },
+
+    /**
+     * Component mounted, async pull the data in
+     */
+    componentDidMount : function() {
+        var self = this;
+        // Load candidates
+        Candidate.getAllCandidates(function(candidates) {
+            self.setState({candidates : candidates.map(function(c) {
+                return c.name;
+            })});
+        });
     },
 
     /**
@@ -81,7 +96,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
                     onChange={this.handleUpdateCandidate}
                     errorText={this.state.candidateErrorText}
                 >
-                    {Constants.CANDIDATES.map((function(c, i) {
+                    {this.state.candidates.map((function(c, i) {
                         return (
                             <MenuItem key={i} value={i + 1} primaryText={c} />
                         );

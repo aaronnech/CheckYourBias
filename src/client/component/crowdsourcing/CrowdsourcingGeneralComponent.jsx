@@ -7,6 +7,7 @@ var TextField = require('material-ui/lib/text-field');
 var SelectField = require('material-ui/lib/select-field');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var RaisedButton = require('material-ui/lib/raised-button');
+var Candidate = require('../../../common/Candidate');
 
 const CONTENT_MAX = 400;
 
@@ -28,9 +29,22 @@ var CrowdsourcingGeneralComponent = React.createClass({
             content: "",
             contentErrorText: Constants.ERRORS.REQUIRED,
             candidateErrorText: Constants.ERRORS.REQUIRED,
-            candidates: Constants.CANDIDATES.slice(),
+            candidates: [],
             candidateMap: {},
         };
+    },
+
+    /**
+     * Component mounted, async pull the data in
+     */
+    componentDidMount : function() {
+        var self = this;
+        // Load candidates
+        Candidate.getAllCandidates(function(candidates) {
+            self.setState({candidates : candidates.map(function(c) {
+                return c.name;
+            })});
+        });
     },
 
     /**
