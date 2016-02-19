@@ -134,10 +134,10 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             Issue.initializeUnapprovedIssue(
                 Constants.CONTENT_TYPES[self.state.contentType - 1],
                 self.state.content,
-                self.state.source,
+                [self.state.source],
                 self.state.candidateMap,
                 user.id,
-                self.state.category,
+                [self.state.category],
                 function(error) {
                     if (error === null) {  // success
                         self.setState({

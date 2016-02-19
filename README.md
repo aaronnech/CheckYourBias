@@ -3,7 +3,7 @@ Description
 
 This is the source code for Check Your Bias, an election application that let's you "vote" on important political issues without any indication of which candidate supports or opposes the presented issue. The application then shows you how your political views align with each of the candidates, and for various categories.
 
-[Product Website](http://aaronnech.github.io/CheckYourBias/product_website)
+[Product Website (User and Developer Info)](http://aaronnech.github.io/CheckYourBias/product_website)
 
 [Project Website](http://aaronnech.github.io/CheckYourBias/)
 
