@@ -18,7 +18,7 @@ gulp.task('webdriver', ['selenium'], function(cb) {
 		['run-script', 'serve'],
 		{stdio: 'pipe'}
 	);
-	console.log('Building / Starting app...');
+	console.log('Building / Starting app... (takes a moment)');
 
 	startTests = function() {
 		var tests = gulp.src('webdriver/config.js');
