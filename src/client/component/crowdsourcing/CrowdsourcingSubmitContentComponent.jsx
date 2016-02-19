@@ -3,6 +3,8 @@ var Cache = require('../../Cache');
 var Constants = require('../../Constants');
 var Issue = require('../../../common/Issue');
 var User = require('../../../common/User');
+var Category = require('../../../common/Category');
+
 
 var CrowdsourcingQuoteComponent = require('./CrowdsourcingQuoteComponent.jsx');
 var CrowdsourcingGeneralComponent = require('./CrowdsourcingGeneralComponent.jsx');
@@ -35,8 +37,8 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             contentType: 1,
             candidateMap: {},
             content: "",
+            categoriesList: [],
             category: null,
-            categoryName: "",
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED,
@@ -44,6 +46,24 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             snackbarMessage: "",
             hasSubmitted: false,  // should be true while request is being processed
         };
+    },
+
+    createAllCategories : function(categories) {
+
+        category_names = [];
+        for (var category_index in categories) {
+            var cat = categories[category_index];
+            var name = cat.categoryName;
+            category_names.push(<MenuItem value={parseInt(category_index)} key={category_index} primaryText={name}/>);
+        }
+
+        this.setState({
+            categoriesList: category_names,
+        });
+    },
+
+    componentDidMount : function() {
+        Category.getAllCategories(this.createAllCategories);
     },
 
     /**
@@ -76,7 +96,6 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             candidateMap: {},
             content: "",
             category: null,
-            categoryName: "",
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED
@@ -103,7 +122,6 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     handleCategory : function(event, index, value) {
         this.setState({
             category: value,
-            categoryName: Constants.CATEGORIES[value - 1],
             categoryErrorText: null
         });
     },
@@ -211,12 +229,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                             hintText={"Select Category"}
                             errorText={this.state.categoryErrorText}
                             onChange={this.handleCategory}>
-                            {Constants.CATEGORIES.map((function(c, i) {
-                                // need to start value at 1 instead of 0 for highlighting selected option
-                                return (
-                                    <MenuItem key={i} value={i + 1} primaryText={c} />
-                                );
-                            }).bind(this))}
+                            {this.state.categoriesList}
                         </SelectField>
                         <div className="submit-button">
                             <RaisedButton
@@ -224,7 +237,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                     !Boolean(this.state.content.length)
                                     || !Boolean(Object.keys(this.state.candidateMap).length)
                                     || !Boolean(this.state.source.length)
-                                    || !Boolean(this.state.categoryName.length)
+                                    || !Boolean(this.state.category)
                                     || this.state.hasSubmitted
                                 }
                                 label="Submit"
