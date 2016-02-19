@@ -19,4 +19,4 @@ permalink: /documents/
 * [1/26/16]({{ "/weekly_status_updates/1-26/1-26_update.pdf" | prepend: site.baseurl }})
 * [2/02/16]({{ "/weekly_status_updates/2-02/2-02_update.pdf" | prepend: site.baseurl }})
 * [2/09/16]({{ "/weekly_status_updates/2-09/2-09_update.pdf" | prepend: site.baseurl }})
-* [2/016/16]({{ "/weekly_status_updates/2-16/2-16_update.pdf" | prepend: site.baseurl }})
+* [2/16/16]({{ "/weekly_status_updates/2-16/2-16_update.pdf" | prepend: site.baseurl }})
