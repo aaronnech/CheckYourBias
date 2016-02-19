@@ -28,6 +28,7 @@ class Auth {
 
 	public static deAuth(): void {
 		Cache.clear();
+		Auth.FIRE.unauth();
 	}
 
 	private static userExists(uid : string, cb: Function) {
@@ -43,7 +44,7 @@ class Auth {
 	public static authFacebook(cb: Function): void {
 		Auth.FIRE.authWithOAuthPopup("facebook", (error, authData) => {
 			if (error) {
-				cb(false);
+				cb(false, error);
 			} else {
 				Cache.setCacheKV(Constants.AUTH.TOKEN, (<any>authData).facebook.accessToken);
 				Cache.setCacheKV(Constants.AUTH.UID, (<any>authData).uid);

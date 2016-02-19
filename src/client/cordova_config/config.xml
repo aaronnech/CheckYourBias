@@ -8,6 +8,17 @@
     <author email="aaronnech@gmail.com" href="http://cordova.io">
         Aaron Nech
     </author>
+
+    <feature name="http://api.phonegap.com/1.0/network"/>
+
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.InAppBrowser" />
+    </feature>
+
     <content src="index.html" />
+
     <access origin="*" />
+    <allow-navigation href="*" />
+    <allow-intent href="*.firebaseio.com" />
+    <allow-intent href="auth.firebase.com" />
 </widget>
