@@ -43,6 +43,7 @@ var CrowdsourcingApprovalComponent = React.createClass({
                 self.setState({
                     hasContentToShow: false,
                 });
+                setTimeout(this.generateContent, 1000);
             } else {
                 self.setState({
                     hasContentToShow: true,
@@ -136,17 +137,17 @@ var CrowdsourcingApprovalComponent = React.createClass({
                     <CardText>
                         {this.getContent()}
                         <div className="reject">
-                            <RaisedButton 
-                                label="Reject" 
+                            <RaisedButton
+                                label="Reject"
                                 backgroundColor="#ff8080"
-                                onClick={this.handleReject} 
+                                onClick={this.handleReject}
                             />
                         </div>
                         <div className="approve">
-                            <RaisedButton 
-                                label="Accept" 
-                                backgroundColor="#97ce5e" 
-                                onClick={this.handleApprove} 
+                            <RaisedButton
+                                label="Accept"
+                                backgroundColor="#97ce5e"
+                                onClick={this.handleApprove}
                             />
                         </div>
                         <Snackbar
