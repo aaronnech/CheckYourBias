@@ -69,6 +69,10 @@ gulp.task('bundleClient', ['compileTS', 'move'], function() {
 	b.add('./bin/client/main.js');
 
 	b.bundle()
+	 .on('error', function(err) {
+	 	console.error(err.message);
+	 	this.emit('end');
+	 })
 	 .pipe(source('main.js'))
 	 .pipe(gulp.dest('./bin/client/static/js'));
 });
