@@ -8,13 +8,6 @@ var CrowdsourcingApprovalComponent = require('./CrowdsourcingApprovalComponent.j
 var Tabs = require('material-ui/lib/tabs/tabs');
 var Tab = require('material-ui/lib/tabs/tab');
 
-/* TODO: Mocked data to be replaced */
-const contentMap = { 
-	"Quote": "Make America great again",
-    "Candidate": "Donald Trump",
-    "Source": "https://www.donaldjtrump.com/",
-};
-
 /** 
  * Wrapper around the two main crowdsourcing features, submission and approval
  * of content. Toggling between tabs preserves state.
@@ -50,7 +43,7 @@ var CrowdsourcingComponent = React.createClass({
 						</div>
 					</Tab>
 					<Tab label="Approve Content" >
-						<CrowdsourcingApprovalComponent contentMap={contentMap} />
+						<CrowdsourcingApprovalComponent />
 					</Tab>
 				</Tabs>
 			);

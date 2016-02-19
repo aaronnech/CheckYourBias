@@ -129,16 +129,20 @@ class Issue {
 	}
 
 	/*
-		Returns all issues that have been not yet been approved. In the callback,
+		Returns an issue that has not yet been approved. In the callback,
 		unapprovedIssue should be accessed by .val(), and the key is .key()
 	*/
-	public static getUnapprovedIssues(callback) {
+	public static getUnapprovedIssue(callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.orderByChild("approved").equalTo(0).once("value", function(snapshot) {
-			snapshot.forEach(function(unapprovedIssue) {
-				callback(unapprovedIssue);
-				return true;
-			});
+			if (snapshot.val() === null) {
+				callback(null);
+			} else {
+				snapshot.forEach(function(unapprovedIssue) {
+					callback(unapprovedIssue);
+					return true;
+				});
+			}
 		}, function(errorObject) {
 			// The id given was not valid or something went wrong.
 			console.log("getApprovedIssue failed: " + errorObject.code);
@@ -164,7 +168,7 @@ class Issue {
 	*/
 	public static unapproveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : 0}, function(error) {
+		rootRef.child(issueId).update({"approved" : -1}, function(error) {
 			callback(error);
 		});	
 	}

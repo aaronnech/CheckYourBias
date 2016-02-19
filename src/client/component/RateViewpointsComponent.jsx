@@ -85,9 +85,7 @@ var RateViewpointsComponent = React.createClass({
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		console.log(userId);
-		console.log(this.state.issue.id);
-		console.log(this.state.userStance);
+		console.log(userId, this.state.issue.id, this.state.userStance);
 		User.submitRating(userId, this.state.issue.id, this.state.userStance, function() {
 			// TODO: Display a visible message to the user
 			console.log("User rated issue.");
