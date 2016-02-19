@@ -168,7 +168,7 @@ class Issue {
 	*/
 	public static unapproveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.child(issueId).update({"approved" : 2}, function(error) {
+		rootRef.child(issueId).update({"approved" : -1}, function(error) {
 			callback(error);
 		});	
 	}
