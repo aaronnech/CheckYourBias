@@ -11,7 +11,7 @@
     "webdriver": "./node_modules/.bin/gulp webdriver",
     "webdriver-windows": "node_modules\\.bin\\gulp webdriver",
 
-    "serve": "npm run-script make && node bin/server/main.js",
+    "serve": "./node_modules/.bin/gulp serve",
 
     "pg-android": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
     "pg-ios": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run ios --verbose && cd ../",
@@ -21,7 +21,8 @@
   "dependencies": {
     "browserify": "latest",
     "mocha" : "latest",
-    "express": "latest",
+    "connect": "latest",
+    "serve-static": "latest",
     "firebase": "latest",
     "gulp": "latest",
     "gulp-nodeunit": "latest",

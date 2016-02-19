@@ -7,39 +7,32 @@ var source = require("vinyl-source-stream");
 var webdriver = require("gulp-webdriver");
 var selenium = require('selenium-standalone');
 var child_process = require("child_process");
+var connect = require('connect');
+var serveStatic = require('serve-static');
+var http = require('http');
 
 seleniumServer = null;
 
 gulp.task('default', ['bundleClient']);
 
-gulp.task('webdriver', ['selenium'], function(cb) {
-	var app = child_process.spawn(
-		'npm',
-		['run-script', 'serve'],
-		{stdio: 'pipe'}
-	);
-	console.log('Building / Starting app... (takes a moment)');
+gulp.task('serve', ['default'], function(cb) {
+	var app = connect().use(serveStatic('./bin/client/static'));
+	appServer = http.createServer(app).listen(1337, cb);
+	console.log('Listening on 1337...');
+});
 
-	startTests = function() {
-		var tests = gulp.src('webdriver/config.js');
-		var p = tests.pipe(webdriver());
-		p.on('error', function() {
-			seleniumServer.kill();
-			app.kill();
-			process.exit(1);
-		});
-		p.on('finish', function() {
-			seleniumServer.kill();
-			app.kill();
-			cb();
-		});
-	};
-
-	app.stdout.on('data', function(data) {
-		var testCommand = 'Listening on port 1337...';
-		if (data.toString().indexOf(testCommand) != -1) {
-			startTests();
-		}
+gulp.task('webdriver', ['selenium', 'serve'], function(cb) {
+	var tests = gulp.src('webdriver/config.js');
+	var p = tests.pipe(webdriver());
+	p.on('error', function() {
+		seleniumServer.close();
+		appServer.close();
+		process.exit(1);
+	});
+	p.on('finish', function() {
+		seleniumServer.kill();
+		appServer.close();
+		cb();
 	});
 });
 
