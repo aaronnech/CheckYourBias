@@ -441,4 +441,21 @@ The majority of our guidelines will be enforced in our build system pipeline. As
 
 In addition to enforcing style through automated tools in the build process, we will also hold thorough code reviews for every major commit. Code reviews will be open to all team members, allowing the opportunity for humans to catch style violations that automated tools may not catch.
 
+\newpage
+
+\section{Design Changes and Rationale (2/19)}
+
+\subsubsection{Testing}
+
+Our test plan has been severely expanded than what is described in this document. For instance, we have added unit tests for most of the classes on the backend to ensure the reliability of our system. In addition to this we wanted to add system wide tests to make sure that several of our use cases were covered and tested in an automated fashion. This called for the use of webdriver tests using the Selenium framework. From their Github: ``Selenium is an umbrella project encapsulating a variety of tools and libraries enabling web browser automation. Selenium specifically provides infrastructure for the W3C WebDriver specification — a platform and language-neutral coding interface compatible with all major web browsers.'' This automation platform was then used to create these end to end system tests that touch many different parts of Check Your Bias in one test. This will help us catch bugs spanning multiple modules before they have an effect on the user.
+
+\subsubsection{Crowdsource Approval Utility}
+
+Another significant change that has occurred since the original writing and creation of this document is the change to the Crowdsource Approval Utility. Initially the plan was to have a terminal application that could be used to examine the pending crowdsourced posts and then accept / reject them. This would be done by sending commands in the terminal with no advanced User Interface. We established that this would not be very user friendly to whichever worker was required to approve content and that we would need a delicately designed user interface with a solid user experience. The best way to do this was to incorporate this functionality into the app itself. This was done by adding a tab to the crowdsourcing view, which is only visible if a flag is set in the database for the currently logged in user. This allows the approver to easily see pending content in a native way - this content can then be accepted or rejected within the application. Accepted content will then be fed into the feed of all other users, while rejected content will be archived. A figure showing this design can be seen below:\\
+
+\begin{centering}
+    \includegraphics[width=0.28\textwidth]{1.jpg}
+
+\end{centering}
+
 \end{document}
