@@ -24,10 +24,10 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
-    filecolor=magenta,      
+    filecolor=magenta,
     urlcolor=blue,
 }
- 
+
 \usetikzlibrary{automata,positioning}
 
 \topmargin=-0.45in
@@ -125,7 +125,7 @@ As one of the main uses (features 1 and 2) requires content, we will implement a
 
 \subsection{Political Profile}
 
-The user will also be able to navigate to a profile section of the app that displays information and data regarding their time spent on CYB. A brief list will show a timeline of the user's voting history, displaying the same cards or issues that they were shown at an earlier time (with their vote). In addition to this, in order to motivate the usage of feature 3 (crowdsourcing), all of a user's submitted content will be displayed here along with the number of times another user has voted on the content. This enables people to see the direct impact that their submissions have in CYB. 
+The user will also be able to navigate to a profile section of the app that displays information and data regarding their time spent on CYB. A brief list will show a timeline of the user's voting history, displaying the same cards or issues that they were shown at an earlier time (with their vote). In addition to this, in order to motivate the usage of feature 3 (crowdsourcing), all of a user's submitted content will be displayed here along with the number of times another user has voted on the content. This enables people to see the direct impact that their submissions have in CYB.
 
 \section*{Stretch Features}
 
@@ -163,7 +163,7 @@ Finally, for building and testing we will employ Gulp, Node Package Manager (NPM
 
 \subsection{Versioning System \& Issue Tracking}
 
-We have a GitHub repository located at \href{https://github.com/aaronnech/CheckYourBias}{https://github.com/aaronnech/CheckYourBias}. This is a public repository, and each of us is given contributor access to the repository allowing us to clone, branch, and merge directly into the repository. Because of our privileges as contributors, none of us will need to fork the repository. Additionally, we have integrated repository notifications into Slack, our application of choice for instant team communication. Whenever a commit is pushed upstream, or an issue is created, or a pull request is accepted, an automated bot will send a message to all users on Slack notifying them of the change. We will track all issues through GitHub’s integrated issue tracker, located within the Github Repo. Issues will be organized by certain labels, such as ``bugfix'', ``enhancement'', or ``feature''. 
+We have a GitHub repository located at \href{https://github.com/aaronnech/CheckYourBias}{https://github.com/aaronnech/CheckYourBias}. This is a public repository, and each of us is given contributor access to the repository allowing us to clone, branch, and merge directly into the repository. Because of our privileges as contributors, none of us will need to fork the repository. Additionally, we have integrated repository notifications into Slack, our application of choice for instant team communication. Whenever a commit is pushed upstream, or an issue is created, or a pull request is accepted, an automated bot will send a message to all users on Slack notifying them of the change. We will track all issues through GitHub’s integrated issue tracker, located within the Github Repo. Issues will be organized by certain labels, such as ``bugfix'', ``enhancement'', or ``feature''.
 
 \subsection{Group Dynamics}
 
@@ -322,7 +322,7 @@ Another major feature of our end product is providing users the option to answer
                 \begin{enumerate}
                     \item The application continues as usual
                 \end{enumerate}
-            }   
+            }
         \end{enumerate}
     }\\
     \hline
@@ -388,13 +388,13 @@ Continued on next page...
                     \item Application displays to the user a friendly message indicating that \newline no candidates have been found for the selected topic
                     \item (Optional) User taps a Back button to go back to the Analysis \newline view of the application
                 \end{enumerate}
-            } 
+            }
             \item The user has not indicated enough their level of agreement with quotes \newline relating to a particular topic. As a result, the application cannot \newline display candidates whose views on such topic match those of the user\\
             \parbox{\textwidth}{
                 \begin{enumerate}
                     \item Such topic will not be made available to the user
                 \end{enumerate}
-            } 
+            }
         \end{enumerate}
         \vspace{-15pt}
     }\\
@@ -440,12 +440,12 @@ Continued on next page...
             \item User logs into the app
             \item User goes to the Content Creation page
             \item User enters content related to the candidate they support; e.g. a \newline summary of a bill that said candidate has passed
-            \item User chooses a category and enters a link to a reliable source \newline elaborating on their topic 
+            \item User chooses a category and enters a link to a reliable source \newline elaborating on their topic
             \item User taps the Submit Content control on application
             \item The application approves the user's submission. Note that significant \newline time may pass between Steps 4 and 5
         \end{enumerate}
     }\\
-    \hline 
+    \hline
     \textbf{Extensions} & \parbox{\textwidth}{
         \begin{enumerate}
             \setlength\itemsep{-3pt}
@@ -465,12 +465,12 @@ Continued on next page...
                     \item Application notifies user of the rejection with the reason
                     \item Application presents user with two choices:\\
                     \parbox{\textwidth}{
-                        \begin{enumerate} 
-                            \setlength\itemsep{-3pt}                   
+                        \begin{enumerate}
+                            \setlength\itemsep{-3pt}
                             \item Edit and Resubmit\\[4pt]
                             \parbox{\textwidth}{
-                                \begin{enumerate} 
-                                    \setlength\itemsep{-3pt}                           
+                                \begin{enumerate}
+                                    \setlength\itemsep{-3pt}
                                     \item User chooses this option
                                     \item User is presented with screen to edit their content
                                     \item User taps the Resubmit Content control on application
@@ -479,8 +479,8 @@ Continued on next page...
                             }\\
                             \item Delete\\[4pt]
                             \parbox{\textwidth}{
-                                \begin{enumerate} 
-                                    \setlength\itemsep{-3pt}                           
+                                \begin{enumerate}
+                                    \setlength\itemsep{-3pt}
                                     \item User chooses this option
                                     \item User is presented with confirmation
                                     \item If user taps yes, application deletes the content
@@ -490,14 +490,14 @@ Continued on next page...
                         \end{enumerate}
                     }
                 \end{enumerate}
-            } 
+            }
             \item  User fails to enter the required information\\
             \parbox{\textwidth}{
                 \begin{enumerate}
                     \setlength\itemsep{-3pt}
                     \item Application prevents user from completing Step 5 until user has \newline successfully completed 3a. and 4a.
                 \end{enumerate}
-            } 
+            }
         \end{enumerate}
         \vspace{-15pt}
     }\\
@@ -522,7 +522,7 @@ Continued on next page...
                     \item If user selects yes, all content the user has entered is deleted
                     \item If user selects no, application closes confirmation dialog box and \newline user can resume creating their submission.
                 \end{enumerate}
-            } 
+            }
         \end{enumerate}
         \vspace{-15pt}
     }\\
@@ -541,7 +541,7 @@ Continued on next page...
 
 \begin{description}
     \item[A (left)] Rate Viewpoints. The user is presented with various viewpoints on issues within context of topics such as economics or gun rights. The user then rates each their alignment with the opinion on a continuous scale from negative to positive. The user can then swipe to the next viewpoint.
-    \item[B (right)] The user can see the culmination of all their ratings from the Rate Viewpoints flow in a topical feed, along with various visualizations for how they align politically. They can also explore the origin of each viewpoint they have aligned to. 
+    \item[B (right)] The user can see the culmination of all their ratings from the Rate Viewpoints flow in a topical feed, along with various visualizations for how they align politically. They can also explore the origin of each viewpoint they have aligned to.
 \end{description}
 
 \newpage
@@ -554,5 +554,33 @@ Continued on next page...
     \item[C (left)] Your Candidates. The user can view a list of candidates which most closely align with their political profile on various topics. Candidates are ranked in a scrollable list.
     \item[D (right)] Submit Issue: The user can submit a quote or issue that may be added as a prompt in Rate Viewpoints (A). They submit a title, description of the issue along with the candidate who has previously endorsed the viewpoint. It will be added either through positive user ratings based on previous submissions or by a member of the CYB team manually approving it.
 \end{description}
+
+\newpage
+
+\section{Design Changes and Rationale (2/19)}
+
+\subsubsection{Major Features}
+
+We did not make any changes to our major feature requirements and have most of the functionality described about them in this document implemented for the beta release.
+
+\subsubsection{Parse}
+
+Fairly on in the project, it was announced that Facebook was discontinuing support for Parse at the end of 2016. It was decided as a group that we should move away from Parse in order to develop skills that are relevant well after this class ends. As a team, we decided that we should move our implementation over to Firebase, which acts very similar to Parse but will (hopefully) not be discontinued in the near future.
+
+\subsubsection{Timeline}
+
+While our timeline has mostly stayed the same as we have met all of our deadlines that we set as a team, we have fallen slightly behind on the integration of different systems. Specifically, the candidate analysis integration, which should of been completed by February 16th, will not be completed until our Beta release. This will postpone some of the testing that needs to take place in the application by a few days to a week depending on the severity of the delay. This should not have any effect on our beta release or our feature complete release during the following week.
+
+\subsubsection{User Interface}
+
+\begin{tabular}{ccc}
+    \includegraphics[width = 0.31\textwidth]{1.jpg}
+    &
+    \includegraphics[width = 0.31\textwidth]{2.jpg}
+    &
+    \includegraphics[width = 0.31\textwidth]{3.jpg}
+\end{tabular}
+
+We made some major changes to the overall design of the UI. Notably, we changed the layout and number of fields in the crowdsourcing view. This is because when we initially designed it, we did not have an exact idea of what would be required of our data. This new view reflects all of the information required to submit content.
 
 \end{document}
