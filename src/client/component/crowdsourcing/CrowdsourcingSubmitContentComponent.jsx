@@ -38,7 +38,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             candidateMap: {},
             content: "",
             categoriesList: [],
-            category: null,
+            category: 0,
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED,
@@ -54,7 +54,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         for (var category_index in categories) {
             var cat = categories[category_index];
             var name = cat.categoryName;
-            category_names.push(<MenuItem value={parseInt(category_index)} key={category_index} primaryText={name}/>);
+            category_names.push(<MenuItem value={parseInt(category_index) + 1} key={parseInt(category_index) + 1} primaryText={name}/>);
         }
 
         this.setState({
@@ -95,7 +95,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         this.setState({
             candidateMap: {},
             content: "",
-            category: null,
+            category: 0,
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED
@@ -155,7 +155,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 [self.state.source],
                 self.state.candidateMap,
                 user.id,
-                [self.state.category],
+                [self.state.category - 1],
                 function(error) {
                     if (error === null) {  // success
                         self.setState({
@@ -237,7 +237,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                     !Boolean(this.state.content.length)
                                     || !Boolean(Object.keys(this.state.candidateMap).length)
                                     || !Boolean(this.state.source.length)
-                                    || !Boolean(this.state.category)
+                                    || !Boolean(this.state.category > 0)
                                     || this.state.hasSubmitted
                                 }
                                 label="Submit"
