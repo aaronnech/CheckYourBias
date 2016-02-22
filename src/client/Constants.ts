@@ -21,23 +21,13 @@ class Constants {
 	public static CANDIDATES: string[] = [
 		'Bernie Sanders',
 		'Hillary Clinton',
-		'Ted Cruz',
-		'Marco Rubio',
 		'Donald Trump',
 	];
 
 	public static CATEGORIES: string[] = [
-		'Crime and Safety',
-		'Economy',
 		'Education',
-		'Environment',
-		'Foreign Policy',
-		'Gun Control',
-		'Health Care',
 		'Immigration',
-		'National Security',
-		'Social Security',
-		'Taxes',
+		'Crime and Safety',
 	];
 
 	public static STANCES: string[] = [
