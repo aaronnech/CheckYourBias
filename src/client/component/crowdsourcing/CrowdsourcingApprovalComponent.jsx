@@ -36,6 +36,10 @@ var CrowdsourcingApprovalComponent = React.createClass({
         this.generateContent();
     },
 
+    componentWillUpdate : function() {
+        this.generateContent();
+    },
+
     generateContent : function() {
         var self = this;
         Issue.getUnapprovedIssue(function(issues) {
