@@ -81,7 +81,12 @@ class User {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(userId).once("value", function(snapshot) {
 			var user : User = snapshot.val();
-			callback(user.ratedIssues);
+			if("ratedIssues" in user) {
+				callback(user.ratedIssues);
+			}
+			else {
+				callback(null);
+			}
 		}, function (errorObject) {
 			console.log("getRatedIssues failed" + errorObject.code);
 		});
@@ -110,10 +115,11 @@ class User {
 			candidates.orderByKey().once("value", function(snapshot) {
 				
 				var candidateRatings: { [key: string]: number } = {};
-				
+				var ratingsDenom: { [key: string]: number } = {};
 				var candidates = snapshot.val();
 				for (var candidateId in candidates) {
 					candidateRatings[candidateId] = 0;
+					ratingsDenom[candidateId] = 0;
 				}
 
 				userObject.getRatedIssues(userId, function(ratedIssues) {
@@ -123,14 +129,18 @@ class User {
 
 						// Filter issues by categoryId
 						var allIssues = snapshot.val();
-
+						if (ratedIssues == null || Object.keys(ratedIssues).length == 0) {
+							callback(null);
+							return;
+						}
 						for (var issueId in ratedIssues) {
 							if (categoryId in allIssues[issueId].category) {
 								var rating: number = +ratedIssues[issueId];
 								var candidateRatingsVal = snapshot.val()[issueId].candidateRatings;
 								for (var candidateId in candidateRatingsVal) {
-									candidateRatings[candidateId] += 5 -
-										Math.abs(+candidateRatingsVal[candidateId] - rating);
+									var diff = +candidateRatingsVal[candidateId] - rating;
+									candidateRatings[candidateId] += diff*diff;
+									ratingsDenom[candidateId]++;
 								}
 							}
 						}
@@ -139,13 +149,13 @@ class User {
 						for (var candidateId in candidateRatings) {
 							var resultObject = {};
 							resultObject["candidate"] = candidates[candidateId];
-							resultObject["rating"] = candidateRatings[candidateId];
+							resultObject["rating"] = candidateRatings[candidateId]/ratingsDenom[candidateId];
 							resultObjects.push(resultObject);
 						}
 
 						// Sort from most to least agreeing
 						resultObjects.sort(function(a, b) {
-							return b.rating - a.rating;
+							return a.rating - b.rating;
 						});
 						// return resultObjects
 						callback(resultObjects);
@@ -217,7 +227,7 @@ class User {
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
-									(nextIssue.category.indexOf(nextIssue.category[categoryId]) != -1)) {
+									(nextIssue.category.indexOf(+categoryId) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);

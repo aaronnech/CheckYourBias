@@ -149,8 +149,13 @@ class UserTest {
 	*/
 	public static testGetRankingsNewUser(test) {
 		User.getRankings("testid", "0", function(rankings) {
+			test.strictEqual(
+				rankings,
+				null,
+				"Should return null when user has rated no issues"
+			);
 			test.done();
-		})
+		});
 	}
 }
 
