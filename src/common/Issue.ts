@@ -2,6 +2,7 @@
 
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
+import Candidate = require('./Candidate');
 
 Constants.firebaseUrl = Constants.FIREBASE_URL;
 
@@ -174,6 +175,43 @@ class Issue {
 		rootRef.child(issueId).update({"approved" : -1}, function(error) {
 			callback(error);
 		});	
+	}
+
+	/*
+		Returns true if issue is a direct quote. False otherwise.
+	*/
+	public static isIssueDirectQuote(issue: Issue): boolean {
+		return issue.contentType.toLowerCase().indexOf('direct') > -1;
+	}
+
+	/*
+		Returns true if issue is a direct quote. False otherwise.
+	*/
+	public static getIssueAuthorID(issue: Issue): string {
+		for (var key in issue.candidateRatings) {
+			return key;
+		}
+	}
+
+	/*
+		Returns the Avatar image for this issue.
+		Candidate image if the issue is a Direct Quote.
+		General Politics image if the issue is General Content.
+	*/
+	public static getIssueAvatarImage(issue: Issue): string {
+		if (this.isIssueDirectQuote(issue)) {	
+			return Constants.CANDIDATE_AVATARS[this.getIssueAuthorID(issue)];
+		} 
+		
+		return Constants.GENERAL_AVATAR;
+	}
+
+	/*
+		Returns the author of the issue if the given issue is a direct quote.
+		Returns NULL otherwise.
+	*/
+	public static getIssueAuthor(issue: Issue): String {
+		return Constants.CANDIDATES[this.getIssueAuthorID(issue)];
 	}
 }
 

@@ -59,15 +59,18 @@ var PoliticalProfileComponent = React.createClass({
 	},
 
 	filterIssues : function() {
-		// TODO: actually filter the issues here
-
 		var cur_issues = []
 		for (var issue_id in this.state.issues) {
-			var issue = this.state.issues[issue_id];
+			var issue_obj = this.state.issues[issue_id];
+			var issue_avatar = Issue.getIssueAvatarImage(issue_obj);
+			var issue_author = Issue.getIssueAuthor(issue_obj);
 
-			if (this.belongsToCategory(issue) && this.userHasRated(issue_id)) {
+			if (this.belongsToCategory(issue_obj) && this.userHasRated(issue_id)) {
 				cur_issues.push(<PoliticalIssueComponent key={issue_id} 
-						issue_id={issue_id} issue={issue} 
+						issue_id={issue_id}
+						issue={issue_obj}
+						issue_avatar_image={issue_avatar}
+						issue_author={issue_author}
 						rating={this.state.issueRatings[issue_id]} />);
 			}
 		}

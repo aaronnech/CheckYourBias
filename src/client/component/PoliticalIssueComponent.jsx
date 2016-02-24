@@ -27,6 +27,11 @@ var PoliticalIssueComponent = React.createClass({
 	    	issue: null,
 
 	    	/**
+	    	 * Avatar image for the issue
+	    	 */
+	    	issue_avatar_image: "",
+
+	    	/**
 	    	 * The issue's quoted text
 	    	 */
 	    	cardContent: "",
@@ -58,14 +63,21 @@ var PoliticalIssueComponent = React.createClass({
 		var user_rating = this.props.rating;
 
 		var cur_issue = this.props.issue;
+		var cur_issue_avatar_image = this.props.issue_avatar_image;
+		var cur_author = this.props.issue_author;
+		
 		var main_text = cur_issue.mainText;
+		if (cur_issue.contentType.toLowerCase().indexOf("direct") > -1) {
+			main_text = "\"" + main_text + "\"" + " - " + cur_author;
+		}
 
-		var short_text = main_text.split(" ").slice(0,3).join(" ") + "...";
+		var short_text = main_text.split(" ").slice(0,4).join(" ") + "...";
 
 		this.setState({
 			issue_id: issue_id,
 			userVote: user_rating,
 			issue: cur_issue,
+			issue_avatar_image: cur_issue_avatar_image,
 			cardContent: main_text,
 			cardTitle: short_text,
 		});
@@ -81,6 +93,7 @@ var PoliticalIssueComponent = React.createClass({
 			    title={this.state.cardTitle}
 			    subtitle={Constants.STANCES[this.state.userVote]}
 			    subtitleColor={Constants.STANCE_COLORS[this.state.userVote]}
+			    avatar={this.state.issue_avatar_image}
 			    actAsExpander={true}
 			    showExpandableButton={true}
 			  />
