@@ -147,10 +147,12 @@ class User {
 
 						var resultObjects = [];
 						for (var candidateId in candidateRatings) {
-							var resultObject = {};
-							resultObject["candidate"] = candidates[candidateId];
-							resultObject["rating"] = candidateRatings[candidateId]/ratingsDenom[candidateId];
-							resultObjects.push(resultObject);
+							if (candidates[candidateId].active) {
+								var resultObject = {};
+								resultObject["candidate"] = candidates[candidateId];
+								resultObject["rating"] = candidateRatings[candidateId]/ratingsDenom[candidateId];
+								resultObjects.push(resultObject);
+							}
 						}
 
 						// Sort from most to least agreeing
@@ -195,6 +197,7 @@ class User {
 		this.getUser(userId, function(user) {
 			candidates.orderByKey().once("value", function(snapshot) {
 				var attemptedCandidates: string[] = [];
+				var candidates = snapshot.val();
 				var chosenCandidate: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
 				var foundIssue : boolean = false;
 				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
@@ -214,7 +217,8 @@ class User {
 						var attemptedIssues: string[] = [];
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
-						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue) {
+						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue &&
+									candidates[chosenCandidate].active) {
 							var chosenIssueIndex: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
 							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
 							{
