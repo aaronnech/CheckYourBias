@@ -13,6 +13,11 @@ class Constants {
 		FULL_NAME: "userFullName"
 	};
 
+	public static CACHE: any = {
+		CATEGORIES: 'categories',
+		CANDIDATES: 'candidates'
+	};
+
 	public static CONTENT_TYPES: string[] = [
 		'Direct Quote',
 		'General Content',
