@@ -134,7 +134,7 @@ class User {
 							return;
 						}
 						for (var issueId in ratedIssues) {
-							if (categoryId in allIssues[issueId].category) {
+							if (allIssues[issueId].category.indexOf(+categoryId) != -1) {
 								var rating: number = +ratedIssues[issueId];
 								var candidateRatingsVal = snapshot.val()[issueId].candidateRatings;
 								for (var candidateId in candidateRatingsVal) {

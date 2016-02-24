@@ -135,11 +135,20 @@ class UserTest {
 	}
 
 	/*
-		TODO
 		Tests whether getRankings returns correctly
 	*/
 	public static testGetRankings(test) {
 		User.getRankings("0", "0", function(rankings) {
+			test.strictEqual(
+				rankings[0].rating,
+				1,
+				"Ranking for top candidate should be 1"
+				);
+			test.strictEqual(
+				rankings[2].rating,
+				4,
+				"Ranking for bottom candidate should be 4"
+				);
 			test.done();
 		});
 	}
