@@ -20,13 +20,6 @@ class Category {
 	description: string;
 	submittedIssueIds: string[];	
 
-	constructor(id: string, categoryName: string, description: string,
-			submittedIssueIds: string[]) {
-		this.categoryName = categoryName;
-		this.description = description;
-		this.submittedIssueIds = submittedIssueIds;
-	}
-
 	/*
 		Fetches the Category with the given categoryId.
 	*/

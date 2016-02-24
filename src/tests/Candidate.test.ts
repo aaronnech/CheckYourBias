@@ -4,6 +4,9 @@ import Constants = require('../client/Constants')
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class CandidateTest {
+	/*
+		Gets a candidate and makes sure it has the right name
+	*/
 	public static testCandidateValues(test) {
 		Candidate.getCandidate("0", function(candidate: Candidate) {
 			test.strictEqual(
@@ -15,6 +18,9 @@ class CandidateTest {
 		});
 	}
 	
+	/*
+		Gets all candidates and makes sure the first has the right name
+	*/	
 	public static testGetAllCandidates(test) {
 		Candidate.getAllCandidates(function(candList) {
 			test.strictEqual(

@@ -28,19 +28,6 @@ class User {
 	ratedIssues: {[key: string]: string};
 	categoryWeights: {[key: string]: string};
 
-	constructor(id: string, firstName: string, lastName: string, admin: string, 
-				age: string, email: string, gender: string, hasSeenHelpText: string,
-				submittedIssueIds: string[], ratedIssues: {[key: string]: string},
-				categoryWeights: {[key: string]: string}) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.admin = admin;
-		this.age = age;
-		this.email = email;
-		this.gender = gender;
-		this.hasSeenHelpText = hasSeenHelpText;
-	}
-
 	public static initializeUser(id: string, firstName: string, lastName: string, callback: (error) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(id).set({
