@@ -69,6 +69,21 @@ class UserTest {
 	}
 	
 	/*
+		Tests that getRatedIssues returns null for a user without any rated issues
+	*/
+	
+	public static testGetRatedIssuesNewUser(test) {
+		User.getRatedIssues("testid", function(issues) {
+			test.strictEqual(
+				issues,
+				null,
+				'getRatedIssues should return null if a user has no rated issues'
+				);
+			test.done();
+		});
+	}
+	
+	/*
 		Tests the get next issue function and makes sure
 		that the returned value is not null when there is
 		an available issue to be returned.

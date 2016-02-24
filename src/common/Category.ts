@@ -18,7 +18,6 @@ class Category {
 	categoryId: string;
 	categoryName: string;
 	description: string;
-	submittedIssueIds: string[];	
 
 	/*
 		Fetches the Category with the given categoryId.
