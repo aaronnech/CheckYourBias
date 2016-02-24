@@ -30,7 +30,6 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      * formComponent: The component to show based on the selected contentType
      * category: The category from Constants.CATEGORIES the content belongs to
      * source: A string representing a url to the source of the content
-     * sourceErrorText: The error text to show when there is an invalid source
      */
     getInitialState : function() {
         return {
@@ -39,8 +38,8 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             content: "",
             categoriesList: JSON.parse(Cache.getCacheV(Constants.CACHE.CATEGORIES)),
             selectedCategories: [],
-            source: "",
-            sourceErrorText: Constants.ERRORS.REQUIRED,
+            sources: [],  // list of all sources that have already been added
+            source: "",  // current source
             categoryErrorText: Constants.ERRORS.REQUIRED,
             showSnackbar: false,
             snackbarMessage: "",
@@ -78,8 +77,8 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             candidateMap: {},
             content: "",
             selectedCategories: [],
+            sources: [],
             source: "",
-            sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED
         });
     },
@@ -116,16 +115,17 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      */
     handleUpdateSource : function(event) {
         var source = event.target.value;
-        var errorText = null;
-
-        if (source.length === 0) {
-            errorText = Constants.ERRORS.REQUIRED;
-        }
 
         this.setState({
             source: source,
-            sourceErrorText: errorText,
         });
+    },
+
+    handleAddSource : function() {
+        this.setState({
+            sources: this.state.sources.concat([this.state.source]),
+            source: "",
+        })
     },
 
     /**
@@ -137,7 +137,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             Issue.initializeUnapprovedIssue(
                 Constants.CONTENT_TYPES[self.state.contentType - 1],
                 self.state.content,
-                [self.state.source],
+                self.state.sources,
                 self.state.candidateMap,
                 user.id,
                 self.state.selectedCategories,
@@ -195,6 +195,22 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         return result;
     },
 
+    getSources : function () {
+        sources = []
+        for (var source in this.state.sources) {
+            sources.push(
+                <div key={source}>
+                    {this.state.sources[source]}
+                </div>
+            );
+        }
+        return (
+            <div>
+                {sources}
+            </div>
+        );
+    },
+
     render : function() {
         var formComponent = null;
         if (this.state.contentType === 1) {
@@ -229,13 +245,19 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                         </SelectField>
                         {formComponent}
                         <p>Source:</p>
+                        {this.getSources()}
                         <TextField
                             value={this.state.source}
                             hintText="Link to reliable source"
-                            errorText={this.state.sourceErrorText}
                             multiLine={true}
                             onChange={this.handleUpdateSource}
                         />
+                        <div>
+                            <RaisedButton
+                                label="Add Source"
+                                onClick={this.handleAddSource}
+                            />
+                        </div>
                         <p>Category:</p>
                         {this.getSelectedCategories()}
                         {this.getSelectCategory()}
@@ -244,7 +266,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                                 disabled={
                                     !Boolean(this.state.content.length)
                                     || !Boolean(Object.keys(this.state.candidateMap).length)
-                                    || !Boolean(this.state.source.length)
+                                    || !Boolean(this.state.sources.length)
                                     || !Boolean(this.state.selectedCategories.length > 0)
                                     || this.state.hasSubmitted
                                 }

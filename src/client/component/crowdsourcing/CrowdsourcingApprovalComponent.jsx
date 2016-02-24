@@ -63,7 +63,7 @@ var CrowdsourcingApprovalComponent = React.createClass({
                     contentType: issues.val().contentType,
                     contentMap: {
                         'Content': issues.val().mainText,
-                        'Category': categories,
+                        'Categories': categories,
                         'Candidate Ratings': issues.val().candidateRatings,
                         'Sources': issues.val().sources,
                     },
@@ -94,20 +94,20 @@ var CrowdsourcingApprovalComponent = React.createClass({
                         {candidates}
                     </div>
                 );
-            } else if (label == "Category") {
-                var categories = []
-                for (category in this.state.contentMap[label]) {
-                    categoryName = this.state.contentMap[label][category];
-                    categories.push(
-                        <div key={categoryName}>
-                            {categoryName}
+            } else if (label == "Categories" || label == "Sources") {
+                var items = []
+                for (item in this.state.contentMap[label]) {
+                    itemContent = this.state.contentMap[label][item];
+                    items.push(
+                        <div key={itemContent}>
+                            {itemContent}
                         </div>
                     );
                 }
                 result.push(
                     <div key={label}>
                         <div className="contentLabel">{label}</div>
-                        {categories}
+                        {items}
                     </div>
                 );
             } else {
