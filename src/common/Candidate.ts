@@ -20,6 +20,7 @@ class Candidate {
 	affiliatedParty: string;
 	issueRatings: {[key: string]: string};
 	website: string;
+	active: string;
 
 	/*
 		Fetches the Candidate with the given candidateId.
