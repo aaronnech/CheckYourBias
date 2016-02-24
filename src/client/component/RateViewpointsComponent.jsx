@@ -4,6 +4,8 @@ var Cache = require('../Cache');
 var User = require('../../common/User');
 var Issue = require('../../common/Issue');
 var Category = require('../../common/Category');
+var Candidate = require('../../common/Candidate');
+
 
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
@@ -31,8 +33,15 @@ var RateViewpointsComponent = React.createClass({
 	    	 */
 	    	issue: null,
 
+	    	/**
+	    	 * An array of candidates, where the index corresponds to
+	    	 * the candidate ID, and the element corresponds to the
+	    	 * candidate info
+	    	 */
+	    	candidateList: null,
+
 			/**
-			 *	The user's stance on the issue
+			 * The user's stance on the issue
 			 */
 			userStance: null,
 
@@ -42,6 +51,12 @@ var RateViewpointsComponent = React.createClass({
 			 * whether those errors are displayed or not
 			 */
 			errorsShown: {},
+
+			/**
+			 * A boolean representing whether additional issue information
+			 * is displayed
+			 */
+			additionalIssueInfoShown: false
 	    };
 
 	    for (var key in Constants.ERRORS) {
@@ -75,6 +90,16 @@ var RateViewpointsComponent = React.createClass({
 	 * Overrides React's componentWillMount
 	 */
 	componentWillMount : function() {
+		var self = this;
+		// retrieve all candidates for future lookup
+		Candidate.getAllCandidates(function(result) {
+			console.info("HERE ARE YOUR CANDIDATES");
+			console.info(result);
+			self.setState({
+				candidateList: result
+			});
+		});
+
 		this.getQuote();
 	},
 
@@ -111,9 +136,25 @@ var RateViewpointsComponent = React.createClass({
 
 			self.resetStance();
 
-			// retrieve the next quote
-			self.getQuote();
+			self.showIssueInfo();
 		});
+	},
+
+	/**
+	 * Callback that fires when user has voted on an issue
+	 */
+	showIssueInfo : function() {
+		this.setState({
+			additionalIssueInfoShown: true
+		});
+	},
+
+	retrieveNextIssue : function() {
+		this.setState({
+			additionalIssueInfoShown: false
+		});
+
+		this.getQuote();
 	},
 
 	/**
@@ -145,28 +186,69 @@ var RateViewpointsComponent = React.createClass({
 	},
 
 	/**
+	 * Returns as a DOM element information regarding the current issue
+	 */
+	getAdditionalIssueInfo : function() {
+		var candidateList = [];
+		var ratings = this.state.issue.candidateRatings;
+		for (var key in ratings) {
+			if (ratings.hasOwnProperty(key)) {
+				var candidate = this.state.candidateList[key];
+				candidateList.push(<li>
+					{candidate.name}, {candidate.affiliatedParty} (Rating: {ratings[key]})
+				</li>)
+			}
+		}
+		candidateList.push(<li>Sources: {this.state.issue.sources}</li>)
+		return <ul>{candidateList}</ul>
+	},
+
+	/**
 	 * Renders the view
 	 */
 	render : function() {
+		var cardText = null;
+		var cardActions = null;
+		if (this.state.issue === null) {
+			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
+		} else {
+			if (this.state.additionalIssueInfoShown) {
+				// show additional issue information
+				cardText = <div>{this.getAdditionalIssueInfo()}</div>;
+
+				cardActions =
+					<div className="confirm-choice-wrapper">
+						<RaisedButton label="Next Issue"
+							onClick={this.retrieveNextIssue}
+							style={{marginTop: '1em'}} />
+					</div>;
+			} else {
+				cardText = <p>{this.state.issue.mainText}</p>;
+				cardActions =
+					<div>
+						<div className="rate-scale"
+							style={{textAlign: 'center'}}>
+							<StanceSelector
+								value={this.state.userStance}
+								handleUpdateStance={this.handleUpdateStance} />
+						</div>
+						<div className="confirm-choice-wrapper">
+							<RaisedButton label="Vote!"
+								onClick={this.confirmReaction}
+								style={{marginTop: '1em'}} />
+						</div>
+					</div>
+			}
+		}
+
 		return (
 			<Card className="rate-viewpoints">
 				<CardTitle title="Rate a New Issue!" />
 				<CardText className="issue-wrapper">
-					<p>{this.state.issue !== null ? this.state.issue.mainText : Constants.ERRORS.NO_ISSUE}</p>
+					{cardText}
 				</CardText>
 				<CardActions>
-					<div className="rate-scale"
-						style={{display: (this.state.issue === null ? 'none' : 'block'), textAlign: 'center'}}>
-						<StanceSelector
-							value={this.state.userStance}
-							handleUpdateStance={this.handleUpdateStance} />
-					</div>
-					<div className="confirm-choice-wrapper">
-						<RaisedButton label="Next Issue"
-							onClick={this.confirmReaction}
-							style={{marginTop: '1em'}}
-							disabled={this.state.issue === null} />
-					</div>
+					{cardActions}
 				</CardActions>
 
 				<Snackbar
