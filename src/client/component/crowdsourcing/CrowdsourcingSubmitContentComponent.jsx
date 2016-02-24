@@ -38,7 +38,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             candidateMap: {},
             content: "",
             categoriesList: [],
-            category: 0,
+            selectedCategories: [],
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED,
@@ -95,7 +95,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         this.setState({
             candidateMap: {},
             content: "",
-            category: 0,
+            selectedCategories: [],
             source: "",
             sourceErrorText: Constants.ERRORS.REQUIRED,
             categoryErrorText: Constants.ERRORS.REQUIRED
@@ -121,8 +121,8 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      */
     handleCategory : function(event, index, value) {
         this.setState({
-            category: value,
-            categoryErrorText: null
+            selectedCategories: this.state.selectedCategories.concat(value),
+            categoryErrorText: null,
         });
     },
 
@@ -155,7 +155,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 [self.state.source],
                 self.state.candidateMap,
                 user.id,
-                [self.state.category - 1],
+                self.state.selectedCategories,
                 function(error) {
                     if (error === null) {  // success
                         self.setState({
@@ -181,6 +181,16 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         this.setState({
             showSnackbar: false,
         });
+    },
+
+    getSelectedCategories : function() {
+        result = []
+        for (var category in this.state.selectedCategories) {
+            result.push(
+                <div>{category}</div>
+            );
+        }
+        return result;
     },
 
     render : function() {
@@ -225,6 +235,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                             onChange={this.handleUpdateSource}
                         />
                         <p>Category:</p>
+                        {this.getSelectedCategories()}
                         <SelectField
                             value={this.state.category}
                             hintText={"Select Category"}
