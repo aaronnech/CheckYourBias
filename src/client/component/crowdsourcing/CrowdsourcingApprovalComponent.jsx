@@ -36,8 +36,9 @@ var CrowdsourcingApprovalComponent = React.createClass({
         this.generateContent();
     },
 
-    componentWillUpdate : function() {
-        this.generateContent();
+    componentWillReceiveProps : function(nextProps) {
+        // give it some time so it appears in the database
+        setTimeout(this.generateContent, 1000);
     },
 
     generateContent : function() {

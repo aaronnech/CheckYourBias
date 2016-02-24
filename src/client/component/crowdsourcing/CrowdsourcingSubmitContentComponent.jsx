@@ -174,6 +174,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 }
             );
         });
+        this.props.refresh();
     },
 
     hideSnackbar : function() {
