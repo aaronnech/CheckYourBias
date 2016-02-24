@@ -24,6 +24,14 @@ class Constants {
 		'Donald Trump',
 	];
 
+	public static CANDIDATE_AVATARS: string[] = [
+		'img/candidate_0.jpg',
+		'img/candidate_1.jpg',
+		'img/candidate_2.jpg',
+	];
+
+	public static GENERAL_AVATAR: string = "img/general_avatar.svg";
+
 	public static CATEGORIES: string[] = [
 		'Education',
 		'Immigration',
