@@ -30,11 +30,13 @@ class Issue {
 	skipCount: number;
 	flagCount: number;
 	approved: number;
+	contentType: string;
 
 	constructor(id: string, mainText: string, sources: string[],
-		candidateRatings: { [key: string]: string },
-		category: string[], submitter: string, seenByCount: number,
-		skipCount: number, flagCount: number, approved: number) {
+			candidateRatings: { [key: string]: string },
+			category: string[], submitter: string, seenByCount: number,
+			skipCount: number, flagCount: number, approved: number,
+			contentType: string) {
 		this.mainText = mainText;
 		this.sources = sources;
 		this.candidateRatings = candidateRatings;
@@ -44,6 +46,7 @@ class Issue {
 		this.skipCount = skipCount;
 		this.flagCount = flagCount;
 		this.approved = approved;
+		this.contentType = contentType;
 	}
 
 	/*
