@@ -6,6 +6,10 @@ Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
 class IssueTest {
 
+	/*
+		Tests Issue.initializeUnapprovedIssue. Tests the initialization
+		of an issue that is not approved. Makes sure an error is not thrown.
+	*/
 	public static testInitializeUnapprovedTest(test) {
 		Issue.initializeUnapprovedIssue(Constants.CONTENT_TYPES[0], "main text example",
 			["www.coolkids.com", "wwww.kanyewest.com"], { "Bernie Sanders": 4, "Donald Trump": 3 }, "0",
@@ -27,6 +31,11 @@ class IssueTest {
 		});
 	}
 	
+	/*
+		Tests Issue.convertCandidateNamesToIds. Tests converting candidate names to Ids. Passes 
+		in a map that has 'Bernie Sanders'with a rating of 4 and makes sure that the resulting
+		map[0] is 4 (since Bernie Sanders has an id of 4).
+	*/
 	public static testConvertCandidateNamesToIds(test) {
 		Issue.convertCandidateNamesToIds({ "Bernie Sanders": 4, "Donald Trump": 3 }, function(map) {
 			test.strictEqual(
@@ -38,6 +47,9 @@ class IssueTest {
 		});
 	}
 
+	/*
+		Tests Issue.getIssue. Makes sure that the issue with ID 0 was submitted by user with ID 0.
+	*/
 	public static testIssueValues(test) {
 		Issue.getIssue("0", function(issue: Issue) {
 			test.strictEqual(
@@ -49,6 +61,9 @@ class IssueTest {
 		});
 	}
 	
+	/*
+		Tests that there are three approved issues in the test database.
+	*/
 	public static getApprovedIssues(test) {
 		Issue.getApprovedIssues(function(issues) {
 			test.strictEqual(
@@ -60,6 +75,9 @@ class IssueTest {
 		});
 	}
 	
+	/*
+		Tests Issue.approveIssue. Makes sure an error was not thrown.
+	*/
 	public static testApprove(test) {
 		Issue.approveIssue("3", function(error) {
 			test.notEqual(
@@ -71,6 +89,9 @@ class IssueTest {
 		});
 	}
 	
+	/*
+		Tests Issue.unapproveIssue. Makes sure an error was not thrown.
+	*/
 	public static testUnapprove(test) {
 		Issue.unapproveIssue("3", function(error) {
 			test.notEqual(
