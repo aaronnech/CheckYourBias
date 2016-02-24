@@ -32,6 +32,23 @@ class Issue {
 	approved: number;
 	contentType: string;
 
+	constructor(id: string, mainText: string, sources: string[],
+			candidateRatings: { [key: string]: string },
+			category: string[], submitter: string, seenByCount: number,
+			skipCount: number, flagCount: number, approved: number,
+			contentType: string) {
+		this.mainText = mainText;
+		this.sources = sources;
+		this.candidateRatings = candidateRatings;
+		this.category = category;
+		this.submitter = submitter;
+		this.seenByCount = seenByCount;
+		this.skipCount = skipCount;
+		this.flagCount = flagCount;
+		this.approved = approved;
+		this.contentType = contentType;
+	}
+
 	/*
 		Creates an unapproved issue with the given parameters. Sets approved to false and
 		skip count, flag count and seen by count all to 0.
