@@ -194,12 +194,12 @@ var RateViewpointsComponent = React.createClass({
 		for (var key in ratings) {
 			if (ratings.hasOwnProperty(key)) {
 				var candidate = this.state.candidateList[key];
-				candidateList.push(<li>
+				candidateList.push(<li key={key}>
 					{candidate.name}, {candidate.affiliatedParty} (Rating: {ratings[key]})
 				</li>)
 			}
 		}
-		candidateList.push(<li>Sources: {this.state.issue.sources}</li>)
+		candidateList.push(<li key="sources">Sources: {this.state.issue.sources}</li>)
 		return <ul>{candidateList}</ul>
 	},
 
