@@ -9,7 +9,7 @@ class IssueTest {
 	public static testInitializeUnapprovedTest(test) {
 		Issue.initializeUnapprovedIssue(Constants.CONTENT_TYPES[0], "main text example",
 			["www.coolkids.com", "wwww.kanyewest.com"], { "Bernie Sanders": 4, "Donald Trump": 3 }, "0",
-			["0", "1"], function(error) {
+			["Education", "Crime and Safety"], function(error) {
 				test.notEqual(
 					error,
 					true,
@@ -33,6 +33,17 @@ class IssueTest {
 				map[0],
 				4,
 				'Rating for candidate 0 should be 4'
+			);
+			test.done();
+		});
+	}
+	
+	public static testConvertCategoryNamesToIds(test) {
+		Issue.convertCategoryNamesToIds(["Education", "Immigration"], function(list) {
+			test.notEqual(
+				list.indexOf(4),
+				-1,
+				'Category 4 (Immigration) should be included in the list'
 			);
 			test.done();
 		});

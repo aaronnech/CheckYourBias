@@ -63,22 +63,24 @@ class Issue {
 	*/
 	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
 								candidateMap: { [key: string]: number }, submitter: string,
-								category: string[], callback: (error) => any) {
+								categories: string[], callback: (error) => any) {
 		var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		this.convertCandidateNamesToIds(candidateMap, function(candidateRatings) {
-			issues.push({
-				contentType: contentType,
-				mainText: mainText,
-				sources: sources,
-				candidateRatings: candidateRatings,
-				submitter: submitter,
-				category: category,
-				seenByCount: 0,
-				skipCount: 0,
-				flagCount: 0,
-				approved: 0
-			}, function(error) {
-				callback(error);
+			Issue.convertCategoryNamesToIds(categories, function(category) {
+				issues.push({
+					contentType: contentType,
+					mainText: mainText,
+					sources: sources,
+					candidateRatings: candidateRatings,
+					submitter: submitter,
+					category: category,
+					seenByCount: 0,
+					skipCount: 0,
+					flagCount: 0,
+					approved: 0
+				}, function(error) {
+					callback(error);
+				});
 			});
 		});
 	}
@@ -101,6 +103,27 @@ class Issue {
 				}
 			}
 			callback(candidateRatings);
+		});
+	}
+	
+	/*
+		Takes a list of category names and returns an equivalent
+		list of category ids via the callback.
+		
+		categoryList: list of category names
+	*/
+	public static convertCategoryNamesToIds(categoryList, callback): void {
+		var categories: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
+		var categoryIdList = [];
+		categories.once("value", function(snapshot) {
+			var catList = snapshot.val();
+			for(var i = 0; i < catList.length; i++) {
+				if(categoryList.indexOf(catList[i].categoryName) != -1)
+				{
+					categoryIdList.push(i);
+				}
+			}
+			callback(categoryIdList);
 		});
 	}
 
