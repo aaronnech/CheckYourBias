@@ -163,6 +163,12 @@ input[type="range"]::-ms-thumb {
     margin: 8px;
 }
 
+.contentLabel {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 8px 0px;
+}
+
 .approve, .reject {
     display: inline-block;
     margin-top: 20px;

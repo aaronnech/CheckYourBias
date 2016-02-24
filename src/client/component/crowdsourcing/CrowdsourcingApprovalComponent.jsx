@@ -1,4 +1,5 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
 var Issue = require('../../../common/Issue');
 
@@ -23,6 +24,8 @@ var CrowdsourcingApprovalComponent = React.createClass({
      */
     getInitialState : function() {
         return {
+            candidates: JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES)),
+            categories: JSON.parse(Cache.getCacheV(Constants.CACHE.CATEGORIES)),
             contentMap: null,
             contentType: null,
             hasContentToShow: false,
@@ -50,13 +53,17 @@ var CrowdsourcingApprovalComponent = React.createClass({
                 });
                 setTimeout(this.generateContent, 1000);
             } else {
+                var categories = []
+                for (var category in issues.val().category) {
+                    categories.push(self.state.categories[category])
+                }
                 self.setState({
                     hasContentToShow: true,
                     issueId: issues.key(),
                     contentType: issues.val().contentType,
                     contentMap: {
                         'Content': issues.val().mainText,
-                        'Category': Constants.CATEGORIES[issues.val().category],
+                        'Category': categories,
                         'Candidate Ratings': issues.val().candidateRatings,
                         'Sources': issues.val().sources,
                     },
@@ -69,22 +76,45 @@ var CrowdsourcingApprovalComponent = React.createClass({
         result = []
         for (var label in this.state.contentMap) {
             if (label == "Candidate Ratings") {
+                var candidates = []
                 for (candidate in this.state.contentMap[label]) {
-                    result.push(
+                    candidates.push(
                         <CrowdsourcingCandidateStanceComponent
                             key={candidate}
-                            candidate={Constants.CANDIDATES[candidate]}
+                            candidate={this.state.candidates[candidate]}
                             value={this.state.contentMap[label][candidate]}
                             handleUpdateStance={function(){}}
                             isStatic={true}
                         />
                     );
                 }
+                result.push(
+                    <div key={label}>
+                        <div className="contentLabel">{label}</div>
+                        {candidates}
+                    </div>
+                );
+            } else if (label == "Category") {
+                var categories = []
+                for (category in this.state.contentMap[label]) {
+                    categoryName = this.state.contentMap[label][category];
+                    categories.push(
+                        <div key={categoryName}>
+                            {categoryName}
+                        </div>
+                    );
+                }
+                result.push(
+                    <div key={label}>
+                        <div className="contentLabel">{label}</div>
+                        {categories}
+                    </div>
+                );
             } else {
                 result.push(
                     <div key={label}>
-                        <p className="candidateLabel">{label}</p>
-                        <p>{this.state.contentMap[label]}</p>
+                        <div className="contentLabel">{label}</div>
+                        <div>{this.state.contentMap[label]}</div>
                     </div>
                 );
             }
