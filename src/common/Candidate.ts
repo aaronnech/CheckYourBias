@@ -18,7 +18,6 @@ class Candidate {
 	candidateId: string;
 	name: string;
 	affiliatedParty: string;
-	issueRatings: {[key: string]: string};
 	website: string;
 	active: string;
 
