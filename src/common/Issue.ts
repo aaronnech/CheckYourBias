@@ -30,6 +30,7 @@ class Issue {
 	skipCount: number;
 	flagCount: number;
 	approved: number;
+	contentType: string;
 
 	/*
 		Creates an unapproved issue with the given parameters. Sets approved to false and
