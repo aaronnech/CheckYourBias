@@ -198,20 +198,20 @@ class User {
 			candidates.orderByKey().once("value", function(snapshot) {
 				var attemptedCandidates: string[] = [];
 				var candidates = snapshot.val();
-				var chosenCandidate: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+				var chosenCandidate: string = Math.floor((Math.random() * candidates.length)).toString();
 				var foundIssue : boolean = false;
 				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 				issues.orderByKey().once("value", function(snapshot) {
 					while(!foundIssue)
 					{
-						if(attemptedCandidates.length >= snapshot.numChildren())
+						if(attemptedCandidates.length >= candidates.length)
 						{
 							callback(null);
 							return;
 						}
 						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
 						{
-							chosenCandidate = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							chosenCandidate = Math.floor((Math.random() * candidates.length)).toString();
 						}
 						attemptedCandidates.push(chosenCandidate);
 						var attemptedIssues: string[] = [];
@@ -219,10 +219,10 @@ class User {
 						var allIssuesIdArray = Object.keys(allIssues);
 						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue &&
 									candidates[+chosenCandidate].active) {
-							var chosenIssueIndex: string = Math.floor((Math.random() * snapshot.numChildren())).toString();
+							var chosenIssueIndex: string = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
 							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
 							{
-								chosenIssueIndex = Math.floor((Math.random() * snapshot.numChildren())).toString();
+								chosenIssueIndex = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
 							}
 							attemptedIssues.push(chosenIssueIndex);
 
