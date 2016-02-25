@@ -114,7 +114,7 @@ gulp.task('test', ['pre-test'], function() {
       	process.exit(1);
       })
       .pipe(istanbul.writeReports())
-      .on('finish', function() {
+      .on('end', function() {
       	process.exit(0);
       });
 });
