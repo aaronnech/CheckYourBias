@@ -121,11 +121,23 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         });
     },
 
+    isValidSourceURL : function(source) {
+        return source.match(Constants.URL_REG_EXP) !== null;
+    },
+
     handleAddSource : function() {
-        this.setState({
-            sources: this.state.sources.concat([this.state.source]),
-            source: "",
-        })
+        // Validate the content first
+        if (this.isValidSourceURL(this.state.source)) {
+            this.setState({
+                sources: this.state.sources.concat([this.state.source]),
+                source: "",
+            });
+        } else {
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: "Please enter a valid URL.",
+            });
+        }
     },
 
     /**

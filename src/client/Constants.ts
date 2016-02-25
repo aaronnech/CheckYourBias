@@ -77,6 +77,7 @@ class Constants {
 
 	public static FIREBASE_URL_TEST: string = "https://check-your-bias.firebaseio.com/Test/";
 
+	public static URL_REG_EXP: any = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 }
 
 export = Constants;
