@@ -201,7 +201,7 @@ class User {
 						var attemptedIssues: string[] = [];
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
-						while (attemptedIssues.length < allIssues.length && !foundIssue &&
+						while (attemptedIssues.length < allIssuesIdArray.length && !foundIssue &&
 									candidates[+chosenCandidate].active) {
 							var chosenIssueIndex: string = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
 							while (attemptedIssues.indexOf(chosenIssueIndex) != -1) {
