@@ -28,6 +28,7 @@
     "gulp-nodeunit": "latest",
     "gulp-typescript": "latest",
     "gulp-webdriver": "latest",
+    "gulp-istanbul": "latest",
     "material-ui": "latest",
     "phonegap": "latest",
     "react": "latest",

@@ -20,6 +20,8 @@ bin
 bin/*
 _cordova/*
 _cordova
+coverage/*
+coverage
 
 # Created by https://www.gitignore.io
 

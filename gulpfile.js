@@ -4,6 +4,7 @@ var nodeunit = require('gulp-nodeunit');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var source = require("vinyl-source-stream");
+var istanbul = require("gulp-istanbul");
 var webdriver = require("gulp-webdriver");
 var selenium = require('selenium-standalone');
 var child_process = require("child_process");
@@ -96,8 +97,16 @@ gulp.task('move-statics', function() {
 	return vendors.pipe(gulp.dest('./bin/client/static'));
 });
 
-gulp.task('test', function() {
+gulp.task('pre-test', function () {
+  return gulp.src('bin/common/*.js')
+    // Covering files
+    .pipe(istanbul())
+    // Force `require` to return covered files
+    .pipe(istanbul.hookRequire());
+});
+
+gulp.task('test', ['pre-test'], function() {
     var tests = gulp.src('bin/**/*.test.js');
 
-    tests.pipe(nodeunit());
+    tests.pipe(nodeunit()).pipe(istanbul.writeReports());
 });
