@@ -178,8 +178,6 @@ class Issue {
 	
 	/*
 		Approves the issue with the given id.
-		
-		Calls the callback function with the updated issue.
 	*/
 	public static approveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
@@ -190,8 +188,6 @@ class Issue {
 	
 	/*
 		Unapproves the issue with the given id.
-		
-		Calls the callback function with the updated issue.
 	*/
 	public static unapproveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
@@ -208,12 +204,16 @@ class Issue {
 	}
 
 	/*
-		Returns true if issue is a direct quote. False otherwise.
+		Returns the id of the author of the issue if the issue is a
+		direct quote or -1 if an author cannot be found.
 	*/
 	public static getIssueAuthorID(issue: Issue): string {
 		for (var key in issue.candidateRatings) {
-			return key;
+			if (issue.candidateRatings[key] == "5") {
+				return key;
+			}
 		}
+		return "-1";
 	}
 
 	/*

@@ -93,6 +93,39 @@ class IssueTest {
 		});
 	}
 	
+	public static testIsIssueDirectQuoteTrueCase(test) {
+		Issue.getIssue("0", function(issue) {
+			test.strictEqual(
+				Issue.isIssueDirectQuote(issue),
+				true,
+				'Issue 0 should be a direct quote'
+			);
+			test.done();
+		});
+	}
+	
+	public static testIsIssueDirectQuoteFalseCase(test) {
+		Issue.getIssue("2", function(issue) {
+			test.strictEqual(
+				Issue.isIssueDirectQuote(issue),
+				false,
+				'Issue 2 should not be a direct quote'
+			);
+			test.done();
+		});
+	}
+	
+	public static testGetIssueAuthorID(test) {
+		Issue.getIssue("1", function(issue) {
+			test.strictEqual(
+				Issue.getIssueAuthorID(issue),
+				"2",
+				"Issue 1 should have Donald Trump as author"
+			);
+			test.done();
+		});
+	}
+	
 }
 
 export = IssueTest;

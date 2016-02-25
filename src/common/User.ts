@@ -202,26 +202,22 @@ class User {
 				var foundIssue : boolean = false;
 				var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 				issues.orderByKey().once("value", function(snapshot) {
-					while(!foundIssue)
-					{
-						if(attemptedCandidates.length >= candidates.length)
-						{
+					while (!foundIssue) {
+						if (attemptedCandidates.length >= candidates.length) {
 							callback(null);
 							return;
 						}
-						while(attemptedCandidates.indexOf(chosenCandidate) != -1)
-						{
+						while (attemptedCandidates.indexOf(chosenCandidate) != -1) {
 							chosenCandidate = Math.floor((Math.random() * candidates.length)).toString();
 						}
 						attemptedCandidates.push(chosenCandidate);
 						var attemptedIssues: string[] = [];
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
-						while(attemptedIssues.length < snapshot.numChildren() && !foundIssue &&
+						while (attemptedIssues.length < allIssues.length && !foundIssue &&
 									candidates[+chosenCandidate].active) {
 							var chosenIssueIndex: string = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
-							while (attemptedIssues.indexOf(chosenIssueIndex) != -1)
-							{
+							while (attemptedIssues.indexOf(chosenIssueIndex) != -1) {
 								chosenIssueIndex = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
 							}
 							attemptedIssues.push(chosenIssueIndex);
@@ -231,7 +227,7 @@ class User {
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
-									(nextIssue.category.indexOf(+categoryId) != -1)) {
+											(nextIssue.category.indexOf(+categoryId) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
