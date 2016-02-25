@@ -215,6 +215,10 @@ class IssueTest {
 		});
 	}
 	
+	/*
+		Tests that getUnapprovedIssue properly returns an issue
+		that has not been approved when one exists
+	*/
 	public static testGetUnapprovedIssue(test) {
 		Issue.getUnapprovedIssue(function(snapshot) {
 			test.strictEqual(
@@ -223,6 +227,26 @@ class IssueTest {
 				"Should return the specific not approved issue"
 			);
 			test.done();
+		});
+	}
+	
+	/*
+		Tests that getUnapprovedIssue properly returns null
+		when all issues are either approved or unapproved
+	*/
+	public static testGetUnapprovedIssueNullCase(test) {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+		rootRef.child("4").update({"approved" : 1}, function(error) {	
+			Issue.getUnapprovedIssue(function(snapshot) {
+				test.strictEqual(
+					snapshot,
+					null,
+					"There should be no issues to approve"
+				);
+				rootRef.child("4").update({"approved" : 0}, function(error) {
+					test.done();
+				});
+			});
 		});
 	}
 	
