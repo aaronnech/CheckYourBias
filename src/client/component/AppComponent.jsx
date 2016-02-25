@@ -3,6 +3,8 @@ Constants.firebaseUrl = Constants.FIREBASE_URL;
 var React = require('react');
 var Auth = require('../Auth');
 var Cache = require('../Cache');
+var Candidate = require('../../common/Candidate');
+var Category = require('../../common/Category');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
@@ -68,6 +70,20 @@ var AppComponent = React.createClass({
                 this.setState({active : Constants.SCREENS.FACEBOOK});
             }
             this.setState({loading: false});
+        });
+        Candidate.getAllCandidates(function(candidates) {
+            var candidateCache = [];
+            for (var candidate in candidates) {
+                candidateCache.push(candidates[candidate].name);
+            }
+            Cache.setCacheKV(Constants.CACHE.CANDIDATES, JSON.stringify(candidateCache));
+        });
+        Category.getAllCategories(function(categories) {
+            var categoryCache = [];
+            for (var category in categories) {
+                categoryCache.push(categories[category].categoryName);
+            }
+            Cache.setCacheKV(Constants.CACHE.CATEGORIES, JSON.stringify(categoryCache));
         });
     },
 

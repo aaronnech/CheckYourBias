@@ -2,6 +2,7 @@
 
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
+import Candidate = require('./Candidate');
 
 Constants.firebaseUrl = Constants.FIREBASE_URL;
 
@@ -30,11 +31,13 @@ class Issue {
 	skipCount: number;
 	flagCount: number;
 	approved: number;
+	contentType: string;
 
 	constructor(id: string, mainText: string, sources: string[],
-		candidateRatings: { [key: string]: string },
-		category: string[], submitter: string, seenByCount: number,
-		skipCount: number, flagCount: number, approved: number) {
+			candidateRatings: { [key: string]: string },
+			category: string[], submitter: string, seenByCount: number,
+			skipCount: number, flagCount: number, approved: number,
+			contentType: string) {
 		this.mainText = mainText;
 		this.sources = sources;
 		this.candidateRatings = candidateRatings;
@@ -44,6 +47,7 @@ class Issue {
 		this.skipCount = skipCount;
 		this.flagCount = flagCount;
 		this.approved = approved;
+		this.contentType = contentType;
 	}
 
 	/*
@@ -59,22 +63,24 @@ class Issue {
 	*/
 	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
 								candidateMap: { [key: string]: number }, submitter: string,
-								category: string[], callback: (error) => any) {
+								categories: string[], callback: (error) => any) {
 		var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		this.convertCandidateNamesToIds(candidateMap, function(candidateRatings) {
-			issues.push({
-				contentType: contentType,
-				mainText: mainText,
-				sources: sources,
-				candidateRatings: candidateRatings,
-				submitter: submitter,
-				category: category,
-				seenByCount: 0,
-				skipCount: 0,
-				flagCount: 0,
-				approved: 0
-			}, function(error) {
-				callback(error);
+			Issue.convertCategoryNamesToIds(categories, function(category) {
+				issues.push({
+					contentType: contentType,
+					mainText: mainText,
+					sources: sources,
+					candidateRatings: candidateRatings,
+					submitter: submitter,
+					category: category,
+					seenByCount: 0,
+					skipCount: 0,
+					flagCount: 0,
+					approved: 0
+				}, function(error) {
+					callback(error);
+				});
 			});
 		});
 	}
@@ -97,6 +103,27 @@ class Issue {
 				}
 			}
 			callback(candidateRatings);
+		});
+	}
+	
+	/*
+		Takes a list of category names and returns an equivalent
+		list of category ids via the callback.
+		
+		categoryList: list of category names
+	*/
+	public static convertCategoryNamesToIds(categoryList, callback): void {
+		var categories: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
+		var categoryIdList = [];
+		categories.once("value", function(snapshot) {
+			var catList = snapshot.val();
+			for(var i = 0; i < catList.length; i++) {
+				if(categoryList.indexOf(catList[i].categoryName) != -1)
+				{
+					categoryIdList.push(i);
+				}
+			}
+			callback(categoryIdList);
 		});
 	}
 
@@ -151,8 +178,6 @@ class Issue {
 	
 	/*
 		Approves the issue with the given id.
-		
-		Calls the callback function with the updated issue.
 	*/
 	public static approveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
@@ -163,14 +188,53 @@ class Issue {
 	
 	/*
 		Unapproves the issue with the given id.
-		
-		Calls the callback function with the updated issue.
 	*/
 	public static unapproveIssue(issueId: string, callback) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.child(issueId).update({"approved" : -1}, function(error) {
 			callback(error);
 		});	
+	}
+
+	/*
+		Returns true if issue is a direct quote. False otherwise.
+	*/
+	public static isIssueDirectQuote(issue: Issue): boolean {
+		return issue.contentType.toLowerCase().indexOf('direct') > -1;
+	}
+
+	/*
+		Returns the id of the author of the issue if the issue is a
+		direct quote or -1 if an author cannot be found.
+	*/
+	public static getIssueAuthorID(issue: Issue): string {
+		for (var key in issue.candidateRatings) {
+			if (issue.candidateRatings[key] == "5") {
+				return key;
+			}
+		}
+		return "-1";
+	}
+
+	/*
+		Returns the Avatar image for this issue.
+		Candidate image if the issue is a Direct Quote.
+		General Politics image if the issue is General Content.
+	*/
+	public static getIssueAvatarImage(issue: Issue): string {
+		if (this.isIssueDirectQuote(issue)) {	
+			return Constants.CANDIDATE_AVATARS[this.getIssueAuthorID(issue)];
+		} 
+		
+		return Constants.GENERAL_AVATAR;
+	}
+
+	/*
+		Returns the author of the issue if the given issue is a direct quote.
+		Returns NULL otherwise.
+	*/
+	public static getIssueAuthor(issue: Issue): String {
+		return Constants.CANDIDATES[this.getIssueAuthorID(issue)];
 	}
 }
 

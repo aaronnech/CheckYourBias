@@ -13,6 +13,11 @@ class Constants {
 		FULL_NAME: "userFullName"
 	};
 
+	public static CACHE: any = {
+		CATEGORIES: 'categories',
+		CANDIDATES: 'candidates'
+	};
+
 	public static CONTENT_TYPES: string[] = [
 		'Direct Quote',
 		'General Content',
@@ -21,23 +26,21 @@ class Constants {
 	public static CANDIDATES: string[] = [
 		'Bernie Sanders',
 		'Hillary Clinton',
-		'Ted Cruz',
-		'Marco Rubio',
 		'Donald Trump',
 	];
 
+	public static CANDIDATE_AVATARS: string[] = [
+		'img/candidate_0.jpg',
+		'img/candidate_1.jpg',
+		'img/candidate_2.jpg',
+	];
+
+	public static GENERAL_AVATAR: string = "img/general_avatar.svg";
+
 	public static CATEGORIES: string[] = [
-		'Crime and Safety',
-		'Economy',
 		'Education',
-		'Environment',
-		'Foreign Policy',
-		'Gun Control',
-		'Health Care',
 		'Immigration',
-		'National Security',
-		'Social Security',
-		'Taxes',
+		'Crime and Safety',
 	];
 
 	public static STANCES: string[] = [
@@ -58,10 +61,11 @@ class Constants {
 	];
 
 	public static ERRORS: any = {
-		REQUIRED: 'This field is required',
+		REQUIRED: 'This field is required.',
+		STANCE_REQUIRED: 'You must select a stance before voting.',
 		NO_ISSUE: 'No issues are available for voting. Hang in there.',
 		NO_ISSUE_HEADER: 'No more issues'
-	}
+	};
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
 	public static FIRE_USER: string = 'Users/';

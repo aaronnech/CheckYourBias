@@ -12,6 +12,7 @@ var CardText = require('material-ui/lib/card/card-text');
 var CardActions = require('material-ui/lib/card/card-actions');
 var StanceSelector = require('./StanceSelector.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
+var Snackbar = require('material-ui/lib/snackbar');
 
 /**
  * This component allows the user to indicate their level of
@@ -24,7 +25,7 @@ var RateViewpointsComponent = React.createClass({
 	 * Initial state of the component
 	 */
 	getInitialState : function() {
-	    return {
+	    var initialState = {
 	    	/**
 	    	 * Issue object containing the issue
 	    	 */
@@ -34,7 +35,22 @@ var RateViewpointsComponent = React.createClass({
 			 *	The user's stance on the issue
 			 */
 			userStance: null,
+
+			/**
+			 * An object populated with keys representing 
+			 * standardized error constants, and values representing
+			 * whether those errors are displayed or not
+			 */
+			errorsShown: {},
 	    };
+
+	    for (var key in Constants.ERRORS) {
+	    	if (Constants.ERRORS.hasOwnProperty(key)) {
+	    		initialState.errorsShown[key] = false;
+	    	}
+	    }
+
+	    return initialState;
 	},
 
 	/**
@@ -77,8 +93,11 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	confirmReaction : function() {
 		if (this.state.userStance === null) {
-			// TODO: Error message to the user here
-			console.error("User did not select a stance.")
+			this.setState({
+				errorsShown: {
+					STANCE_REQUIRED: true
+				}
+			});
 			return;
 		}
 
@@ -87,7 +106,7 @@ var RateViewpointsComponent = React.createClass({
 
 		console.log(userId, this.state.issue.id, this.state.userStance);
 		User.submitRating(userId, this.state.issue.id, this.state.userStance, function() {
-			// TODO: Display a visible message to the user
+			// TODO: Display a visual confirmation
 			console.log("User rated issue.");
 
 			self.resetStance();
@@ -110,6 +129,18 @@ var RateViewpointsComponent = React.createClass({
 			self.setState({
 				issue: result,
 			});
+		});
+	},
+
+	/**
+	 * Callback that fires when the "stance required" snackbar
+	 * should be hidden from the user
+	 */
+	handleStanceRequiredErrorClose : function() {
+		this.setState({
+			errorsShown: {
+				STANCE_REQUIRED: false
+			}
 		});
 	},
 
@@ -137,6 +168,12 @@ var RateViewpointsComponent = React.createClass({
 							disabled={this.state.issue === null} />
 					</div>
 				</CardActions>
+
+				<Snackbar
+					open={this.state.errorsShown.STANCE_REQUIRED}
+					message={Constants.ERRORS.STANCE_REQUIRED}
+					autoHideDuration={3000}
+					onRequestClose={this.handleStanceRequiredErrorClose} />
 			</Card>
 		);
 	}

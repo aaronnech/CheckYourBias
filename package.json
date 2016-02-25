@@ -4,15 +4,11 @@
   "description": "Project Description",
   "scripts": {
     "make": "./node_modules/.bin/gulp",
-
     "test": "npm run-script make && ./node_modules/.bin/gulp test",
-    "windows-test": "npm run-script make && node_modules\\.bin\\gulp test",
-
+    "test-windows": "npm run-script make && node_modules\\.bin\\gulp test",
     "webdriver": "./node_modules/.bin/gulp webdriver",
     "webdriver-windows": "node_modules\\.bin\\gulp webdriver",
-
     "serve": "./node_modules/.bin/gulp serve",
-
     "pg-android": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
     "pg-ios": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run ios --verbose && cd ../",
     "pg-setup": "./node_modules/.bin/phonegap create _cordova/ && cd _cordova &&  ../node_modules/.bin/phonegap plugin add org.apache.cordova.inappbrowser && ../node_modules/.bin/phonegap plugin add https://github.com/apache/cordova-plugin-whitelist.git && cd ..",
@@ -20,16 +16,16 @@
   },
   "dependencies": {
     "browserify": "latest",
-    "mocha" : "latest",
     "connect": "latest",
-    "serve-static": "latest",
     "firebase": "latest",
     "gulp": "latest",
+    "gulp-istanbul": "^0.10.3",
     "gulp-nodeunit": "latest",
     "gulp-typescript": "latest",
     "gulp-webdriver": "latest",
     "gulp-istanbul": "latest",
     "material-ui": "latest",
+    "mocha": "latest",
     "phonegap": "latest",
     "react": "latest",
     "react-chartjs": "latest",
@@ -37,6 +33,7 @@
     "react-tap-event-plugin": "latest",
     "reactify": "latest",
     "selenium-standalone": "latest",
+    "serve-static": "latest",
     "vinyl-source-stream": "latest",
     "webdriverio": "latest"
   },

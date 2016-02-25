@@ -19,6 +19,7 @@ var CrowdsourcingComponent = React.createClass({
 	getInitialState : function() {
 		return {
 			isAdmin: null,
+			refresh: false,
 		}
 	},
 
@@ -31,6 +32,12 @@ var CrowdsourcingComponent = React.createClass({
 		});
 	},
 
+	handleSubmit : function() {
+		this.setState({
+			refresh: !this.state.refresh,
+		});
+	},
+
 	render : function() {
 		if (this.state.isAdmin === null) {
 			return <div>LOADING</div>;
@@ -39,11 +46,11 @@ var CrowdsourcingComponent = React.createClass({
 				<Tabs>
 					<Tab label="Submit Content" >
 						<div>
-							<CrowdsourcingSubmitContentComponent />
+							<CrowdsourcingSubmitContentComponent refresh={this.handleSubmit} />
 						</div>
 					</Tab>
 					<Tab label="Approve Content" >
-						<CrowdsourcingApprovalComponent />
+						<CrowdsourcingApprovalComponent refresh={this.state.refresh} />
 					</Tab>
 				</Tabs>
 			);

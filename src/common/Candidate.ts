@@ -18,17 +18,8 @@ class Candidate {
 	candidateId: string;
 	name: string;
 	affiliatedParty: string;
-	issueRatings: {[key: string]: string};
 	website: string;
-
-	constructor(id: string, name: string, affiliatedParty: string,
-			issueRatings: { [key: string]: string },
-			website: string) {
-		this.name = name;
-		this.affiliatedParty = affiliatedParty;
-		this.issueRatings = issueRatings;
-		this.website = website;
-	}
+	active: string;
 
 	/*
 		Fetches the Candidate with the given candidateId.

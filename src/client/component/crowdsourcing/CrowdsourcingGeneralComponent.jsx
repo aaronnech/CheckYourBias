@@ -1,4 +1,5 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
 
 var CrowdsourcingCandidateStanceComponent = require('./CrowdsourcingCandidateStanceComponent.jsx');
@@ -29,22 +30,9 @@ var CrowdsourcingGeneralComponent = React.createClass({
             content: "",
             contentErrorText: Constants.ERRORS.REQUIRED,
             candidateErrorText: Constants.ERRORS.REQUIRED,
-            candidates: [],
+            candidates: JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES)),
             candidateMap: {},
         };
-    },
-
-    /**
-     * Component mounted, async pull the data in
-     */
-    componentDidMount : function() {
-        var self = this;
-        // Load candidates
-        Candidate.getAllCandidates(function(candidates) {
-            self.setState({candidates : candidates.map(function(c) {
-                return c.name;
-            })});
-        });
     },
 
     /**
@@ -58,7 +46,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
             candidates: this.state.candidates,
             candidateMap: this.state.candidateMap,
             candidateErrorText: null
-        })
+        });
     },
 
     /**

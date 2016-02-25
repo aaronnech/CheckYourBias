@@ -1,4 +1,5 @@
 var React = require('react');
+var Cache = require('../../Cache');
 var Constants = require('../../Constants');
 
 var SelectField = require('material-ui/lib/select-field');
@@ -27,35 +28,22 @@ var CrowdsourcingQuoteComponent = React.createClass({
             quote: null,
             quoteErrorText: Constants.ERRORS.REQUIRED,
             candidateErrorText: Constants.ERRORS.REQUIRED,
-            candidates: [],
+            candidates: JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES)),
         };
-    },
-
-    /**
-     * Component mounted, async pull the data in
-     */
-    componentDidMount : function() {
-        var self = this;
-        // Load candidates
-        Candidate.getAllCandidates(function(candidates) {
-            self.setState({candidates : candidates.map(function(c) {
-                return c.name;
-            })});
-        });
     },
 
     /**
      * Sets the candidate to what the user selected
      */
     handleUpdateCandidate : function(event, index, value) {
+        var candidateMap = {};
+        candidateMap[this.state.candidates[value - 1]] = Constants.STANCES.length - 1;
+        this.props.handleCandidateMap(candidateMap);
+
         this.setState({
             candidate: value,
             candidateErrorText: null
         });
-
-        var candidateMap = {};
-        candidateMap[Constants.CANDIDATES[value - 1]] = Constants.STANCES.length - 1;
-        this.props.handleCandidateMap(candidateMap);
     },
 
     /**
