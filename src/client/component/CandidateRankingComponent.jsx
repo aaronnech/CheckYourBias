@@ -92,7 +92,7 @@ var CandidateRankingComponent = React.createClass({
 		var candidates = this.state.candidateList;
 
 		if (candidates === null || candidates.length === 0) {
-			return (<ListItem primaryText={No candidates to display} />);
+			return (<ListItem primaryText={Constants.ERRORS.NO_RANKED_CANDIDATES} />);
 		}
 
 		var listChildren = [];
