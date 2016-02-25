@@ -101,6 +101,9 @@ class User {
 		candidate: The Candidate object that this entry corresponds to.
 		rating: The similarity ranking this user has with this candidate (higher ranking
 				corresponds to higher agreement)
+				
+		If a user has rated no issues which a given candidate has a rating for in the category,
+		no ranking for that candidate will be returned.
 
 
 		invariant: userId must correspond to a user in the database
@@ -147,17 +150,17 @@ class User {
 
 						var resultObjects = [];
 						for (var candidateId in candidateRatings) {
-							if (candidates[candidateId].active) {
+							if (candidates[candidateId].active && ratingsDenom[candidateId] > 0) {
 								var resultObject = {};
 								resultObject["candidate"] = candidates[candidateId];
-								resultObject["rating"] = candidateRatings[candidateId]/ratingsDenom[candidateId];
+								resultObject["rating"] = 16 - candidateRatings[candidateId]/ratingsDenom[candidateId];
 								resultObjects.push(resultObject);
 							}
 						}
 
 						// Sort from most to least agreeing
 						resultObjects.sort(function(a, b) {
-							return a.rating - b.rating;
+							return b.rating - a.rating;
 						});
 						// return resultObjects
 						callback(resultObjects);
