@@ -91,12 +91,8 @@ var CandidateRankingComponent = React.createClass({
 	getCandidates : function() {
 		var candidates = this.state.candidateList;
 
-		if (candidates === null) {
-			return (<p>Fetching candidates...</p>);
-		}
-
-		if (candidates.length === 0) {
-			return (<p>No candidates to display.</p>);
+		if (candidates === null || candidates.length === 0) {
+			return (<ListItem primaryText={No candidates to display} />);
 		}
 
 		var listChildren = [];
@@ -111,33 +107,6 @@ var CandidateRankingComponent = React.createClass({
 		var resultList = React.createElement(List, {}, listChildren);
 		return resultList;
 	},
-
-	// /** 
-	//  * Returns a menu of categories to be displayed to the user.
-	//  */
-	// getCategories : function() {
-	// 	var categories = this.state.categoryList;
-
-	// 	if (categories === null) {
-	// 		return (<DropDownMenu value={-1} disabled={true}>
-	// 			<MenuItem value={-1} primaryText="(no categories)" />
-	// 		</DropDownMenu>);
-	// 	}
-
-	// 	var categoryItems = [];
-	// 	for (var i in categories) {
-	// 		categoryItems.push(
-	// 			<MenuItem value={i} key={i} primaryText={categories[i].categoryName} />
-	// 		);
-	// 	}
-
-	// 	var menu = React.createElement(DropDownMenu,
-	// 		{value: this.state.selectedCategoryId,
-	// 		 onChange: this.handleMenuUpdate},
-	// 		categoryItems
-	// 	);
-	// 	return menu;
-	// },
 
 	/**
 	 * Renders the view
