@@ -167,6 +167,22 @@ class UserTest {
 			test.done();
 		});
 	}
+	
+	/*
+		Tests whether getRankings properly does not provide rankings
+		for candidates that share no rated issues with the user in
+		the category
+	*/
+	public static testGetRankingsSomeCandidates(test) {
+		User.getRankings("0", "4", function(rankings) {
+			test.strictEqual(
+				rankings.length,
+				2,
+				"Only two candidates should have ratings"
+				);
+			test.done();
+		});
+	}
 
 	/*
 		Tests that get rankings for a new user returns
