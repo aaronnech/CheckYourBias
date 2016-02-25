@@ -53,12 +53,15 @@ var RateViewpointsComponent = React.createClass({
 			errorsShown: {},
 
 			/**
-			 * A boolean representing whether additional issue information
-			 * is displayed
+			 * An integer, one of the following:
+			 * 0: No issue is available
+			 * 1: Issue is available, pending user vote
+			 * 2: Issue is available, displaying additional issue information
 			 */
-			additionalIssueInfoShown: false
+			screenState: 0
 	    };
 
+	    // add error message mappings
 	    for (var key in Constants.ERRORS) {
 	    	if (Constants.ERRORS.hasOwnProperty(key)) {
 	    		initialState.errorsShown[key] = false;
@@ -93,14 +96,16 @@ var RateViewpointsComponent = React.createClass({
 		var self = this;
 		// retrieve all candidates for future lookup
 		Candidate.getAllCandidates(function(result) {
-			console.info("HERE ARE YOUR CANDIDATES");
-			console.info(result);
 			self.setState({
 				candidateList: result
 			});
 		});
 
-		this.getQuote();
+		this.getQuote(function(success) {
+			self.setState({
+				screenState: success | 0 // 1 or 0 depending on (boolean) value of success
+			});
+		});
 	},
 
 	/**
@@ -118,6 +123,7 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	confirmReaction : function() {
 		if (this.state.userStance === null) {
+			// display an error to the user if the user has not selected yet a stance
 			this.setState({
 				errorsShown: {
 					STANCE_REQUIRED: true
@@ -129,14 +135,11 @@ var RateViewpointsComponent = React.createClass({
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		console.log(userId, this.state.issue.id, this.state.userStance);
 		User.submitRating(userId, this.state.issue.id, this.state.userStance, function() {
 			// show additional information about the issue
 			self.showIssueInfo();
 			// clear the stance selector
 			self.resetStance();
-			// pre-fetch the next issue
-			self.getQuote();
 		});
 	},
 
@@ -145,7 +148,7 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	showIssueInfo : function() {
 		this.setState({
-			additionalIssueInfoShown: true
+			screenState: 2
 		});
 	},
 
@@ -154,24 +157,32 @@ var RateViewpointsComponent = React.createClass({
 	 * issue info, and presses "Next Issue"
 	 */
 	hideIssueInfo : function() {
-		this.setState({
-			additionalIssueInfoShown: false
+		var self = this;
+		this.getQuote(function(success) {
+			self.setState({
+				screenState: success | 0
+			});
 		});
 	},
 
 	/**
 	 * Retrieves a random quote from a category, and displays it to the user
+	 * @param cb a callback accepting a single parameter. This parameter is set to
+	 *  true if an issue was retrieved, false otherwise
 	 */
-	getQuote : function() {
-		// TODO: replace text shown with new data from backend source
+	getQuote : function(cb) {
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
+		// TODO: Distribute getting issues from different categories
 		User.getNextIssue(userId, "0", function(result) {
-			console.log(result);
 			self.setState({
-				issue: result,
+				issue: result
 			});
+
+			if (typeof cb === 'function') {
+				cb(result !== null);
+			}
 		});
 	},
 
@@ -192,15 +203,16 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	getAdditionalIssueInfo : function() {
 		if (this.state.issue === null) {
-			return <p>No issue information is available</p>
+			return;
 		}
-
+		
 		var candidateList = [];
 		var ratings = this.state.issue.candidateRatings;
 		for (var key in ratings) {
 			if (ratings.hasOwnProperty(key)) {
 				var candidate = this.state.candidateList[key];
 				candidateList.push(<li key={key}>
+					<img src={Issue.getIssueAvatarImage(this.state.issue)} alt="Avatar" />
 					{candidate.name}, {candidate.affiliatedParty} (Rating: {ratings[key]})
 				</li>)
 			}
@@ -216,38 +228,38 @@ var RateViewpointsComponent = React.createClass({
 		var cardTitle = "Rate a new issue!";
 		var cardText = null;
 		var cardActions = null;
-
-		if (this.state.issue === null) {
+		
+		if (this.state.screenState === 0) {
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
-		} else {
-			if (this.state.additionalIssueInfoShown) {
-				cardTitle = "";
-				// show additional issue information
-				cardText = this.getAdditionalIssueInfo();
-
-				cardActions =
-					<div className="confirm-choice-wrapper">
-						<RaisedButton label="Next Issue"
-							onClick={this.hideIssueInfo}
-							style={{marginTop: '1em'}} />
-					</div>;
-			} else {
-				cardText = <p>{this.state.issue.mainText}</p>;
-				cardActions =
-					<div>
-						<div className="rate-scale"
-							style={{textAlign: 'center'}}>
-							<StanceSelector
-								value={this.state.userStance}
-								handleUpdateStance={this.handleUpdateStance} />
-						</div>
-						<div className="confirm-choice-wrapper">
-							<RaisedButton label="Vote!"
-								onClick={this.confirmReaction}
-								style={{marginTop: '1em'}} />
-						</div>
+		}
+		else if (this.state.screenState === 1) {
+			cardText = <p>{this.state.issue.mainText}</p>;
+			cardActions =
+				<div>
+					<div className="rate-scale"
+						style={{textAlign: 'center'}}>
+						<StanceSelector
+							value={this.state.userStance}
+							handleUpdateStance={this.handleUpdateStance} />
 					</div>
-			}
+					<div className="confirm-choice-wrapper">
+						<RaisedButton label="Vote!"
+							onClick={this.confirmReaction}
+							style={{marginTop: '1em'}} />
+					</div>
+				</div>
+		}
+		else if (this.state.screenState === 2) {
+			// show additional issue information
+			cardTitle = "";
+			cardText = this.getAdditionalIssueInfo();
+
+			cardActions =
+				<div className="confirm-choice-wrapper">
+					<RaisedButton label="Next Issue"
+						onClick={this.hideIssueInfo}
+						style={{marginTop: '1em'}} />
+				</div>;
 		}
 
 		return (
