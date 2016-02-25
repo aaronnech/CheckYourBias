@@ -49,24 +49,10 @@ class User {
 	*/
 	public static getUser(id: string, callback: (user: User) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
-
-		// rootRef.child("testid").once("value", function(snapshot) {
-		// 	var user = snapshot.val();
-		// 	user.id = id;
-		// 	console.log(user.email);
-		// 	console.log(user.ratedIssues);
-		// }, function(errorObject) {
-		// 	// The id given was not valid or something went wrong.
-		// 	console.log("The read failed" + errorObject.code);
-		// });
-
 		rootRef.child(id).once("value", function(snapshot) {
 			var user = snapshot.val();
 			user.id = id;
 			callback(user);
-		}, function (errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("The read failed" + errorObject.code);
 		});
 	}
 
@@ -87,8 +73,6 @@ class User {
 			else {
 				callback(null);
 			}
-		}, function (errorObject) {
-			console.log("getRatedIssues failed" + errorObject.code);
 		});
 
 	}
@@ -238,13 +222,7 @@ class User {
 							}
 						}
 					}
-				}, function (errorObject) {
-				// The id given was not valid or something went wrong.
-				console.log("Issue read failed in getNextIssue" + errorObject.code);
-					});
-			}, function (errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("Candidate read failed in getNextIssue" + errorObject.code);
+				});
 			});
 		});
 	}

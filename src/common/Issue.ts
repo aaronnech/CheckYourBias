@@ -33,23 +33,6 @@ class Issue {
 	approved: number;
 	contentType: string;
 
-	constructor(id: string, mainText: string, sources: string[],
-			candidateRatings: { [key: string]: string },
-			category: string[], submitter: string, seenByCount: number,
-			skipCount: number, flagCount: number, approved: number,
-			contentType: string) {
-		this.mainText = mainText;
-		this.sources = sources;
-		this.candidateRatings = candidateRatings;
-		this.category = category;
-		this.submitter = submitter;
-		this.seenByCount = seenByCount;
-		this.skipCount = skipCount;
-		this.flagCount = flagCount;
-		this.approved = approved;
-		this.contentType = contentType;
-	}
-
 	/*
 		Creates an unapproved issue with the given parameters. Sets approved to false and
 		skip count, flag count and seen by count all to 0.
@@ -136,9 +119,6 @@ class Issue {
 			var issue = snapshot.val();
 			issue.id = issueId;
 			callback(issue);
-		}, function(errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("getIssue failed: " + errorObject.code);
 		});
 	}
 	
@@ -149,9 +129,6 @@ class Issue {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.orderByChild("approved").equalTo(1).once("value", function(snapshot) {
 			callback(snapshot.val());
-		}, function(errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("getApprovedIssue failed: " + errorObject.code);
 		});
 	}
 
@@ -170,9 +147,6 @@ class Issue {
 					return true;
 				});
 			}
-		}, function(errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("getApprovedIssue failed: " + errorObject.code);
 		});
 	}
 	

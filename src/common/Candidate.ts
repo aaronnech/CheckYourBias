@@ -30,9 +30,6 @@ class Candidate {
 			var candidate = snapshot.val();
 			candidate.id = candidateId;
 			callback(candidate);
-		}, function(errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("The read failed" + errorObject.code);
 		});
 	}
 

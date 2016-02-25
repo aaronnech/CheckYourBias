@@ -28,9 +28,6 @@ class Category {
 			var category = snapshot.val();
 			category.id = category;
 			callback(category);
-		}, function(errorObject) {
-			// The id given was not valid or something went wrong.
-			console.log("The read failed" + errorObject.code);
 		});
 	}
 
