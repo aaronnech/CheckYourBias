@@ -108,5 +108,13 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function() {
     var tests = gulp.src('bin/**/*.test.js');
 
-    tests.pipe(nodeunit()).pipe(istanbul.writeReports());
+    tests
+      .pipe(nodeunit())
+      .on('error', function() {
+      	process.exit(1);
+      })
+      .pipe(istanbul.writeReports())
+      .on('finish', function() {
+      	process.exit(0);
+      });
 });
