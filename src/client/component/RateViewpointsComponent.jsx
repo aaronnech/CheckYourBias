@@ -12,6 +12,10 @@ var CardTitle = require('material-ui/lib/card/card-title');
 var CardMedia = require('material-ui/lib/card/card-media');
 var CardText = require('material-ui/lib/card/card-text');
 var CardActions = require('material-ui/lib/card/card-actions');
+var List = require('material-ui/lib/lists/list');
+var ListItem = require('material-ui/lib/lists/list-item');
+var Divider = require('material-ui/lib/divider');
+var Avatar = require('material-ui/lib/avatar'); 
 var StanceSelector = require('./StanceSelector.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Snackbar = require('material-ui/lib/snackbar');
@@ -211,14 +215,29 @@ var RateViewpointsComponent = React.createClass({
 		for (var key in ratings) {
 			if (ratings.hasOwnProperty(key)) {
 				var candidate = this.state.candidateList[key];
-				candidateList.push(<li key={key}>
-					<img src={Issue.getIssueAvatarImage(this.state.issue)} alt="Avatar" />
-					{candidate.name}, {candidate.affiliatedParty} (Rating: {ratings[key]})
-				</li>)
+				
+				candidateList.push(
+					<ListItem
+						key={key}
+						leftAvatar={
+							<Avatar
+								src={Issue.getIssueAvatarImage(this.state.issue)}
+								backgroundColor={Constants.STANCE_COLORS[ratings[key]]} />
+						}
+						primaryText={candidate.name + ', ' + candidate.affiliatedParty}
+						secondaryText={Constants.STANCES[ratings[key]]} />
+				);
 			}
 		}
-		candidateList.push(<li key="sources">Sources: {this.state.issue.sources}</li>)
-		return <ul>{candidateList}</ul>
+		candidateList.push(<Divider />);
+		candidateList.push(
+			<ListItem
+				key="li-source"
+				primaryText={'Sources: ' + this.state.issue.sources}
+				style={{textAlign: 'right', fontSize: 'small'}} />
+		);
+		var resultList = React.createElement(List, {}, candidateList);
+		return resultList;
 	},
 
 	/**
@@ -230,9 +249,11 @@ var RateViewpointsComponent = React.createClass({
 		var cardActions = null;
 		
 		if (this.state.screenState === 0) {
+			// no issue to be shown
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
 		}
 		else if (this.state.screenState === 1) {
+			// issue to be voted on
 			cardText = <p>{this.state.issue.mainText}</p>;
 			cardActions =
 				<div>
@@ -251,7 +272,7 @@ var RateViewpointsComponent = React.createClass({
 		}
 		else if (this.state.screenState === 2) {
 			// show additional issue information
-			cardTitle = "";
+			cardTitle = "What they think";
 			cardText = this.getAdditionalIssueInfo();
 
 			cardActions =
