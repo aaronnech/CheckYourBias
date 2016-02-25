@@ -215,6 +215,17 @@ class IssueTest {
 		});
 	}
 	
+	public static testGetUnapprovedIssue(test) {
+		Issue.getUnapprovedIssue(function(snapshot) {
+			test.strictEqual(
+				snapshot.val().mainText,
+				"This issue has not yet been approved.",
+				"Should return the specific not approved issue"
+			);
+			test.done();
+		});
+	}
+	
 }
 
 export = IssueTest;
