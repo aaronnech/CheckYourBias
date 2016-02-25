@@ -131,17 +131,17 @@ var RateViewpointsComponent = React.createClass({
 
 		console.log(userId, this.state.issue.id, this.state.userStance);
 		User.submitRating(userId, this.state.issue.id, this.state.userStance, function() {
-			// TODO: Display a visual confirmation
-			console.log("User rated issue.");
-
-			self.resetStance();
-
+			// show additional information about the issue
 			self.showIssueInfo();
+			// clear the stance selector
+			self.resetStance();
+			// pre-fetch the next issue
+			self.getQuote();
 		});
 	},
 
 	/**
-	 * Callback that fires when user has voted on an issue
+	 * Callback that fires after user has voted on an issue
 	 */
 	showIssueInfo : function() {
 		this.setState({
@@ -149,12 +149,14 @@ var RateViewpointsComponent = React.createClass({
 		});
 	},
 
-	retrieveNextIssue : function() {
+	/**
+	 * Callback that fires after a user has looked at the additional
+	 * issue info, and presses "Next Issue"
+	 */
+	hideIssueInfo : function() {
 		this.setState({
 			additionalIssueInfoShown: false
 		});
-
-		this.getQuote();
 	},
 
 	/**
@@ -189,6 +191,10 @@ var RateViewpointsComponent = React.createClass({
 	 * Returns as a DOM element information regarding the current issue
 	 */
 	getAdditionalIssueInfo : function() {
+		if (this.state.issue === null) {
+			return <p>No issue information is available</p>
+		}
+
 		var candidateList = [];
 		var ratings = this.state.issue.candidateRatings;
 		for (var key in ratings) {
@@ -207,19 +213,22 @@ var RateViewpointsComponent = React.createClass({
 	 * Renders the view
 	 */
 	render : function() {
+		var cardTitle = "Rate a new issue!";
 		var cardText = null;
 		var cardActions = null;
+
 		if (this.state.issue === null) {
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
 		} else {
 			if (this.state.additionalIssueInfoShown) {
+				cardTitle = "";
 				// show additional issue information
-				cardText = <div>{this.getAdditionalIssueInfo()}</div>;
+				cardText = this.getAdditionalIssueInfo();
 
 				cardActions =
 					<div className="confirm-choice-wrapper">
 						<RaisedButton label="Next Issue"
-							onClick={this.retrieveNextIssue}
+							onClick={this.hideIssueInfo}
 							style={{marginTop: '1em'}} />
 					</div>;
 			} else {
@@ -243,7 +252,7 @@ var RateViewpointsComponent = React.createClass({
 
 		return (
 			<Card className="rate-viewpoints">
-				<CardTitle title="Rate a New Issue!" />
+				<CardTitle title={cardTitle} />
 				<CardText className="issue-wrapper">
 					{cardText}
 				</CardText>
