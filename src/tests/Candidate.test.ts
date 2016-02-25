@@ -19,7 +19,7 @@ class CandidateTest {
 	}
 	
 	/*
-		Gets all candidates and makes sure the first has the right name
+		Gets all candidates and makes sure the first candidate has the right name
 	*/	
 	public static testGetAllCandidates(test) {
 		Candidate.getAllCandidates(function(candList) {
@@ -36,7 +36,7 @@ class CandidateTest {
 		Gets all candidates and tests that they are sorted in lexicographic order by name
 	*/
 	public static testGetAllCandidatesSorted(test) {
-		Candidate.getAllCandidates(function(candList) {
+		Candidate.getAllCandidatesSorted(function(candList) {
 			for (var i = 0, len = candList.length; i < len - 1; i++) {
 				test.ok(candList[i].name < candList[i + 1].name,
 					"Items " + i + " and " + (i + 1) + " are not in sorted order!");

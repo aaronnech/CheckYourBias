@@ -25,8 +25,8 @@ class CategoryTest {
 		Category.getAllCategories(function(catList) {
 			test.strictEqual(
 				catList[0].categoryName,
-				'Abortion',
-				'Category with id 0 should have categoryName == \'Abortion\''
+				'Education',
+				'Category with id 0 should have categoryName == \'Education\''
 			);
 			test.done();
 		});
@@ -36,7 +36,7 @@ class CategoryTest {
 		Gets all the categories and tests that they are sorted in lexicographic order
 	*/
 	public static testGetAllCategoriesSorted(test) {
-		Category.getAllCategories(function(catList) {
+		Category.getAllCategoriesSorted(function(catList) {
 			for (var i = 0, len = catList.length; i < len - 1; i++) {
 				test.ok(catList[i].categoryName < catList[i + 1].categoryName,
 					"Items " + i + " and " + (i + 1) + " are not in sorted order!");
