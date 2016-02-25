@@ -61,8 +61,8 @@ class UserTest {
 		User.getRatedIssues("0", function(issues) {
 			test.strictEqual(
 				issues["0"],
-				4,
-				'Rating of first issue should be 4'
+				3,
+				'Rating of first issue should be 3'
 			);
 			test.done();
 		});
@@ -113,8 +113,8 @@ class UserTest {
 			);
 			test.strictEqual(
 				issue.candidateRatings[0],
-				4,
-				'Issue 2 has rating of 4 from candidate 0'
+				3,
+				'Issue 2 has rating of 3 from candidate 0'
 			);
 			test.done();
 		});

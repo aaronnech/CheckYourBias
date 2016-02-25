@@ -183,7 +183,7 @@ class Issue {
 	*/
 	public static getIssueAuthorID(issue: Issue): string {
 		for (var key in issue.candidateRatings) {
-			if (issue.candidateRatings[key] == "5") {
+			if (issue.candidateRatings[key] == "4") {
 				return key;
 			}
 		}
