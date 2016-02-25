@@ -221,7 +221,7 @@ var RateViewpointsComponent = React.createClass({
 						key={key}
 						leftAvatar={
 							<Avatar
-								src={Issue.getIssueAvatarImage(this.state.issue)}
+								src={Candidate.getCandidateAvatarSrc(key)}
 								backgroundColor={Constants.STANCE_COLORS[ratings[key]]} />
 						}
 						primaryText={candidate.name + ', ' + candidate.affiliatedParty}
@@ -229,7 +229,7 @@ var RateViewpointsComponent = React.createClass({
 				);
 			}
 		}
-		candidateList.push(<Divider />);
+		candidateList.push(<Divider key="divider" />);
 		candidateList.push(
 			<ListItem
 				key="li-source"
