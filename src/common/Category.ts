@@ -32,12 +32,15 @@ class Category {
 	}
 
 	/*
-		Fetches all the categories
+		Fetches all the categories, in lexicographically sorted order.
 	*/
 	public static getAllCategories(callback: (categories) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.orderByKey().once("value", function(snapshot) {
 			var categories = snapshot.val();
+			categories.sort(function(a, b) {
+				return a.categoryName.localeCompare(b.categoryName);
+			});
 			callback(categories);
 		});
 	}

@@ -34,12 +34,15 @@ class Candidate {
 	}
 
 	/*
-		Fetches all the candidates
+		Fetches all the candidates, in lexicographically sorted order.
 	*/
 	public static getAllCandidates(callback: (candidates) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		rootRef.orderByKey().once("value", function(snapshot) {
 			var candidates = snapshot.val();
+			candidates.sort(function(a, b) {
+				return a.name.localeCompare(b.name);
+			});
 			callback(candidates);
 		});
 	}

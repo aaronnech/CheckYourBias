@@ -31,6 +31,19 @@ class CandidateTest {
 			test.done();
 		});
 	}
+
+	/*
+		Gets all candidates and tests that they are sorted in lexicographic order by name
+	*/
+	public static testGetAllCandidatesSorted(test) {
+		Candidate.getAllCandidates(function(candList) {
+			for (var i = 0, len = candList.length; i < len - 1; i++) {
+				test.ok(candList[i].name < candList[i + 1].name,
+					"Items " + i + " and " + (i + 1) + " are not in sorted order!");
+			}
+			test.done();
+		});
+	}
 }
 
 export = CandidateTest;

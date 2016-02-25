@@ -17,7 +17,7 @@ class CategoryTest {
 			test.done();
 		});
 	}
-	
+
 	/*
 		Gets all the categories and makes sure it has the right name
 	*/
@@ -25,9 +25,22 @@ class CategoryTest {
 		Category.getAllCategories(function(catList) {
 			test.strictEqual(
 				catList[0].categoryName,
-				'Education',
-				'Category with id 0 should have categoryName == \'Education\''
+				'Abortion',
+				'Category with id 0 should have categoryName == \'Abortion\''
 			);
+			test.done();
+		});
+	}
+
+	/*
+		Gets all the categories and tests that they are sorted in lexicographic order
+	*/
+	public static testGetAllCategoriesSorted(test) {
+		Category.getAllCategories(function(catList) {
+			for (var i = 0, len = catList.length; i < len - 1; i++) {
+				test.ok(catList[i].categoryName < catList[i + 1].categoryName,
+					"Items " + i + " and " + (i + 1) + " are not in sorted order!");
+			}
 			test.done();
 		});
 	}
