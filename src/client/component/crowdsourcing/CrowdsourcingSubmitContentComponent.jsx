@@ -1,10 +1,10 @@
 var React = require('react');
 var Cache = require('../../Cache');
+var InternetConnectivity = require('../../InternetConnectivity');
 var Constants = require('../../Constants');
 var Issue = require('../../../common/Issue');
 var User = require('../../../common/User');
 var Category = require('../../../common/Category');
-
 
 var CrowdsourcingQuoteComponent = require('./CrowdsourcingQuoteComponent.jsx');
 var CrowdsourcingGeneralComponent = require('./CrowdsourcingGeneralComponent.jsx');
@@ -149,6 +149,16 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      * Creates a new unapprovedIssue in Firebase
      */
     handleSubmit : function() {
+        if (!InternetConnectivity.getCurrentConnection()) {
+            // No internet connection
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: "An internet connection is required to submit content.",
+            });
+
+            return;
+        }
+
         if (!this.areRequiredFieldsComplete()) {
             this.setState({
                 showErrorUnderlines: true,

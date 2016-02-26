@@ -70,6 +70,7 @@ class Constants {
 	};
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";
+	public static FIREBASE_CONNECTION: string = "https://check-your-bias.firebaseio.com/.info/connected";
 	public static FIRE_USER: string = 'Users/';
 	public static FIRE_CANDIDATE: string = 'Candidates/';
 	public static FIRE_CATEGORY: string = 'Categories/';

@@ -3,6 +3,7 @@ Constants.firebaseUrl = Constants.FIREBASE_URL;
 var React = require('react');
 var Auth = require('../Auth');
 var Cache = require('../Cache');
+var InternetConnectivity = require('../InternetConnectivity');
 var Candidate = require('../../common/Candidate');
 var Category = require('../../common/Category');
 
@@ -65,6 +66,7 @@ var AppComponent = React.createClass({
     },
 
     componentWillMount : function() {
+        InternetConnectivity.startConnectivity();
         Auth.isAuth((authed) => {
             if (!authed) {
                 this.setState({active : Constants.SCREENS.FACEBOOK});
