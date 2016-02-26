@@ -44,6 +44,46 @@ class CandidateTest {
 			test.done();
 		});
 	}
+
+	/*
+		Tests retrieval of correct avatar image for a valid candidate with an image
+	*/
+	public static testGetCandidateAvatarSrcForValidCandidate(test) {
+		var src = Candidate.getCandidateAvatarSrc("0");
+		test.equal(src, Constants.CANDIDATE_AVATARS[0],
+			"Did not fetch correct avatar for candidate 0");
+
+		var src2 = Candidate.getCandidateAvatarSrc("2");
+		test.equal(src2, Constants.CANDIDATE_AVATARS[2],
+			"Did not fetch correct avatar for candidate 2");
+
+		test.done();
+	}
+
+	/*
+		Tests retrieval of the general avatar image for candidates without an image
+	*/
+	public static testGetCandidateAvatarSrcForCandidateWithoutImage(test) {
+		var src2 = Candidate.getCandidateAvatarSrc("3214");
+		test.equal(src2, Constants.GENERAL_AVATAR,
+			"Did not fetch the general avatar for candidate without avatar");
+
+		test.done();
+	}
+
+	/*
+		Test retrieval of general avatar image for invalid candidates
+	*/
+	public static testGetCandidateAvatarSrcForInvalidCandidate(test) {
+		var src = Candidate.getCandidateAvatarSrc("-1");
+		test.equal(src, Constants.GENERAL_AVATAR,
+			"Did not fetch the general avatar for nonexistent candidate");
+		var srcBogus = Candidate.getCandidateAvatarSrc("hello my name is pedro");
+		test.equal(srcBogus, Constants.GENERAL_AVATAR,
+			"Did not fetch the general avatar for nonexistent candidate");
+
+		test.done();
+	}
 }
 
 export = CandidateTest;

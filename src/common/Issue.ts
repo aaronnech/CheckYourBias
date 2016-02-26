@@ -196,8 +196,9 @@ class Issue {
 		General Politics image if the issue is General Content.
 	*/
 	public static getIssueAvatarImage(issue: Issue): string {
-		if (this.isIssueDirectQuote(issue)) {	
-			return Constants.CANDIDATE_AVATARS[this.getIssueAuthorID(issue)];
+		if (this.isIssueDirectQuote(issue)) {
+			var authorId = this.getIssueAuthorID(issue);
+			return Candidate.getCandidateAvatarSrc(authorId);
 		} 
 		
 		return Constants.GENERAL_AVATAR;

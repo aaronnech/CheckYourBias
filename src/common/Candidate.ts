@@ -35,6 +35,20 @@ class Candidate {
 
 	/*
 		Fetches all the candidates
+		Returns a relative filepath (from /src/client/static) to the avatar of the candidate.
+		If no avatar is present for that candidate, returns filepath to the default avatar.
+	*/
+	public static getCandidateAvatarSrc(candidateId: string): any {
+		var cid = +candidateId;
+		if (isNaN(cid) || cid < 0 || cid >= Constants.CANDIDATE_AVATARS.length) {
+			// assume no avatar for that candidate.
+			return Constants.GENERAL_AVATAR;
+		}
+		return Constants.CANDIDATE_AVATARS[candidateId];
+	}
+
+	/*
+		Fetches all the candidates, in lexicographically sorted order.
 	*/
 	public static getAllCandidates(callback: (candidates) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);

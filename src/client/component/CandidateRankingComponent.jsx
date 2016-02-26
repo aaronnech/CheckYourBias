@@ -39,9 +39,6 @@ var CandidateRankingComponent = React.createClass({
 	},
 
 	createAllCategories : function(categories) {
-		console.info("Here are your categories");
-		console.info(categories);
-
 		category_items = [];
 		for (var category_index in categories) {
 			var cat = categories[category_index];
@@ -67,7 +64,7 @@ var CandidateRankingComponent = React.createClass({
 
 		// retrieve candidates for the user
 		User.getRankings(userId, "1", function(rankings) {
-			console.info("Here are your candidates rankings");
+			console.info("Candidate rankings:");
 			console.info(rankings);
 			self.setState({
 				candidateList: rankings
@@ -78,10 +75,21 @@ var CandidateRankingComponent = React.createClass({
 	/**
 	 * Callback that is fired whenever the user selects a new item in the menu
 	 */
-	handleMenuUpdate : function(event, index, value) {
-		console.log(value);
+	handleMenuUpdate : function(event, index, newCategoryId) {
 		this.setState({
-			selectedCategoryId: value,
+			selectedCategoryId: newCategoryId,
+		});
+
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+
+		// retrieve new candidate rankings for the user
+		User.getRankings(userId, newCategoryId, function(rankings) {
+			console.info("Candidate rankings (new):");
+			console.info(rankings);
+			self.setState({
+				candidateList: rankings
+			});
 		});
 	},
 
@@ -114,7 +122,9 @@ var CandidateRankingComponent = React.createClass({
 	render : function() {
 		return (
 			<Card className="submit-content">
-				<DropDownMenu value={this.state.selectedCategoryId} onChange={this.handleMenuUpdate}>
+				<DropDownMenu
+				  value={this.state.selectedCategoryId}
+				  onChange={this.handleMenuUpdate}>
 					{this.state.categoryList}
 				</DropDownMenu>
 				<List>
