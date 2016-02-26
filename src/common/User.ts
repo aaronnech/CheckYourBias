@@ -86,6 +86,16 @@ class User {
 		rating: The similarity ranking this user has with this candidate (higher ranking
 				corresponds to higher agreement)
 				
+		The ranking algorithm is as follows:
+			- For each candidate, determine the average of squares of difference of opinion
+				between the user and the candidate over each issue for which both have a rating
+			- Take the square root of this value, invert it and normalize it such that
+				complete agreement: rating of 100
+				rating off by 1 on each issue: rating of 75
+				rating off by 2 on each issue: rating of 50
+				rating off by 3 on each issue: rating of 25
+				rating off by 4 on each issue: rating of 0
+				
 		If a user has rated no issues which a given candidate has a rating for in the category,
 		no ranking for that candidate will be returned.
 
@@ -137,7 +147,8 @@ class User {
 							if (candidates[candidateId].active && ratingsDenom[candidateId] > 0) {
 								var resultObject = {};
 								resultObject["candidate"] = candidates[candidateId];
-								resultObject["rating"] = 16 - candidateRatings[candidateId]/ratingsDenom[candidateId];
+								resultObject["rating"] = 100 - 
+									Math.round(25*Math.sqrt(candidateRatings[candidateId]/ratingsDenom[candidateId]));
 								resultObjects.push(resultObject);
 							}
 						}

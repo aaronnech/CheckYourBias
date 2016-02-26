@@ -156,13 +156,13 @@ class UserTest {
 		User.getRankings("0", "0", function(rankings) {
 			test.strictEqual(
 				rankings[0].rating,
-				15,
-				"Ranking for top candidate should be 15"
+				75,
+				"Ranking for top candidate should be 75"
 				);
 			test.strictEqual(
 				rankings[2].rating,
-				12,
-				"Ranking for bottom candidate should be 12"
+				50,
+				"Ranking for bottom candidate should be 50"
 				);
 			test.done();
 		});
