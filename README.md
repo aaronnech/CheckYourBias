@@ -10,6 +10,8 @@ Links
 * [Project Website](http://aaronnech.github.io/CheckYourBias/)
 * [Updated Software Requirement Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/requirements_updated/requirements.pdf)
 * [Updated Software Design Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/software_design_updated/software_design_specification.pdf)
+* [Original Software Requirement Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/requirements/requirements.pdf)
+* [Original Software Design Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/software_design/software_design_specification.pdf)
 
 Setup
 ------
