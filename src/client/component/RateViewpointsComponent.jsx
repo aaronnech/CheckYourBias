@@ -151,10 +151,23 @@ var RateViewpointsComponent = React.createClass({
 	 * Retrieve a new issue without voting on the current issue.
 	 */
 	skipIssue : function() {
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		this.getIssue(function() {
-			self.resetStance();
+		// mark this issue as skipped
+		User.skipIssue(userId, this.state.issue.id, function(err) {
+			if (err) {
+				console.error(err);
+			}
+			
+			console.log("Skipped issue with id " + self.state.issue.id);
+			// retrieve a new issue.
+			self.getIssue(function(success) {
+				self.setState({
+					screenState: success | 0
+				});
+				self.resetStance();
+			});
 		});
 	},
 
@@ -190,6 +203,9 @@ var RateViewpointsComponent = React.createClass({
 		var self = this;
 
 		User.getNextIssue(userId, null, function(result) {
+			console.info("NEW ISSUE");
+			console.info(result);
+
 			self.setState({
 				issue: result
 			});
@@ -258,7 +274,7 @@ var RateViewpointsComponent = React.createClass({
 		var cardText = null;
 		var cardActions = null;
 		
-		if (this.state.screenState === 0) {
+		if (this.state.issue === null || this.state.screenState === 0) {
 			// no issue to be shown
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
 		}
