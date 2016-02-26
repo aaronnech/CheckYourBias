@@ -56,8 +56,8 @@ var CandidateRankingComponent = React.createClass({
 	 * Overrides React's componentDidMount
 	 */
 	componentDidMount : function() {
-		// retrieve categories
-		Category.getAllCategories(this.createAllCategories);
+		// retrieve categories in alphabetical order
+		Category.getAllCategoriesSorted(this.createAllCategories);
 
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
