@@ -110,6 +110,7 @@ var CandidateRankingComponent = React.createClass({
 			listChildren.push(<ListItem
 				key={i}
 				primaryText={candidates[i].candidate.name}
+				secondaryText={candidates[i].rating + "% similar views as you"}
 				leftIcon={<ContentLabel />} />
 			);
 		}
