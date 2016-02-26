@@ -225,7 +225,7 @@ class User {
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
-											(nextIssue.category.indexOf(+categoryId) != -1)) {
+											(categoryId == "all" || nextIssue.category.indexOf(+categoryId) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
