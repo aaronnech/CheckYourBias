@@ -28,8 +28,8 @@ var CrowdsourcingGeneralComponent = React.createClass({
     getInitialState : function() {
         return {
             content: "",
-            contentErrorText: Constants.ERRORS.REQUIRED,
-            candidateErrorText: Constants.ERRORS.REQUIRED,
+            contentErrorText: Constants.ERRORS.BLANK_LINE,
+            candidateErrorText: Constants.ERRORS.BLANK_LINE,
             candidates: JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES)),
             candidateMap: {},
         };
@@ -58,7 +58,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
         var errorText = null;
 
         if (content.length == 0) {
-            errorText = Constants.ERRORS.REQUIRED;
+            errorText = Constants.ERRORS.BLANK_LINE;
         } else if (content.length > CONTENT_MAX) {
             errorText = "Content must be " + CONTENT_MAX + " characters or less";
         }
@@ -111,7 +111,7 @@ var CrowdsourcingGeneralComponent = React.createClass({
                 value={this.state.candidate}
                 hintText={"Add Candidate"}
                 onChange={this.handleUpdateCandidate}
-                errorText={this.state.candidateErrorText}>
+                errorText={this.props.getErrorText(this.state.candidateErrorText)}>
                 {this.state.candidates.map((function(c, i) {
                     return (
                         <MenuItem key={i} value={i + 1} primaryText={c} />
@@ -135,11 +135,11 @@ var CrowdsourcingGeneralComponent = React.createClass({
                 <TextField
                     value={this.state.content}
                     hintText="Public universities should be free"
-                    errorText={this.state.contentErrorText}
+                    errorText={this.props.getErrorText(this.state.contentErrorText)}
                     multiLine={true}
                     onChange={this.handleUpdateContent}
                 />
-
+                <span className="asterisk">*</span>
                 <p>Candidate Stances:</p>
                 {this.getCandidateStances()}
                 <div>

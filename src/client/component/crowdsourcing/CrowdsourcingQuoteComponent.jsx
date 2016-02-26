@@ -26,8 +26,8 @@ var CrowdsourcingQuoteComponent = React.createClass({
         return {
             candidate: null,
             quote: null,
-            quoteErrorText: Constants.ERRORS.REQUIRED,
-            candidateErrorText: Constants.ERRORS.REQUIRED,
+            quoteErrorText: Constants.ERRORS.BLANK_LINE,
+            candidateErrorText: Constants.ERRORS.BLANK_LINE,
             candidates: JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES)),
         };
     },
@@ -55,7 +55,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
         var errorText = null;
 
         if (quote.length == 0) {
-            errorText = Constants.ERRORS.REQUIRED;
+            errorText = Constants.ERRORS.BLANK_LINE;
         } else if (quote.length > QUOTE_MAX) {
             errorText = "Quote must be " + QUOTE_MAX + " characters or less";
         }
@@ -75,6 +75,11 @@ var CrowdsourcingQuoteComponent = React.createClass({
     },
 
     render : function() {
+        var quoteErrorText = this.state.quoteErrorText;
+        if (quoteErrorText === Constants.ERRORS.BLANK_LINE) {
+            quoteErrorText = this.props.getErrorText(quoteErrorText);
+        }
+
         return (
             <div>
                 <p>Which candidate said it?</p>
@@ -82,8 +87,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
                     value={this.state.candidate}
                     hintText={"Select Candidate"}
                     onChange={this.handleUpdateCandidate}
-                    errorText={this.state.candidateErrorText}
-                >
+                    errorText={this.props.getErrorText(this.state.candidateErrorText)}>
                     {this.state.candidates.map((function(c, i) {
                         return (
                             <MenuItem key={i} value={i + 1} primaryText={c} />
@@ -93,7 +97,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
                 <p>Quote:</p>
                 <TextField
                     hintText="I will make America great again"
-                    errorText={this.state.quoteErrorText}
+                    errorText={quoteErrorText}
                     multiLine={true}
                     onChange={this.handleUpdateQuote}
                 />

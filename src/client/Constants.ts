@@ -62,10 +62,11 @@ class Constants {
 
 	public static ERRORS: any = {
 		REQUIRED: 'This field is required.',
+		BLANK_LINE: ' ',
 		STANCE_REQUIRED: 'You must select a stance before voting.',
 		NO_ISSUE: 'No issues are available for voting. Hang in there.',
-		NO_ISSUE_HEADER: 'No more issues',
-		NO_RANKED_CANDIDATES: 'No candidates to display'
+		NO_ISSUE_HEADER: 'No more issues.',
+		NO_RANKED_CANDIDATES: 'No candidates to display.'
 	};
 
 	public static FIREBASE_URL: string = "https://check-your-bias.firebaseio.com/Prod/";

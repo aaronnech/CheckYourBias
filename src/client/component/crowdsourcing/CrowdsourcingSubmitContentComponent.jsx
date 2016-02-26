@@ -40,7 +40,9 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             selectedCategories: [],
             sources: [],  // list of all sources that have already been added
             source: "",  // current source
-            categoryErrorText: Constants.ERRORS.REQUIRED,
+            categoryErrorText: Constants.ERRORS.BLANK_LINE,
+            sourceErrorText: Constants.ERRORS.BLANK_LINE,
+            showErrorUnderlines: false,
             showSnackbar: false,
             snackbarMessage: "",
             hasSubmitted: false,  // should be true while request is being processed
@@ -79,7 +81,9 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             selectedCategories: [],
             sources: [],
             source: "",
-            categoryErrorText: Constants.ERRORS.REQUIRED
+            categoryErrorText: Constants.ERRORS.BLANK_LINE,
+            sourceErrorText: Constants.ERRORS.BLANK_LINE,
+            showErrorUnderlines: false,
         });
     },
 
@@ -131,6 +135,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             this.setState({
                 sources: this.state.sources.concat([this.state.source]),
                 source: "",
+                sourceErrorText: null,
             });
         } else {
             this.setState({
@@ -144,6 +149,18 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
      * Creates a new unapprovedIssue in Firebase
      */
     handleSubmit : function() {
+        if (!this.areRequiredFieldsComplete()) {
+            this.setState({
+                showErrorUnderlines: true,
+            });
+
+            return;
+        } else {
+            this.setState({
+                showErrorUnderlines: false,
+            });
+        }
+
         var self = this;
         User.getUser(Cache.getCacheV(Constants.AUTH.UID), function(user) {
             Issue.initializeUnapprovedIssue(
@@ -180,12 +197,17 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         });
     },
 
+    getErrorText : function(errorText) {
+        return this.state.showErrorUnderlines ? errorText : '';
+    },
+
     getSelectCategory : function() {
+        var errorText = this.getErrorText(this.state.categoryErrorText);
         return ((this.state.categoriesList.length > 0) ? (
             <SelectField
                 hintText={"Add Category"}
                 onChange={this.handleUpdateCategory}
-                errorText={this.state.categoryErrorText}>
+                errorText={errorText}>
                 {this.state.categoriesList.map((function(c, i) {
                     return (
                         <MenuItem key={i} value={i + 1} primaryText={c} />
@@ -223,6 +245,16 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         );
     },
 
+    areRequiredFieldsComplete : function() {
+        return (
+            Boolean(this.state.content.length)
+            && Boolean(Object.keys(this.state.candidateMap).length)
+            && Boolean(this.state.sources.length)
+            && Boolean(this.state.selectedCategories.length > 0)
+            && !this.state.hasSubmitted
+        );
+    },
+
     render : function() {
         var formComponent = null;
         if (this.state.contentType === 1) {
@@ -230,12 +262,14 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 ref="quoteComponent"
                 handleCandidateMap={this.handleCandidateMap}
                 handleContent={this.handleContent}
+                getErrorText={this.getErrorText}
             />;
         } else if (this.state.contentType === 2) {
             formComponent = <CrowdsourcingGeneralComponent
                 ref="generalComponent"
                 handleCandidateMap={this.handleCandidateMap}
                 handleContent={this.handleContent}
+                getErrorText={this.getErrorText}
             />;
         }
 
@@ -246,8 +280,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                         <p>What is the type of content?</p>
                         <SelectField
                             value={this.state.contentType}
-                            onChange={this.handleContentType}
-                        >
+                            onChange={this.handleContentType}>
                             {Constants.CONTENT_TYPES.map((function(c, i) {
                                 // need to start value at 1 instead of 0 for highlighting selected option
                                 return (
@@ -263,6 +296,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                             hintText="Link to reliable source"
                             multiLine={true}
                             onChange={this.handleUpdateSource}
+                            errorText={this.getErrorText(this.state.sourceErrorText)}
                         />
                         <div>
                             <RaisedButton
@@ -275,13 +309,6 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                         {this.getSelectCategory()}
                         <div className="submit-button">
                             <RaisedButton
-                                disabled={
-                                    !Boolean(this.state.content.length)
-                                    || !Boolean(Object.keys(this.state.candidateMap).length)
-                                    || !Boolean(this.state.sources.length)
-                                    || !Boolean(this.state.selectedCategories.length > 0)
-                                    || this.state.hasSubmitted
-                                }
                                 label="Submit"
                                 primary={true}
                                 onClick={this.handleSubmit}
