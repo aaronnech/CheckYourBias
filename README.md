@@ -52,6 +52,8 @@ npm run-script test
 
 in the command line. All tests should be placed in `src/tests`, with one test class per TypeScript class. Tests should reside in static TypeScript classes as per NodeUnit standards such that each static function is one unit test. Test files are automatically recognized if they end with the postfix `-test.ts`.
 
+![Code Coverage](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/code_coverage.png?raw=true "~100% Code Coverage")
+
 Front-end Testing
 -----------------
 
