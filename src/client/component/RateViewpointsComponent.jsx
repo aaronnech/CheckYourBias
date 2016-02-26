@@ -178,8 +178,7 @@ var RateViewpointsComponent = React.createClass({
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		// TODO: Distribute getting issues from different categories
-		User.getNextIssue(userId, "0", function(result) {
+		User.getNextIssue(userId, null, function(result) {
 			self.setState({
 				issue: result
 			});
