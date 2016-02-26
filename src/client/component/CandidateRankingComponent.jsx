@@ -43,7 +43,13 @@ var CandidateRankingComponent = React.createClass({
 		for (var category_index in categories) {
 			var cat = categories[category_index];
 			var name = cat.categoryName;
-			category_items.push(<MenuItem value={parseInt(category_index)} key={category_index} primaryText={name}/>);
+			category_items.push(
+				<MenuItem
+					value={parseInt(category_index)}
+					key={category_index}
+					primaryText={name}
+				/>
+			);
 		}
 
 		this.setState({
@@ -106,13 +112,15 @@ var CandidateRankingComponent = React.createClass({
 		}
 
 		var listChildren = [];
-		for (var i = 0, len = candidates.length; i < len; i++) {
-			listChildren.push(<ListItem
-				key={i}
-				primaryText={candidates[i].candidate.name}
-				secondaryText={candidates[i].rating + "% similar views as you"}
-				leftIcon={<ContentLabel />} />
-			);
+		for (var key in candidates) {
+			if (candidates.hasOwnProperty(key)) {
+				listChildren.push(<ListItem
+					key={key}
+					primaryText={candidates[key].candidate.name}
+					secondaryText={candidates[key].rating + "% similar views as you"}
+					leftIcon={<ContentLabel />} />
+				);
+			}
 		}
 
 		var resultList = React.createElement(List, {}, listChildren);
