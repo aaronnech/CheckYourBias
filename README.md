@@ -73,20 +73,13 @@ npm run-script webdriver
 
 Building to PhoneGap
 --------------------
-For releases, we compile the application into a file that can be directly installed on Android or iOS phones.
+For releases, we compile the application into a file that can be directly installed on Android phones.
 
 To build the application for Android, issue the following commands:
 
 <pre>
 npm run-script pg-setup
 npm run-script pg-android
-</pre>
-
-To build for iOS, issue the following commands:
-
-<pre>
-npm run-script pg-setup
-npm run-script pg-ios
 </pre>
 
 Vendor files
