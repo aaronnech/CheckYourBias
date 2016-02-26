@@ -56,18 +56,20 @@ var CandidateRankingComponent = React.createClass({
 	 * Overrides React's componentDidMount
 	 */
 	componentDidMount : function() {
-		// retrieve categories in alphabetical order
-		Category.getAllCategoriesSorted(this.createAllCategories);
-
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		// retrieve candidates for the user
-		User.getRankings(userId, "1", function(rankings) {
-			console.info("Candidate rankings:");
-			console.info(rankings);
-			self.setState({
-				candidateList: rankings
+		Category.getAllCategories(function(categories) {
+			self.createAllCategories(categories);
+			// retrieve candidates for the user
+			// TODO: when categories are sorted, pass in the category id
+			// of the first category that appears in the menu.
+			User.getRankings(userId, "0", function(rankings) {
+				console.info("Candidate rankings:");
+				console.info(rankings);
+				self.setState({
+					candidateList: rankings
+				});
 			});
 		});
 	},
