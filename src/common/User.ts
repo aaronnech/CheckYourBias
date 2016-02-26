@@ -27,6 +27,7 @@ class User {
 	submittedIssueIds: string[];
 	ratedIssues: {[key: string]: string};
 	categoryWeights: {[key: string]: string};
+	skippedIssueIds: string[];
 
 	public static initializeUser(id: string, firstName: string, lastName: string, callback: (error) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
@@ -183,6 +184,27 @@ class User {
 	}
 
 	/*
+		Takes a user id and issue id and adds the fact that the issue was skipped by the 
+		given user to the database
+	*/
+	public static skipIssue(userId: string, issueId: string, callback: (errorObject) => any): void {
+		User.getUser(userId, function(user) {
+			var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
+			var temp = [];
+			if (user.skippedIssueIds == null) {
+				temp[0] = issueId;
+			} else {
+				temp = user.skippedIssueIds
+				temp.push(issueId);
+			}
+			rootRef.child(userId).child("skippedIssueIds").set(temp, function(errorObject) {
+				callback(errorObject);
+			});
+
+		});
+	}
+
+	/*
 		Takes a userId and a categoryId and gets an issue in that category that the user
 		has not yet seen. Calls the callback function with the Issue.
 		
@@ -214,6 +236,9 @@ class User {
 						}
 						attemptedCandidates.push(chosenCandidate);
 						var attemptedIssues: string[] = [];
+						if (user.skippedIssueIds != null) {
+							attemptedIssues = user.skippedIssueIds;
+						}
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
 						while (attemptedIssues.length < allIssuesIdArray.length && !foundIssue &&
