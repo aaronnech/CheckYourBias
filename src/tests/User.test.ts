@@ -119,6 +119,22 @@ class UserTest {
 			test.done();
 		});
 	}
+	
+	/*
+		Tests the get next issue function when null is passed
+		as the category id (meaning an issue from any category
+		can be returned)
+	*/
+	public static testGetNextIssueAnyCategory(test) {
+		User.getNextIssue("0", null, function(issue) {
+			test.strictEqual(
+				issue.id,
+				"2",
+				'Returned issue should be issue 2'
+			);
+			test.done();
+		});
+	}
 
 	/*
 		Tests the get next issue when there are no issues for a user and

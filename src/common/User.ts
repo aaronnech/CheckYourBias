@@ -185,9 +185,13 @@ class User {
 	/*
 		Takes a userId and a categoryId and gets an issue in that category that the user
 		has not yet seen. Calls the callback function with the Issue.
+		
+		Candidates receive equal representation.
+		
+		If null is passed as the categoryId, gets any issue that the user has not yet seen.
 
 		invariant: userId must correspond to a user in the database
-		invariant: categoryId must correspond to a category in the database
+		invariant: categoryId must correspond to a category in the database or null
 	*/
 	public static getNextIssue(userId: string, categoryId: string,
 					callback: (issue: Issue) => any): void {
@@ -225,7 +229,7 @@ class User {
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
-											(categoryId == "all" || nextIssue.category.indexOf(+categoryId) != -1)) {
+											(categoryId === null || nextIssue.category.indexOf(+categoryId) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
