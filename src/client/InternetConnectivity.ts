@@ -22,13 +22,13 @@ class InternetConnectivity {
 		InternetConnectivity.FB_CONNECTION.on("value", function(snap) {
 			if (snap.val() === true) {
 				InternetConnectivity.CONNECTION_STATE = true;
-				for (var onConnect in InternetConnectivity.ON_CONNECTS) {
-					onConnect();
+				for (var i = 0; i < InternetConnectivity.ON_CONNECTS.length; i++) {
+					InternetConnectivity.ON_CONNECTS[i]();
 				}
 			} else {
 				InternetConnectivity.CONNECTION_STATE = false;
-				for (var onDisconnect in InternetConnectivity.ON_DISCONNECTS) {
-					onDisconnect();
+				for (var i = 0; i < InternetConnectivity.ON_DISCONNECTS.length; i++) {
+					InternetConnectivity.ON_DISCONNECTS[i]();
 				}
 			}
 		});
