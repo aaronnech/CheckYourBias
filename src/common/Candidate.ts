@@ -48,7 +48,7 @@ class Candidate {
 	}
 
 	/*
-		Fetches all the candidates, in lexicographically sorted order.
+		Fetches all the candidates
 	*/
 	public static getAllCandidates(callback: (candidates) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
