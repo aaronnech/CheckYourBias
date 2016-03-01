@@ -33,6 +33,10 @@ class Constants {
 		'img/candidate_0.jpg',
 		'img/candidate_1.jpg',
 		'img/candidate_2.jpg',
+		'img/candidate_3.jpg',
+		'img/candidate_4.jpg',
+		'img/candidate_5.jpg',
+		'img/candidate_6.jpg'
 	];
 
 	public static GENERAL_AVATAR: string = "img/general_avatar.svg";
