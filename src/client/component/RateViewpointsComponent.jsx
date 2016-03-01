@@ -105,7 +105,7 @@ var RateViewpointsComponent = React.createClass({
 			});
 		});
 
-		this.getQuote(function(success) {
+		this.getIssue(function(success) {
 			self.setState({
 				screenState: success | 0 // 1 or 0 depending on (boolean) value of success
 			});
@@ -148,6 +148,30 @@ var RateViewpointsComponent = React.createClass({
 	},
 
 	/**
+	 * Retrieve a new issue without voting on the current issue.
+	 */
+	skipIssue : function() {
+		var userId = Cache.getCacheV(Constants.AUTH.UID);
+		var self = this;
+
+		// mark this issue as skipped
+		User.skipIssue(userId, this.state.issue.id, function(err) {
+			if (err) {
+				console.error(err);
+			}
+			
+			console.log("Skipped issue with id " + self.state.issue.id);
+			// retrieve a new issue.
+			self.getIssue(function(success) {
+				self.setState({
+					screenState: success | 0
+				});
+				self.resetStance();
+			});
+		});
+	},
+
+	/**
 	 * Callback that fires after user has voted on an issue
 	 */
 	showIssueInfo : function() {
@@ -162,7 +186,7 @@ var RateViewpointsComponent = React.createClass({
 	 */
 	hideIssueInfo : function() {
 		var self = this;
-		this.getQuote(function(success) {
+		this.getIssue(function(success) {
 			self.setState({
 				screenState: success | 0
 			});
@@ -170,15 +194,18 @@ var RateViewpointsComponent = React.createClass({
 	},
 
 	/**
-	 * Retrieves a random quote from a category, and displays it to the user
+	 * Retrieves a random issue from a category, and displays it to the user
 	 * @param cb a callback accepting a single parameter. This parameter is set to
 	 *  true if an issue was retrieved, false otherwise
 	 */
-	getQuote : function(cb) {
+	getIssue : function(cb) {
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
 		User.getNextIssue(userId, null, function(result) {
+			console.info("NEW ISSUE");
+			console.info(result);
+
 			self.setState({
 				issue: result
 			});
@@ -247,13 +274,18 @@ var RateViewpointsComponent = React.createClass({
 		var cardText = null;
 		var cardActions = null;
 		
-		if (this.state.screenState === 0) {
+		if (this.state.issue === null || this.state.screenState === 0) {
 			// no issue to be shown
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
 		}
 		else if (this.state.screenState === 1) {
 			// issue to be voted on
 			cardText = <p>{this.state.issue.mainText}</p>;
+			var actionButtonStyle = {
+				margin: 6,
+				marginTop: '1em'
+			};
+
 			cardActions =
 				<div>
 					<div className="rate-scale"
@@ -263,9 +295,14 @@ var RateViewpointsComponent = React.createClass({
 							handleUpdateStance={this.handleUpdateStance} />
 					</div>
 					<div className="confirm-choice-wrapper">
-						<RaisedButton label="Vote!"
+						<RaisedButton label="Skip"
+							secondary={true}
+							onClick={this.skipIssue}
+							style={actionButtonStyle} />
+						<RaisedButton label="Vote"
+							primary={true}
 							onClick={this.confirmReaction}
-							style={{marginTop: '1em'}} />
+							style={actionButtonStyle} />
 					</div>
 				</div>
 		}
@@ -277,6 +314,7 @@ var RateViewpointsComponent = React.createClass({
 			cardActions =
 				<div className="confirm-choice-wrapper">
 					<RaisedButton label="Next Issue"
+						primary={true}
 						onClick={this.hideIssueInfo}
 						style={{marginTop: '1em'}} />
 				</div>;

@@ -31,6 +31,20 @@ class CandidateTest {
 			test.done();
 		});
 	}
+	
+	/*
+		Gets all active candidates and makes sure the Jeb isn't there.
+	*/
+	public static testGetAllActiveCandidates(test) {
+		Candidate.getAllActiveCandidates(function(candList) {
+			test.strictEqual(
+				"3" in candList,
+				false,
+				'Found Jeb. Jeb should not be there. rip jeb.'
+			);
+			test.done();
+		});
+	}
 
 	/*
 		Gets all candidates and tests that they are sorted in lexicographic order by name
