@@ -146,6 +146,7 @@ class User {
 						for (var candidateId in candidateRatings) {
 							if (candidates[candidateId].active && ratingsDenom[candidateId] > 0) {
 								var resultObject = {};
+								candidates[candidateId]["id"] = candidateId;
 								resultObject["candidate"] = candidates[candidateId];
 								resultObject["rating"] = 100 - 
 									Math.round(25*Math.sqrt(candidateRatings[candidateId]/ratingsDenom[candidateId]));
