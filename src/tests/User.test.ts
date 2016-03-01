@@ -78,7 +78,7 @@ class UserTest {
 				issues,
 				null,
 				'getRatedIssues should return null if a user has no rated issues'
-				);
+			);
 			test.done();
 		});
 	}
@@ -174,12 +174,17 @@ class UserTest {
 				rankings[0].rating,
 				75,
 				"Ranking for top candidate should be 75"
-				);
+			);
+			test.strictEqual(
+				rankings[0]["candidate"]["id"],
+				'0',
+				"Id field should exist"
+			);
 			test.strictEqual(
 				rankings[2].rating,
 				50,
 				"Ranking for bottom candidate should be 50"
-				);
+			);
 			test.done();
 		});
 	}
@@ -209,48 +214,6 @@ class UserTest {
 				rankings,
 				null,
 				"Should return null when user has rated no issues"
-			);
-			test.done();
-		});
-	}
-
-	/*
-		Tests if skipIssue correctly adds an issue
-	*/
-	public static testSkipIssue(test) {
-		User.skipIssue("0", "0", function(errorObject) {
-			User.getUser("0", function(user) {
-				test.strictEqual(
-					user.skippedIssueIds[0],
-					"0",
-					"Should have a new skipped issue of id 0"
-				);
-				User.skipIssue("0", "1", function(errorObject) {
-					User.getUser("0", function(user) {
-						test.strictEqual(
-							user.skippedIssueIds[1],
-							"1",
-							"Should have a new skipped issue of id 0"
-						);
-						var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER + "/0/skippedIssueIds");
-						rootRef.remove(function(error) {
-							test.done();
-						});
-					});
-				});
-			});
-		});
-	}
-
-	/*
-		Tests if getNextIssue grabs skipped items or not
-	*/
-	public static testGetNextIssueSkip(test) {
-		User.getNextIssue("skipuser", "0", function(issue) {
-			test.strictEqual(
-				issue,
-				null,
-				"should return null if all issues have been skipped"
 			);
 			test.done();
 		});
