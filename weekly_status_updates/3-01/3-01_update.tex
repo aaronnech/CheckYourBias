@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Weekly Update 3/01}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\subsection{Previous Week's Plan (2/23)}
+
+For last week, our overall goal was to finish up any existing bugs and polish our application for the feature complete release, which was due last Friday night.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Work with the crowdsourcing team to finish component.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Front-end team is largely done, just finish up the remaining bugs related to frontend code.
+    \item[Full-stack (Sonja, Ryan)] Change crowdsourcing to support multiple categories and multiple sources. Also add URL verification to the form as well as fully connect the component to the backend.
+\end{description}
+
+\subsection{Progress}
+
+As a whole, we completed the entire feature complete release in time to meet the deadline last Friday. We also opened a few issues that were found in the final testing phases before the submission.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] Fully integrated the crowdsourcing into the backend so that workers may submit content and have that content approved by administrators within the application.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Spent the week largely fixing bugs to make the application functional. Bugs included: categories were not defined on candidate pages, hanging tests, ... and more (please see our Github Issues for more).
+    \item[Full-stack (Sonja, Ryan)] Added multiple categories and support for multiple sources. Also added URL validation for the sources to that each source is guaranteed to be a URL in the backend.
+\end{description}
+
+\subsection{Current Week's Plan}
+
+This week's plan is to finish a release candidate to submit before the Friday deadline.
+
+\begin{description}
+    \setlength\itemsep{0em}
+    \item[Back-end (Nick, Todd, Riley)] This week the backend team will be split along fixing bugs and open issues for the app and also helping the Full-stack team complete the interviews and usability studies.
+    \item[Front-end (Aaron, Roee, Geoffrey)] Geoffrey will spend the week completing and assigning bugs / tasks to the team. Aaron and Roee will tackle the task of adding more webdriver tests to ensure that our use cases are well tested.
+    \item[Full-stack (Sonja, Ryan)] Crowdsourcing is largely done. A new feature will be added that allows workers to edit / delete their sources and categories after they have been added to the submission form. They will also lead the usability studies and the writeups for the week.
+\end{description}
+
+\end{document}
