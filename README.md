@@ -34,12 +34,16 @@ Both the client and the server are written in [TypeScript](http://www.typescript
 
 Directory Breakdown
 -------------------
-There are four top-level directories in the source code:
+There are four top-level directories in the source code folder (`./src`):
 
-1. `src/server` - This contains all code only pertaining to the server-side application.
-2. `src/client` - This contains all code only pertaining to the client-side application. Browserify is used with the start point `client/main.ts` to scoop up all client code and bundle it into `client/static/js/main.js`
-3. `src/common` - This contains all code that is shared by both client and server. Including files such as TypeScript definitions. NodeJS processes dependencies on its own via support for `require()`, so any `src/server` code that depends on common code will do so automatically. `src/client` code will scoop up common code via the same mechanism, but employed by Browserify.
-4. `src/vendor` - This contains all JS source that is not available via npm.
+2. `client` - This contains all code only pertaining to the client-side application. Browserify is used with the start point `client/main.ts` to scoop up all client code and bundle it into `client/static/js/main.js`
+3. `common` - This contains all code that is shared by both client and server. Including files such as TypeScript definitions. NodeJS processes dependencies on its own via support for `require()`, so any `./src/server` code that depends on common code will do so automatically. `./src/client` code will scoop up common code via the same mechanism, but employed by Browserify.
+4. `tests` - This contains all unit tests for TypeScript modules in `client`. Tests are written in NodeUnit (see "Unit Testing" section for more info)
+5. `vendor` - This contains all JS source that is not available via npm.
+
+Additionally, there are two repository-level directories, mostly for infrastructure:
+1. `continuoustest`, containing a script that will run all unit tests upon push
+2. `webdriver`, containing all system tests (front-end tests).
 
 Unit Testing
 ------------
