@@ -38,7 +38,7 @@ class CandidateTest {
 	public static testGetAllCandidatesSorted(test) {
 		Candidate.getAllCandidatesSorted(function(candList) {
 			for (var i = 0, len = candList.length; i < len - 1; i++) {
-				test.ok(candList[i].name < candList[i + 1].name,
+                test.ok(candList[i].candidate.name < candList[i + 1].candidate.name,
 					"Items " + i + " and " + (i + 1) + " are not in sorted order!");
 			}
 			test.done();

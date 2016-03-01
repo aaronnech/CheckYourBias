@@ -60,15 +60,30 @@ class Candidate {
 
 	/*
 		Fetches all the candidates, in lexicographically sorted order.
+
+		Gets a array of objects that correspond to candidates and their ids, in alphabetical order.
+		 Each object in the array has the following fields:
+
+		candidate: The Candidate object that this entry corresponds to.
+		id: The id of the candidate
 	*/
 	public static getAllCandidatesSorted(callback: (candidates) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 		rootRef.orderByKey().once("value", function(snapshot) {
 			var candidates = snapshot.val();
-			candidates.sort(function(a, b) {
-				return a.name.localeCompare(b.name);
+			var resultObjects = [];
+
+			for (var candidateId in candidates) {
+				var resultObject = {};
+				resultObject["candidate"] = candidates[candidateId];
+				resultObject["id"] = candidateId;
+				resultObjects.push(resultObject);
+			}
+
+			resultObjects.sort(function(a, b) {
+				return a.candidate.name.localeCompare(b.candidate.name);
 			});
-			callback(candidates);
+			callback(resultObjects);
 		});
 	}
 }
