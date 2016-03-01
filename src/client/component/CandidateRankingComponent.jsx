@@ -1,6 +1,7 @@
 var React = require('react');
 var User = require('../../common/User');
 var Category = require('../../common/Category');
+var Candidate = require('../../common/Candidate');
 var Cache = require('../Cache');
 var Constants = require('../Constants');
 
@@ -11,7 +12,7 @@ var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
-var ContentLabel = require('material-ui/lib/svg-icons/social/person');
+var Avatar = require('material-ui/lib/avatar');
 
 /**
  * This component displays to the user the candidates whom they
@@ -118,7 +119,7 @@ var CandidateRankingComponent = React.createClass({
 					key={key}
 					primaryText={candidates[key].candidate.name}
 					secondaryText={candidates[key].rating + "% similar views as you"}
-					leftIcon={<ContentLabel />} />
+					leftIcon={<Avatar src={Candidate.getCandidateAvatarSrc(candidates[key].candidate.id)} />} />
 				);
 			}
 		}
