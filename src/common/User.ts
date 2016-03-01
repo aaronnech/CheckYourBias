@@ -237,19 +237,17 @@ class User {
 						attemptedCandidates.push(chosenCandidate);
 						var attemptedIssues: string[] = [];
 						if (user.skippedIssueIds != null) {
-							attemptedIssues = user.skippedIssueIds;
+							attemptedIssues = user.skippedIssueIds.slice();
 						}
 						var allIssues = snapshot.val();
 						var allIssuesIdArray = Object.keys(allIssues);
 						while (attemptedIssues.length < allIssuesIdArray.length && !foundIssue &&
 									candidates[+chosenCandidate].active) {
 							var chosenIssue = allIssuesIdArray[Math.floor((Math.random() * allIssuesIdArray.length)).toString()];
-							
 							while (attemptedIssues.indexOf(chosenIssue) != -1) {
 								chosenIssue = allIssuesIdArray[Math.floor((Math.random() * allIssuesIdArray.length)).toString()];
 							}
 							attemptedIssues.push(chosenIssue);
-
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
