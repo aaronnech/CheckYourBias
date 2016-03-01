@@ -57,6 +57,17 @@ class Candidate {
 			callback(candidates);
 		});
 	}
+	
+	/*
+		Fetches all the candidates
+	*/
+	public static getAllActiveCandidates(callback: (candidates) => any): void {
+		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
+		rootRef.orderByChild("active").equalTo(1).once("value", function(snapshot) {
+			var activeCandidates = snapshot.val();
+			callback(activeCandidates);
+		});
+	}
 
 	/*
 		Fetches all the candidates, in lexicographically sorted order.
