@@ -243,13 +243,12 @@ class User {
 						var allIssuesIdArray = Object.keys(allIssues);
 						while (attemptedIssues.length < allIssuesIdArray.length && !foundIssue &&
 									candidates[+chosenCandidate].active) {
-							var chosenIssueIndex: string = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
-							while (attemptedIssues.indexOf(chosenIssueIndex) != -1) {
-								chosenIssueIndex = Math.floor((Math.random() * allIssuesIdArray.length)).toString();
+							var chosenIssue = allIssuesIdArray[Math.floor((Math.random() * allIssuesIdArray.length)).toString()];
+							
+							while (attemptedIssues.indexOf(chosenIssue) != -1) {
+								chosenIssue = allIssuesIdArray[Math.floor((Math.random() * allIssuesIdArray.length)).toString()];
 							}
-							attemptedIssues.push(chosenIssueIndex);
-
-							var chosenIssue = allIssuesIdArray[chosenIssueIndex];
+							attemptedIssues.push(chosenIssue);
 
 							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
 								var nextIssue = allIssues[chosenIssue];
