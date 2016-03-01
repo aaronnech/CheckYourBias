@@ -119,7 +119,7 @@ var CandidateRankingComponent = React.createClass({
 					key={key}
 					primaryText={candidates[key].candidate.name}
 					secondaryText={candidates[key].rating + "% similar views as you"}
-					leftIcon={<Avatar src={Candidate.getCandidateAvatarSrc(candidates[key].candidate.id)} />} />
+					leftAvatar={<Avatar src={Candidate.getCandidateAvatarSrc(candidates[key].candidate.id)} />} />
 				);
 			}
 		}
@@ -139,9 +139,7 @@ var CandidateRankingComponent = React.createClass({
 				  onChange={this.handleMenuUpdate}>
 					{this.state.categoryList}
 				</DropDownMenu>
-				<List>
-					{this.getCandidates()}
-				</List>
+				{this.getCandidates()}
 			</Card>
 		);
 	}
