@@ -16,16 +16,28 @@ var Avatar = require('material-ui/lib/avatar');
 
 /**
  * This component displays to the user the candidates whom they
- * most align with, given a specific topic.
+ * most align with, given a specific category.
  *
  * @author g-liu
  */
 var CandidateRankingComponent = React.createClass({
 	getInitialState : function() {
 	    return {
-	    	categoryList: [],
+	    	/**
+	    	 * List of category metadata, to be filled from database
+	    	 */
+	    	categories: [],
+
+	    	/**
+	    	 * List of candidates filled from database
+	    	 */
 	    	candidateList: null,
-	    	selectedCategoryId: 0,
+
+	    	/**
+	    	 * The index of the selected category, as appears when fetching categories sorted.
+	    	 * Not to be confused with ID of selected category
+	    	 */
+	    	selectedCategoryIndex: 0,
 	    };
 	},
 
@@ -39,40 +51,53 @@ var CandidateRankingComponent = React.createClass({
 		})
 	},
 
-	createAllCategories : function(categories) {
-		category_items = [];
-		for (var category_index in categories) {
-			var cat = categories[category_index];
-			var name = cat.categoryName;
-			category_items.push(
+	/**
+	 * Returns the menu of categories to be rendered
+	 */
+	getCategoriesMenu : function() {
+		menuItems = [];
+		for (var categoryIndex in this.state.categories) {
+			var cat = this.state.categories[categoryIndex];
+			var name = cat.category.categoryName;
+			menuItems.push(
 				<MenuItem
-					value={parseInt(category_index)}
-					key={category_index}
+					value={parseInt(categoryIndex)}
+					key={categoryIndex}
 					primaryText={name}
 				/>
 			);
 		}
 
-		this.setState({
-			selectedCategoryId: 0,
-			categoryList: category_items,
-		});
+		var resultMenu = React.createElement(
+			DropDownMenu,
+			{
+				value: this.state.selectedCategoryIndex,
+				onChange: this.handleMenuUpdate	
+			},
+			menuItems
+		);
+
+		return resultMenu;
 	},
 
 	/**
-	 * Overrides React's componentDidMount
+	 * Overrides React's componentWillMount
 	 */
-	componentDidMount : function() {
+	componentWillMount : function() {
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		Category.getAllCategories(function(categories) {
-			self.createAllCategories(categories);
+		Category.getAllCategoriesSorted(function(categories) {
+			self.setState({
+				categories: categories
+			});
+
 			// retrieve candidates for the user
 			// TODO: when categories are sorted, pass in the category id
 			// of the first category that appears in the menu.
-			User.getRankings(userId, "0", function(rankings) {
-				console.info("Candidate rankings:");
+			var firstCategoryId = categories[0].id;
+			User.getRankings(userId, firstCategoryId, function(rankings) {
+				console.info("Candidate rankings for category " + firstCategoryId);
 				console.info(rankings);
 				self.setState({
 					candidateList: rankings
@@ -83,18 +108,23 @@ var CandidateRankingComponent = React.createClass({
 
 	/**
 	 * Callback that is fired whenever the user selects a new item in the menu
+	 * @param event JavaScript event
+	 * @param index old index
+	 * @param newCategoryIndex index in the category state array of the new category
+	 *  that was selected
 	 */
-	handleMenuUpdate : function(event, index, newCategoryId) {
+	handleMenuUpdate : function(event, index, newCategoryIndex) {
 		this.setState({
-			selectedCategoryId: newCategoryId,
+			selectedCategoryIndex: newCategoryIndex,
 		});
 
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
 		// retrieve new candidate rankings for the user
+		var newCategoryId = this.state.categories[newCategoryIndex].id;
 		User.getRankings(userId, newCategoryId, function(rankings) {
-			console.info("Candidate rankings (new):");
+			console.info("Candidate rankings for category " + newCategoryId);
 			console.info(rankings);
 			self.setState({
 				candidateList: rankings
@@ -133,12 +163,8 @@ var CandidateRankingComponent = React.createClass({
 	 */
 	render : function() {
 		return (
-			<Card className="submit-content">
-				<DropDownMenu
-				  value={this.state.selectedCategoryId}
-				  onChange={this.handleMenuUpdate}>
-					{this.state.categoryList}
-				</DropDownMenu>
+			<Card className="candidate-rankings">
+				{this.getCategoriesMenu()}
 				{this.getCandidates()}
 			</Card>
 		);
