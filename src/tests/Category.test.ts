@@ -38,7 +38,7 @@ class CategoryTest {
 	public static testGetAllCategoriesSorted(test) {
 		Category.getAllCategoriesSorted(function(catList) {
 			for (var i = 0, len = catList.length; i < len - 1; i++) {
-				test.ok(catList[i].categoryName < catList[i + 1].categoryName,
+				test.ok(catList[i].category.categoryName < catList[i + 1].category.categoryName,
 					"Items " + i + " and " + (i + 1) + " are not in sorted order!");
 			}
 			test.done();

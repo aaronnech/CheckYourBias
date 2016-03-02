@@ -43,18 +43,37 @@ class Category {
 	}
 
 	/*
-		Fetches all the categories, in lexicographically sorted order.
-	*/
+        Fetches all the categories, in lexicographically sorted order.
+
+        Gets a array of objects that correspond to categories and their ids, in alphabetical order.
+        Each object in the array has the following fields:
+
+        category: The Category object that this entry corresponds to.
+        id: The id of the Category
+    */
 	public static getAllCategoriesSorted(callback: (categories) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
 		rootRef.orderByKey().once("value", function(snapshot) {
-			var categories = snapshot.val();
-			categories.sort(function(a, b) {
-				return a.categoryName.localeCompare(b.categoryName);
-			});
-			callback(categories);
-		});
+            var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CATEGORY);
+            rootRef.orderByKey().once("value", function(snapshot) {
+                var categories = snapshot.val();
+                var resultObjects = [];
+
+                for (var categoryId in categories) {
+                    var resultObject = {};
+                    resultObject["category"] = categories[categoryId];
+                    resultObject["id"] = categoryId;
+                    resultObjects.push(resultObject);
+                }
+
+                resultObjects.sort(function(a, b) {
+                    return a.category.categoryName.localeCompare(b.category.categoryName);
+                });
+                callback(resultObjects);
+            });
+        });
 	}
+
 }
 
 export = Category;
