@@ -256,12 +256,18 @@ var RateViewpointsComponent = React.createClass({
 			}
 		}
 		candidateList.push(<Divider key="divider" />);
-		candidateList.push(
-			<ListItem
-				key="li-source"
-				primaryText={'Sources: ' + this.state.issue.sources}
-				style={{textAlign: 'right', fontSize: 'small'}} />
-		);
+		for (var source_index in this.state.issue.sources) {
+			var source = this.state.issue.sources[source_index];
+			candidateList.push(
+				<ListItem 
+					style={{wordWrap: 'break-word', color: 'blue'}}
+					href={source} 
+					key={source} 
+					primaryText={source} 
+					target="_blank" 
+				/>
+			);
+		}
 		var resultList = React.createElement(List, {}, candidateList);
 		return resultList;
 	},
