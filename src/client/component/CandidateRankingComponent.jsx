@@ -1,6 +1,7 @@
 var React = require('react');
 var User = require('../../common/User');
 var Category = require('../../common/Category');
+var Candidate = require('../../common/Candidate');
 var Cache = require('../Cache');
 var Constants = require('../Constants');
 
@@ -11,20 +12,32 @@ var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
-var ContentLabel = require('material-ui/lib/svg-icons/social/person');
+var Avatar = require('material-ui/lib/avatar');
 
 /**
  * This component displays to the user the candidates whom they
- * most align with, given a specific topic.
+ * most align with, given a specific category.
  *
  * @author g-liu
  */
 var CandidateRankingComponent = React.createClass({
 	getInitialState : function() {
 	    return {
-	    	categoryList: [],
+	    	/**
+	    	 * List of category metadata, to be filled from database
+	    	 */
+	    	categories: [],
+
+	    	/**
+	    	 * List of candidates filled from database
+	    	 */
 	    	candidateList: null,
-	    	selectedCategoryId: 0,
+
+	    	/**
+	    	 * The index of the selected category, as appears when fetching categories sorted.
+	    	 * Not to be confused with ID of selected category
+	    	 */
+	    	selectedCategoryIndex: 0,
 	    };
 	},
 
@@ -38,34 +51,53 @@ var CandidateRankingComponent = React.createClass({
 		})
 	},
 
-	createAllCategories : function(categories) {
-		category_items = [];
-		for (var category_index in categories) {
-			var cat = categories[category_index];
-			var name = cat.categoryName;
-			category_items.push(<MenuItem value={parseInt(category_index)} key={category_index} primaryText={name}/>);
+	/**
+	 * Returns the menu of categories to be rendered
+	 */
+	getCategoriesMenu : function() {
+		menuItems = [];
+		for (var categoryIndex in this.state.categories) {
+			var cat = this.state.categories[categoryIndex];
+			var name = cat.category.categoryName;
+			menuItems.push(
+				<MenuItem
+					value={parseInt(categoryIndex)}
+					key={categoryIndex}
+					primaryText={name}
+				/>
+			);
 		}
 
-		this.setState({
-			selectedCategoryId: 0,
-			categoryList: category_items,
-		});
+		var resultMenu = React.createElement(
+			DropDownMenu,
+			{
+				value: this.state.selectedCategoryIndex,
+				onChange: this.handleMenuUpdate	
+			},
+			menuItems
+		);
+
+		return resultMenu;
 	},
 
 	/**
-	 * Overrides React's componentDidMount
+	 * Overrides React's componentWillMount
 	 */
-	componentDidMount : function() {
+	componentWillMount : function() {
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
-		Category.getAllCategories(function(categories) {
-			self.createAllCategories(categories);
+		Category.getAllCategoriesSorted(function(categories) {
+			self.setState({
+				categories: categories
+			});
+
 			// retrieve candidates for the user
 			// TODO: when categories are sorted, pass in the category id
 			// of the first category that appears in the menu.
-			User.getRankings(userId, "0", function(rankings) {
-				console.info("Candidate rankings:");
+			var firstCategoryId = categories[0].id;
+			User.getRankings(userId, firstCategoryId, function(rankings) {
+				console.info("Candidate rankings for category " + firstCategoryId);
 				console.info(rankings);
 				self.setState({
 					candidateList: rankings
@@ -76,18 +108,23 @@ var CandidateRankingComponent = React.createClass({
 
 	/**
 	 * Callback that is fired whenever the user selects a new item in the menu
+	 * @param event JavaScript event
+	 * @param index old index
+	 * @param newCategoryIndex index in the category state array of the new category
+	 *  that was selected
 	 */
-	handleMenuUpdate : function(event, index, newCategoryId) {
+	handleMenuUpdate : function(event, index, newCategoryIndex) {
 		this.setState({
-			selectedCategoryId: newCategoryId,
+			selectedCategoryIndex: newCategoryIndex,
 		});
 
 		var userId = Cache.getCacheV(Constants.AUTH.UID);
 		var self = this;
 
 		// retrieve new candidate rankings for the user
+		var newCategoryId = this.state.categories[newCategoryIndex].id;
 		User.getRankings(userId, newCategoryId, function(rankings) {
-			console.info("Candidate rankings (new):");
+			console.info("Candidate rankings for category " + newCategoryId);
 			console.info(rankings);
 			self.setState({
 				candidateList: rankings
@@ -106,12 +143,15 @@ var CandidateRankingComponent = React.createClass({
 		}
 
 		var listChildren = [];
-		for (var i = 0, len = candidates.length; i < len; i++) {
-			listChildren.push(<ListItem
-				key={i}
-				primaryText={candidates[i].candidate.name}
-				leftIcon={<ContentLabel />} />
-			);
+		for (var key in candidates) {
+			if (candidates.hasOwnProperty(key)) {
+				listChildren.push(<ListItem
+					key={key}
+					primaryText={candidates[key].candidate.name}
+					secondaryText={candidates[key].rating + "% similar views as you"}
+					leftAvatar={<Avatar src={Candidate.getCandidateAvatarSrc(candidates[key].candidate.id)} />} />
+				);
+			}
 		}
 
 		var resultList = React.createElement(List, {}, listChildren);
@@ -123,15 +163,9 @@ var CandidateRankingComponent = React.createClass({
 	 */
 	render : function() {
 		return (
-			<Card className="submit-content">
-				<DropDownMenu
-				  value={this.state.selectedCategoryId}
-				  onChange={this.handleMenuUpdate}>
-					{this.state.categoryList}
-				</DropDownMenu>
-				<List>
-					{this.getCandidates()}
-				</List>
+			<Card className="candidate-rankings">
+				{this.getCategoriesMenu()}
+				{this.getCandidates()}
 			</Card>
 		);
 	}
