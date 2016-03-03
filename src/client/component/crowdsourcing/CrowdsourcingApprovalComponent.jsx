@@ -45,8 +45,9 @@ var CrowdsourcingApprovalComponent = React.createClass({
     },
 
     generateContent : function() {
+        console.log("generating content");
         var self = this;
-        Issue.getUnapprovedIssue(function(issues) {
+        Issue.getUnapprovedIssue(Cache.getCacheV(Constants.AUTH.UID), function(issues) {
             if (issues === null) {
                 self.setState({
                     hasContentToShow: false,

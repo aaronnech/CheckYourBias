@@ -146,10 +146,10 @@ class Issue {
 					callback(null);
 				} else {
 					snapshot.forEach(function(unapprovedIssue) {
-						if ((user.skippedApproveIssueIds == null || 
-						user.skippedApproveIssueIds.indexOf(unapprovedIssue.key()) == -1) &&
-						(user.submittedIssueIds == null ||
-						user.submittedIssueIds.indexOf(unapprovedIssue.key()) == -1)) {
+						var userDidNotSkip = (user.skippedApproveIssueIds == null ||
+							user.skippedApproveIssueIds.indexOf(unapprovedIssue.key()) == -1);
+						var userDidNotSubmit = unapprovedIssue.val().submitter != user.id;
+						if (userDidNotSkip && userDidNotSubmit) {
 							callback(unapprovedIssue);
 							found = true;
 						}
