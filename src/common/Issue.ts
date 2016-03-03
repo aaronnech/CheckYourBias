@@ -3,6 +3,7 @@
 import Firebase = require("firebase");
 import Constants = require('../client/Constants');
 import Candidate = require('./Candidate');
+import User = require('./User');
 
 Constants.firebaseUrl = Constants.FIREBASE_URL;
 
@@ -136,20 +137,50 @@ class Issue {
 		Returns an issue that has not yet been approved. In the callback,
 		unapprovedIssue should be accessed by .val(), and the key is .key()
 	*/
-	public static getUnapprovedIssue(callback) {
-		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
-		rootRef.orderByChild("approved").equalTo(0).once("value", function(snapshot) {
-			if (snapshot.val() === null) {
-				callback(null);
-			} else {
-				snapshot.forEach(function(unapprovedIssue) {
-					callback(unapprovedIssue);
-					return true;
-				});
-			}
-		});
+	public static getUnapprovedIssue(userId: string, callback) {
+		var found = false;
+		User.getUser(userId, function(user) {
+			var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
+			rootRef.orderByChild("approved").equalTo(0).once("value", function(snapshot) {
+				if (snapshot.val() === null) {
+					callback(null);
+				} else {
+					snapshot.forEach(function(unapprovedIssue) {
+						if (user.skippedApproveIssueIds == null 
+							|| user.skippedApproveIssueIds.indexOf(unapprovedIssue.key()) == -1) {
+							callback(unapprovedIssue);
+							found = true;
+						}
+					});
+					if (!found) {
+						callback(null);
+					}
+				}
+			});
+		})
 	}
 	
+	/*
+		Takes a user id and an unapproved issue id and adds the fact that 
+		the issue was skipped for approval by the given user to the database
+	*/
+	public static skipUnapprovedIssue(userId: string, issueId: string, callback: (errorObject) => any): void {
+		User.getUser(userId, function(user) {
+			var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
+			var temp = [];
+			if (user.skippedApproveIssueIds == null) {
+				temp[0] = issueId;
+			} else {
+				temp = user.skippedApproveIssueIds;
+				temp.push(issueId);
+			}
+			rootRef.child(userId).child("skippedApproveIssueIds").set(temp, function(errorObject) {
+				callback(errorObject);
+			});
+
+		});
+	}
+
 	/*
 		Approves the issue with the given id.
 	*/

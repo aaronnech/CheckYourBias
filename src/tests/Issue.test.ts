@@ -1,6 +1,7 @@
 import Issue = require('../common/Issue');
 import Constants = require('../client/Constants');
 import Firebase = require("firebase");
+import User = require('../common/User');
 
 Constants.firebaseUrl = Constants.FIREBASE_URL_TEST;
 
@@ -220,7 +221,7 @@ class IssueTest {
 		that has not been approved when one exists
 	*/
 	public static testGetUnapprovedIssue(test) {
-		Issue.getUnapprovedIssue(function(snapshot) {
+		Issue.getUnapprovedIssue("0", function(snapshot) {
 			test.strictEqual(
 				snapshot.val().mainText,
 				"This issue has not yet been approved.",
@@ -237,7 +238,7 @@ class IssueTest {
 	public static testGetUnapprovedIssueNullCase(test) {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		rootRef.child("4").update({"approved" : 1}, function(error) {	
-			Issue.getUnapprovedIssue(function(snapshot) {
+			Issue.getUnapprovedIssue("0", function(snapshot) {
 				test.strictEqual(
 					snapshot,
 					null,
@@ -249,6 +250,50 @@ class IssueTest {
 			});
 		});
 	}
+
+	/*
+		Tests that getUnapprovedIssue properly returns an issue
+		that has not been approved when one exists
+	*/
+	public static testgetUnapprovedIssueSkipAll(test) {
+		Issue.getUnapprovedIssue("skipuser", function(snapshot) {
+			test.strictEqual(
+				snapshot,
+				null,
+				"There should be no issues to approve"
+			);
+			test.done();
+		});
+	}
+
+	/*
+	Tests if skipIssue correctly adds an issue
+*/
+	public static testSkipUnapproveIssue(test) {
+		Issue.skipUnapprovedIssue("0", "0", function(errorObject) {
+			User.getUser("0", function(user) {
+				test.strictEqual(
+					user.skippedApproveIssueIds[0],
+					"0",
+					"Should have a new skipped issue of id 0"
+				);
+				Issue.skipUnapprovedIssue("0", "1", function(errorObject) {
+					User.getUser("0", function(user) {
+						test.strictEqual(
+							user.skippedApproveIssueIds[1],
+							"1",
+							"Should have a new skipped issue of id 0"
+						);
+						var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER + "/0/skippedApproveIssueIds");
+						rootRef.remove(function(error) {
+							test.done();
+						});
+					});
+				});
+			});
+		});
+	}
+
 	
 }
 

@@ -28,6 +28,7 @@ class User {
 	ratedIssues: {[key: string]: string};
 	categoryWeights: {[key: string]: string};
 	skippedIssueIds: string[];
+	skippedApproveIssueIds: string[];
 
 	public static initializeUser(id: string, firstName: string, lastName: string, callback: (error) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
@@ -195,7 +196,7 @@ class User {
 			if (user.skippedIssueIds == null) {
 				temp[0] = issueId;
 			} else {
-				temp = user.skippedIssueIds
+				temp = user.skippedIssueIds;
 				temp.push(issueId);
 			}
 			rootRef.child(userId).child("skippedIssueIds").set(temp, function(errorObject) {
