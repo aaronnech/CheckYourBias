@@ -86,6 +86,15 @@ npm run-script pg-setup
 npm run-script pg-android
 </pre>
 
+Windows users should append `-windows` to each command:
+
+<pre>
+npm run-script pg-setup-windows
+npm run-script pg-android-windows
+</pre>
+
+Note that we have decided to deprecate iOS support as of the beta release.
+
 Vendor files
 -------
 

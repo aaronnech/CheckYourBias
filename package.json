@@ -10,8 +10,10 @@
     "webdriver-windows": "node_modules\\.bin\\gulp webdriver",
     "serve": "./node_modules/.bin/gulp serve",
     "pg-android": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run android --verbose && cd ../",
+    "pg-android-windows": "npm run-script pg-copy && cd _cordova && ..\\node_modules\\.bin\\phonegap run android --verbose && cd ..",
     "pg-ios": "npm run-script pg-copy && cd _cordova && ../node_modules/.bin/phonegap run ios --verbose && cd ../",
     "pg-setup": "./node_modules/.bin/phonegap create _cordova/ && cd _cordova &&  ../node_modules/.bin/phonegap plugin add org.apache.cordova.inappbrowser && ../node_modules/.bin/phonegap plugin add https://github.com/apache/cordova-plugin-whitelist.git && cd ..",
+    "pg-setup-windows": "node_modules\\.bin\\phonegap create _cordova && cd _cordova &&  ..\\node_modules\\.bin\\phonegap plugin add org.apache.cordova.inappbrowser && ..\\node_modules\\.bin\\phonegap plugin add https://github.com/apache/cordova-plugin-whitelist.git && cd ..",
     "pg-copy": "cp -R bin/client/static/* _cordova/www && cp -R src/client/cordova_config/* _cordova/"
   },
   "dependencies": {

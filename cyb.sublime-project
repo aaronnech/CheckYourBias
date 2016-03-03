@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["node_modules", "bin", "coverage"]
+			"folder_exclude_patterns": ["node_modules", "bin", "coverage", "_cordova"]
 		}
 	]
 }
