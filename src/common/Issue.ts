@@ -146,8 +146,10 @@ class Issue {
 					callback(null);
 				} else {
 					snapshot.forEach(function(unapprovedIssue) {
-						if (user.skippedApproveIssueIds == null 
-							|| user.skippedApproveIssueIds.indexOf(unapprovedIssue.key()) == -1) {
+						if ((user.skippedApproveIssueIds == null || 
+						user.skippedApproveIssueIds.indexOf(unapprovedIssue.key()) == -1) &&
+						(user.submittedIssueIds == null ||
+						user.submittedIssueIds.indexOf(unapprovedIssue.key()) == -1)) {
 							callback(unapprovedIssue);
 							found = true;
 						}

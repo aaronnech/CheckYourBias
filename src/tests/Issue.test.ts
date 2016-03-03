@@ -267,8 +267,8 @@ class IssueTest {
 	}
 
 	/*
-	Tests if skipIssue correctly adds an issue
-*/
+		Tests if skipUnapproveIssue correctly adds an issue
+	*/
 	public static testSkipUnapproveIssue(test) {
 		Issue.skipUnapprovedIssue("0", "0", function(errorObject) {
 			User.getUser("0", function(user) {
@@ -294,7 +294,20 @@ class IssueTest {
 		});
 	}
 
-	
+	/*
+		Tests if getUnapprovedIssue correctly skips an issue if
+		they are the one who submitted it
+	*/	
+	public static testGetUnapprovedIssueSubmitter(test) {
+		Issue.getUnapprovedIssue("submitter", function(snapshot) {
+			test.strictEqual(
+				snapshot,
+				null,
+				"There should be no issues to approve"
+			);
+			test.done();
+		});
+	}
 }
 
 export = IssueTest;
