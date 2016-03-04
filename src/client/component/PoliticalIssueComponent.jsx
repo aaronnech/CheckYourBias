@@ -67,11 +67,14 @@ var PoliticalIssueComponent = React.createClass({
 		var cur_author = this.props.issue_author;
 		
 		var main_text = cur_issue.mainText;
-		if (cur_issue.contentType.toLowerCase().indexOf("direct") > -1) {
-			main_text = "\"" + main_text + "\"" + " - " + cur_author;
-		}
 
 		var short_text = main_text.split(" ").slice(0,4).join(" ") + "...";
+
+		// check if issue is a direct quote.
+		// If so, add quote formatting and author attribution.
+		if (cur_issue.contentType.toLowerCase().indexOf("direct") > -1) {
+			main_text = '"' + main_text + '"' + ' - ' + cur_author;
+		}
 
 		this.setState({
 			issue_id: issue_id,
