@@ -59,7 +59,6 @@ gulp.task('compileTS', function() {
 	return tsResult.js.pipe(gulp.dest('./bin'));
 });
 
-
 gulp.task('bundleClient', ['compileTS', 'move'], function() {
 	var b = browserify();
 

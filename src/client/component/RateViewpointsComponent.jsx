@@ -15,7 +15,7 @@ var CardActions = require('material-ui/lib/card/card-actions');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var Divider = require('material-ui/lib/divider');
-var Avatar = require('material-ui/lib/avatar'); 
+var Avatar = require('material-ui/lib/avatar');
 var StanceSelector = require('./StanceSelector.jsx');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Snackbar = require('material-ui/lib/snackbar');
@@ -50,7 +50,7 @@ var RateViewpointsComponent = React.createClass({
 			userStance: null,
 
 			/**
-			 * An object populated with keys representing 
+			 * An object populated with keys representing
 			 * standardized error constants, and values representing
 			 * whether those errors are displayed or not
 			 */
@@ -159,7 +159,7 @@ var RateViewpointsComponent = React.createClass({
 			if (err) {
 				console.error(err);
 			}
-			
+
 			console.log("Skipped issue with id " + self.state.issue.id);
 			// retrieve a new issue.
 			self.getIssue(function(success) {
@@ -235,13 +235,13 @@ var RateViewpointsComponent = React.createClass({
 		if (this.state.issue === null) {
 			return;
 		}
-		
+
 		var candidateList = [];
 		var ratings = this.state.issue.candidateRatings;
 		for (var key in ratings) {
 			if (ratings.hasOwnProperty(key)) {
 				var candidate = this.state.candidateList[key];
-				
+
 				candidateList.push(
 					<ListItem
 						key={key}
@@ -259,12 +259,12 @@ var RateViewpointsComponent = React.createClass({
 		for (var source_index in this.state.issue.sources) {
 			var source = this.state.issue.sources[source_index];
 			candidateList.push(
-				<ListItem 
+				<ListItem
 					style={{wordWrap: 'break-word', color: 'blue'}}
-					href={source} 
-					key={source} 
-					primaryText={source} 
-					target="_blank" 
+					href={source}
+					key={source}
+					primaryText={source}
+					target="_blank"
 				/>
 			);
 		}
@@ -279,7 +279,7 @@ var RateViewpointsComponent = React.createClass({
 		var cardTitle = "Rate a new issue!";
 		var cardText = null;
 		var cardActions = null;
-		
+
 		if (this.state.issue === null || this.state.screenState === 0) {
 			// no issue to be shown
 			cardText = <p>{Constants.ERRORS.NO_ISSUE}</p>;
@@ -302,10 +302,12 @@ var RateViewpointsComponent = React.createClass({
 					</div>
 					<div className="confirm-choice-wrapper">
 						<RaisedButton label="Skip"
+							id="skip"
 							secondary={true}
 							onClick={this.skipIssue}
 							style={actionButtonStyle} />
 						<RaisedButton label="Vote"
+							id="vote"
 							primary={true}
 							onClick={this.confirmReaction}
 							style={actionButtonStyle} />
@@ -320,6 +322,7 @@ var RateViewpointsComponent = React.createClass({
 			cardActions =
 				<div className="confirm-choice-wrapper">
 					<RaisedButton label="Next Issue"
+						id="nextissue"
 						primary={true}
 						onClick={this.hideIssueInfo}
 						style={{marginTop: '1em'}} />

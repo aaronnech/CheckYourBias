@@ -10,7 +10,7 @@ Constants.firebaseUrl = Constants.FIREBASE_URL;
 
 /*
 	A class that represents a user and all the information that corresponds to them.
-	
+
 	invariant: id is a string comprised of only numbers that must represent the id of
 	a user in Firebase
 
@@ -64,7 +64,7 @@ class User {
 
 		invariant: userId must correspond to a user in the database
 	*/
-	public static getRatedIssues(userId: string, 
+	public static getRatedIssues(userId: string,
 					callback: (ratedIssues: {[key: string]: string}) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		rootRef.child(userId).once("value", function(snapshot) {
@@ -87,7 +87,7 @@ class User {
 		candidate: The Candidate object that this entry corresponds to.
 		rating: The similarity ranking this user has with this candidate (higher ranking
 				corresponds to higher agreement)
-				
+
 		The ranking algorithm is as follows:
 			- For each candidate, determine the average of squares of difference of opinion
 				between the user and the candidate over each issue for which both have a rating
@@ -97,7 +97,7 @@ class User {
 				rating off by 2 on each issue: rating of 50
 				rating off by 3 on each issue: rating of 25
 				rating off by 4 on each issue: rating of 0
-				
+
 		If a user has rated no issues which a given candidate has a rating for in the category,
 		no ranking for that candidate will be returned.
 
@@ -112,7 +112,7 @@ class User {
 		this.getUser(userId, function(user) {
 			var candidates: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_CANDIDATE);
 			candidates.orderByKey().once("value", function(snapshot) {
-				
+
 				var candidateRatings: { [key: string]: number } = {};
 				var ratingsDenom: { [key: string]: number } = {};
 				var candidates = snapshot.val();
@@ -123,7 +123,7 @@ class User {
 
 				userObject.getRatedIssues(userId, function(ratedIssues) {
 					var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
- 
+
 					issues.orderByKey().once("value", function(snapshot) {
 
 						// Filter issues by categoryId
@@ -150,7 +150,7 @@ class User {
 								var resultObject = {};
 								candidates[candidateId]["id"] = candidateId;
 								resultObject["candidate"] = candidates[candidateId];
-								resultObject["rating"] = 100 - 
+								resultObject["rating"] = 100 -
 									Math.round(25*Math.sqrt(candidateRatings[candidateId]/ratingsDenom[candidateId]));
 								resultObjects.push(resultObject);
 							}
@@ -175,7 +175,7 @@ class User {
 		invariant: userId must correspond to a user in the database
 		invariant: issueId must correspond to an issue in the database
 	*/
-	public static submitRating(userId: string, issueId: string, rating: string, 
+	public static submitRating(userId: string, issueId: string, rating: string,
 		callback: (errorObject) => any): void {
 		var rootRef: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_USER);
 		var temp = {}
@@ -186,7 +186,7 @@ class User {
 	}
 
 	/*
-		Takes a user id and issue id and adds the fact that the issue was skipped by the 
+		Takes a user id and issue id and adds the fact that the issue was skipped by the
 		given user to the database
 	*/
 	public static skipIssue(userId: string, issueId: string, callback: (errorObject) => any): void {
@@ -209,9 +209,9 @@ class User {
 	/*
 		Takes a userId and a categoryId and gets an issue in that category that the user
 		has not yet seen. Calls the callback function with the Issue.
-		
+
 		Candidates receive equal representation.
-		
+
 		If null is passed as the categoryId, gets any issue that the user has not yet seen.
 
 		invariant: userId must correspond to a user in the database
@@ -250,14 +250,14 @@ class User {
 								chosenIssue = allIssuesIdArray[Math.floor((Math.random() * allIssuesIdArray.length)).toString()];
 							}
 							attemptedIssues.push(chosenIssue);
-							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {							
+							if (!("ratedIssues" in user) || user.ratedIssues[chosenIssue] == null) {
 								var nextIssue = allIssues[chosenIssue];
 								if (nextIssue.approved > 0 && +nextIssue.candidateRatings[chosenCandidate] > 0 &&
 											(categoryId === null || nextIssue.category.indexOf(+categoryId) != -1)) {
 									foundIssue = true;
 									nextIssue.id = chosenIssue;
 									callback(nextIssue);
-								}								
+								}
 							}
 						}
 					}

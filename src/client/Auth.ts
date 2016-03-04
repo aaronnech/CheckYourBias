@@ -12,18 +12,38 @@ import User = require('../common/User');
 class Auth {
 	public static FIRE = new Firebase(Constants.FIREBASE_URL);
 
+	private static getHashValue(key) {
+		var matches = window.location.hash.match(new RegExp(key + '=([^&]*)'));
+		return matches ? matches[1] : null;
+	}
+
+	private static loginTestUser(cb) {
+		Cache.setCacheKV(Constants.AUTH.TOKEN, 'fake_accessToken');
+		Cache.setCacheKV(Constants.AUTH.UID, 'wd_test_usr');
+		Cache.setCacheKV(Constants.AUTH.FULL_NAME, 'Test Suite');
+
+		var names = 'Test Suite'.split(' ');
+		User.initializeUser('wd_test_usr', names[0], names[1], (error) => {
+			cb(!error);
+		});
+	}
+
 	public static isAuth(cb: Function): void {
-		var uid = Cache.getCacheV(Constants.AUTH.UID);
-		if (uid) {
-			if (!Auth.FIRE.getAuth()) {
-				cb(false);
-			} else {
-				this.userExists(uid, cb);
-			}
+		if (Auth.getHashValue('wdtestuser')) {
+			Auth.loginTestUser(cb);
 		} else {
-			cb(false);
+			var uid = Cache.getCacheV(Constants.AUTH.UID);
+			if (uid) {
+				if (!Auth.FIRE.getAuth()) {
+					cb(false);
+				} else {
+					this.userExists(uid, cb);
+				}
+			} else {
+				cb(false);
+			}
+			cb(true);
 		}
-		cb(true);
 	}
 
 	public static deAuth(): void {

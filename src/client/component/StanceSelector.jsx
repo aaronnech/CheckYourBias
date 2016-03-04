@@ -57,14 +57,16 @@ var StanceSelector = React.createClass({
         for (var i = 0; i < this.stanceClasses.length; i++) {
             var classes = "btn";
             classes += " " + this.stanceClasses[i];
+            var id = this.stanceClasses[i];
             if (this.state.value === i) {
                 classes += " selected";
             }
             result.push(
-                <label 
-                    htmlFor="options" 
-                    className={classes} 
-                    onClick={this.handleUpdate.bind(this, i)} 
+                <label
+                    htmlFor="options"
+                    className={classes}
+                    id={id}
+                    onClick={this.handleUpdate.bind(this, i)}
                     key={i}>
                     <input type="radio" name="options" autoComplete="off" />
                 </label>
