@@ -256,10 +256,26 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     },
 
     areRequiredFieldsComplete : function() {
+        var sources = this.state.sources;
+        if (this.state.source && this.isValidSourceURL(this.state.source)) {
+            sources.push(this.state.source);
+
+            this.setState({
+                sources: sources,
+                source: "",
+                sourceErrorText: null,
+            });
+        } else if (this.state.sources.length === 0) {
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: "Please enter a valid URL.",
+            });
+        }
+
         return (
             Boolean(this.state.content.length)
             && Boolean(Object.keys(this.state.candidateMap).length)
-            && Boolean(this.state.sources.length)
+            && Boolean(sources.length)
             && Boolean(this.state.selectedCategories.length > 0)
             && !this.state.hasSubmitted
         );
