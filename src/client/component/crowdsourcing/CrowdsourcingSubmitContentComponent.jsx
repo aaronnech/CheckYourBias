@@ -227,11 +227,22 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         ) : null);
     },
 
+    onClickXCategory : function(categoryIndex) {
+        var self = this;
+        return function() {
+            self.state.selectedCategories.splice(categoryIndex, 1);
+            self.setState({
+                selectedCategories : self.state.selectedCategories,
+            });
+        };
+    },
+
     getSelectedCategories : function() {
         result = []
         for (var category in this.state.selectedCategories) {
             result.push(
-                <div key={category}>
+                <div className="singleCategory" key={category}>
+                    <span onClick={this.onClickXCategory(category)} className="closeXButton">X</span>
                     {this.state.selectedCategories[category]}
                 </div>
             );
