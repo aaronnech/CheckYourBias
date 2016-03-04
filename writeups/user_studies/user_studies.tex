@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}% http://ctan.org/pkg/listings
+\usepackage{titlesec}
+
+\titlespacing\subsubsection{0pt}{0.5\baselineskip}{0.1\baselineskip}
+\titlespacing\section{0pt}{0.5\baselineskip}{0.5\baselineskip}
+
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\usetikzlibrary{automata,positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\includegraphics[width = 17pt]{logo.jpg} \hmwkAuthorName\: (\hmwkAuthorEmail)}
+\rhead{\hmwkTitle}
+% \rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\setcounter{secnumdepth}{0}
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{User Studies}
+\newcommand{\hmwkClass}{CSE 403 (Wi16)}
+\newcommand{\hmwkAuthorName}{Check Your Bias}
+\newcommand{\hmwkAuthorEmail}{checkyourbias@u.washington.edu}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \author{\textbf{\hmwkAuthorName\ $\vert$ \hmwkAuthorCSE\ $\vert$ \hmwkAuthorId}}
+}
+
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+
+\section*{Study Design}
+
+\subsubsection*{Background}
+
+We had each user rate themselves on a scale from 1 to 5 on their involvement in following general politics and the 2016 presidential campaign (1 being ``not involved'' and 5 being ``very involved''). We then tried to determine whether the user had any biases towards specific candidates or views before showing him or her our application. We had users state any political party that they support, why they support it, and what candidate they would like to win the 2016 presidential election (whether they are involved or not with politics).
+
+\subsubsection*{Uninformed Exploration}
+
+After asking background questions to build up a baseline for the user, we handed them our app (compiled onto a Nexus 5 Android phone) and provided little to no instruction. The goal was to see if our app was simple enough for the user to figure out on his or her own. After the user has spent a considerable amount of time fiddling around Check Your Bias, we stopped them and asked them to give a summary of what they thought the app did and what they thought they could get out of it. We didn't want to ``bias'' them by giving our interpretation of Check Your Bias before they had a chance for themselves to figure out what the app's use was.
+
+\subsubsection*{Guided Exploration}
+
+Now came the time to carefully walk participants through the app while asking them questions along the way. An example of this situation would be: the participant uses a feature in a way we did not intend (or they are confused); we would then ask for clarification on what their thought process is to try and understand what they are thinking. This gives us a deeper insight into how our users' decisions are made and how we can improve the overall experience of our application from a user's perspective. We then asked questions that ranged from ``What was your overall opinion of the app?'' to ``Is there a feature that is currently missing in our design?'', and varied greatly interview to interview.
+
+\section*{Study Results}
+
+\subsubsection{1. Lauren Kingston [lakingston24@hotmail.com]}
+
+Lauren is a $3^{\text{rd}}$ year psychology major at the University of Washington and was our first candidate for our user studies. Her political background is quite sparse and she rated herself a 1/5 on our political involvement scale. Lauren said she {\em``could not align [herself] with either political party''} at the moment because she believes she does not know enough about the views of each candidate to make an educated decision.\\[-9pt]
+
+Lauren had no trouble figuring out how to rate on issues and even clicked on a few of the sources of each issue to learn more. Her immediate reaction was, {\em ``For an educated voter like myself this helps me see who I stand with so then I can go online and learn more about them... [it] gives me more of a basis to know where I stand without having a bias because of how I was raised with my parents.''} We then walked her through how to submit content and ran into a slight issues with adding a source to the content. The main issue was that the source was not automatically added if there was only one (you have to actually click ``Add Source'' in order to attach it). When asked for any final thoughts, Lauren responded with, {\em``[Check Your Bias] summarizes what my points are so I can go talk about them with other people to get a better understanding of other views while being educated myself.''}
+
+\subsubsection{2. [NAME]}
+
+[CONTENT]
+
+\subsubsection{3. [NAME]}
+
+[CONTENT]
+
+\section*{Conclusion}
+
+Each study proved to be very useful in providing insight into what parts of our app needed the most improvement before our Release Candidate. For example, Lauren uncovered a great example of a lapse in user experience when she failed to add a source onto her content that she was trying to submit. The main problem was that she expected the app to automatically assume she clicked ``Add Source'' when there was only 1 (something that was not supported). This behavior was changed because of her user study to support the way of thinking that she had when she was submitting content. Her user study also confirmed that our app was received in the way that we initially designed it.\\[-9pt]
+
+[LEARNED FROM 2]\\[-9pt]
+
+[LEARNED FROM 3]\\
+
+\end{document}
