@@ -8,6 +8,23 @@ body, html {
     padding: 0;
 }
 
+.closeXButton {
+    float: left;
+    color: red;
+    padding-right: 15px;
+    font-size: 20px;
+    margin-top: -6px;
+}
+
+.closeXButton:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.singleSource {
+    margin-bottom: 10px;
+}
+
 .fbLogo {
     cursor: pointer;
     width: 100%;

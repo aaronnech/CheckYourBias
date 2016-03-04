@@ -239,11 +239,22 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
         return result;
     },
 
+    onClickXSource : function(sourceIndex) {
+        var self = this;
+        return function() {
+            self.state.sources.splice(sourceIndex, 1);
+            self.setState({
+                sources : self.state.sources,
+            });
+        };
+    },
+
     getSources : function () {
         sources = []
         for (var source in this.state.sources) {
             sources.push(
-                <div key={source}>
+                <div className="singleSource" key={source}>
+                    <span onClick={this.onClickXSource(source)} className="closeXButton">X</span>
                     {this.state.sources[source]}
                 </div>
             );
