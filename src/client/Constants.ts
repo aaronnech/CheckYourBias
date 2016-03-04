@@ -27,6 +27,10 @@ class Constants {
 		'Bernie Sanders',
 		'Hillary Clinton',
 		'Donald Trump',
+		'Ted Cruz',
+		'Ben Carson',
+		'John Kasich',
+		'Marco Rubio',
 	];
 
 	public static CANDIDATE_AVATARS: string[] = [

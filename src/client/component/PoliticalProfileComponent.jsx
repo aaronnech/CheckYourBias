@@ -47,6 +47,10 @@ var PoliticalProfileComponent = React.createClass({
 	    };
 	},
 
+	/**
+	 * returns true if given issue belongs to currently selected category
+	 * false otherwise.
+	 */
 	belongsToCategory : function(issue) {
 		if (parseInt(this.state.currentCategory) == -1) {
 			return true;
@@ -54,10 +58,18 @@ var PoliticalProfileComponent = React.createClass({
 		return (issue.category.indexOf(parseInt(this.state.currentCategory)) > -1);
 	},
 
+	/**
+	 * returns true if current user has rated the given issue
+	 * false otherwise.
+	 */
 	userHasRated : function(issue_id) {
 		return issue_id in this.state.issueRatings;
 	},
 
+	/**
+	 * only keeps issues stored that have been rated and belong to
+	 * currently selected category.
+	 */
 	filterIssues : function() {
 		var cur_issues = []
 		for (var issue_id in this.state.issues) {
@@ -80,6 +92,9 @@ var PoliticalProfileComponent = React.createClass({
 		});
 	},
 
+	/**
+	 * sets current state to include all given issues
+	 */
 	updateAllIssues : function(allIssues) {
 		this.setState({
 			issues: allIssues,
@@ -89,6 +104,9 @@ var PoliticalProfileComponent = React.createClass({
 	},
 
 
+	/**
+	 * sets current state to include all given user ratings
+	 */
 	updateUserRatings : function(issueToRating) {
 		this.setState({
 			issueRatings: issueToRating,
@@ -97,14 +115,18 @@ var PoliticalProfileComponent = React.createClass({
 		Issue.getApprovedIssues(this.updateAllIssues);
 	},
 
+	/**
+	 * creates menuitems for all given categories
+	 */
 	createAllCategories : function(categories) {
-
 		category_names = [];
 		category_names.push(<MenuItem value={-1} key={-1} primaryText={"All"}/>);
 		for (var category_index in categories) {
 			var cat = categories[category_index];
 			var name = cat.categoryName;
-			category_names.push(<MenuItem value={category_index} key={category_index} primaryText={name}/>);
+			category_names.push(<MenuItem value={category_index}
+					key={category_index} 
+					primaryText={name}/>);
 		}
 
 		this.setState({
