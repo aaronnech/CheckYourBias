@@ -39,7 +39,7 @@ var CrowdsourcingQuoteComponent = React.createClass({
         var candidateMap = {};
         candidateMap[this.state.candidates[value - 1]] = Constants.STANCES.length - 1;
         this.props.handleCandidateMap(candidateMap);
-
+		this.props.handleAuthor(value - 1);
         this.setState({
             candidate: value,
             candidateErrorText: null
