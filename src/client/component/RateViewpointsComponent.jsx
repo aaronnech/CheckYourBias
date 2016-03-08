@@ -156,11 +156,6 @@ var RateViewpointsComponent = React.createClass({
 
 		// mark this issue as skipped
 		User.skipIssue(userId, this.state.issue.id, function(err) {
-			if (err) {
-				console.error(err);
-			}
-
-			console.log("Skipped issue with id " + self.state.issue.id);
 			// retrieve a new issue.
 			self.getIssue(function(success) {
 				self.setState({
@@ -203,9 +198,6 @@ var RateViewpointsComponent = React.createClass({
 		var self = this;
 
 		User.getNextIssue(userId, null, function(result) {
-			console.info("NEW ISSUE");
-			console.info(result);
-
 			self.setState({
 				issue: result
 			});

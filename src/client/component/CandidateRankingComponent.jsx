@@ -97,8 +97,6 @@ var CandidateRankingComponent = React.createClass({
 			// of the first category that appears in the menu.
 			var firstCategoryId = categories[0].id;
 			User.getRankings(userId, firstCategoryId, function(rankings) {
-				console.info("Candidate rankings for category " + firstCategoryId);
-				console.info(rankings);
 				self.setState({
 					candidateList: rankings
 				});
@@ -124,8 +122,6 @@ var CandidateRankingComponent = React.createClass({
 		// retrieve new candidate rankings for the user
 		var newCategoryId = this.state.categories[newCategoryIndex].id;
 		User.getRankings(userId, newCategoryId, function(rankings) {
-			console.info("Candidate rankings for category " + newCategoryId);
-			console.info(rankings);
 			self.setState({
 				candidateList: rankings
 			});
