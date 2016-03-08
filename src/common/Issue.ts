@@ -5,6 +5,9 @@ import Constants = require('../client/Constants');
 import Candidate = require('./Candidate');
 import User = require('./User');
 
+import Cache = require('../client/Cache');
+
+
 Constants.firebaseUrl = Constants.FIREBASE_URL;
 
 /*
@@ -230,7 +233,7 @@ class Issue {
 		Returns NULL otherwise.
 	*/
 	public static getIssueAuthor(issue: Issue): String {
-		return Constants.CANDIDATES[issue.author];
+		return JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES))[issue.author];
 	}
 }
 

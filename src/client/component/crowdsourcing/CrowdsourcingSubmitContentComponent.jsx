@@ -28,7 +28,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     /**
      * contentType: The Constants.CONTENT_TYPE the user is submitting
      * formComponent: The component to show based on the selected contentType
-     * category: The category from Constants.CATEGORIES the content belongs to
+     * category: The category that the content belongs to
      * source: A string representing a url to the source of the content
      */
     getInitialState : function() {
