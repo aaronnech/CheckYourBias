@@ -28,7 +28,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     /**
      * contentType: The Constants.CONTENT_TYPE the user is submitting
      * formComponent: The component to show based on the selected contentType
-     * category: The category from Constants.CATEGORIES the content belongs to
+     * category: The category that the content belongs to
      * source: A string representing a url to the source of the content
      */
     getInitialState : function() {
@@ -46,6 +46,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             showSnackbar: false,
             snackbarMessage: "",
             hasSubmitted: false,  // should be true while request is being processed
+			author: "",
         };
     },
 
@@ -77,6 +78,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
 
         this.setState({
             candidateMap: {},
+			categoriesList: JSON.parse(Cache.getCacheV(Constants.CACHE.CATEGORIES)),
             content: "",
             selectedCategories: [],
             sources: [],
@@ -84,6 +86,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             categoryErrorText: Constants.ERRORS.BLANK_LINE,
             sourceErrorText: Constants.ERRORS.BLANK_LINE,
             showErrorUnderlines: false,
+			author: "",
         });
     },
 
@@ -100,6 +103,13 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
     handleCandidateMap : function(candidateMap) {
         this.setState({candidateMap: candidateMap});
     },
+	
+	/**
+	 * Updates the author that was set in the quote component
+	 */
+	handleAuthor : function(author) {
+		this.setState({author: author});
+	},
 
     /**
      * Sets the category of the content to what the user selected
@@ -180,6 +190,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
                 self.state.candidateMap,
                 user.id,
                 self.state.selectedCategories,
+				self.state.author,
                 function(error) {
                     if (error === null) {  // success
                         self.setState({
@@ -309,6 +320,7 @@ var CrowdsourcingSubmitContentComponent = React.createClass({
             formComponent = <CrowdsourcingQuoteComponent
                 ref="quoteComponent"
                 handleCandidateMap={this.handleCandidateMap}
+				handleAuthor={this.handleAuthor}
                 handleContent={this.handleContent}
                 getErrorText={this.getErrorText}
             />;

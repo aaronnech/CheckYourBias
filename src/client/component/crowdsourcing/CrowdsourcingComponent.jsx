@@ -56,7 +56,7 @@ var CrowdsourcingComponent = React.createClass({
 			);
 		} else {
 			return (
-				<CrowdsourcingSubmitContentComponent />
+				<CrowdsourcingSubmitContentComponent refresh={this.handleSubmit}/>
 			)
 		}
 	},

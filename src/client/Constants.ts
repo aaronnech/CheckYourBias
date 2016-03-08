@@ -23,16 +23,6 @@ class Constants {
 		'General Content',
 	];
 
-	public static CANDIDATES: string[] = [
-		'Bernie Sanders',
-		'Hillary Clinton',
-		'Donald Trump',
-		'Ted Cruz',
-		'Ben Carson',
-		'John Kasich',
-		'Marco Rubio',
-	];
-
 	public static CANDIDATE_AVATARS: string[] = [
 		'img/candidate_0.jpg',
 		'img/candidate_1.jpg',
@@ -44,12 +34,6 @@ class Constants {
 	];
 
 	public static GENERAL_AVATAR: string = "img/general_avatar.svg";
-
-	public static CATEGORIES: string[] = [
-		'Education',
-		'Immigration',
-		'Crime and Safety',
-	];
 
 	public static STANCES: string[] = [
 		'Strongly Disagree',

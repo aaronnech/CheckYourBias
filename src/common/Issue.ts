@@ -5,6 +5,9 @@ import Constants = require('../client/Constants');
 import Candidate = require('./Candidate');
 import User = require('./User');
 
+import Cache = require('../client/Cache');
+
+
 Constants.firebaseUrl = Constants.FIREBASE_URL;
 
 /*
@@ -33,6 +36,7 @@ class Issue {
 	flagCount: number;
 	approved: number;
 	contentType: string;
+	author: string; //if direct quote
 
 	/*
 		Creates an unapproved issue with the given parameters. Sets approved to false and
@@ -47,7 +51,7 @@ class Issue {
 	*/
 	public static initializeUnapprovedIssue(contentType: string, mainText: string, sources: string[],
 								candidateMap: { [key: string]: number }, submitter: string,
-								categories: string[], callback: (error) => any) {
+								categories: string[], author: string, callback: (error) => any) {
 		var issues: Firebase = new Firebase(Constants.firebaseUrl + Constants.FIRE_ISSUE);
 		this.convertCandidateNamesToIds(candidateMap, function(candidateRatings) {
 			Issue.convertCategoryNamesToIds(categories, function(category) {
@@ -58,6 +62,7 @@ class Issue {
 					candidateRatings: candidateRatings,
 					submitter: submitter,
 					category: category,
+					author: author,
 					seenByCount: 0,
 					skipCount: 0,
 					flagCount: 0,
@@ -211,27 +216,13 @@ class Issue {
 	}
 
 	/*
-		Returns the id of the author of the issue if the issue is a
-		direct quote or -1 if an author cannot be found.
-	*/
-	public static getIssueAuthorID(issue: Issue): string {
-		for (var key in issue.candidateRatings) {
-			if (issue.candidateRatings[key] == "4") {
-				return key;
-			}
-		}
-		return "-1";
-	}
-
-	/*
 		Returns the Avatar image for this issue.
 		Candidate image if the issue is a Direct Quote.
 		General Politics image if the issue is General Content.
 	*/
 	public static getIssueAvatarImage(issue: Issue): string {
 		if (this.isIssueDirectQuote(issue)) {
-			var authorId = this.getIssueAuthorID(issue);
-			return Candidate.getCandidateAvatarSrc(authorId);
+			return Candidate.getCandidateAvatarSrc(issue.author);
 		} 
 		
 		return Constants.GENERAL_AVATAR;
@@ -242,7 +233,7 @@ class Issue {
 		Returns NULL otherwise.
 	*/
 	public static getIssueAuthor(issue: Issue): String {
-		return Constants.CANDIDATES[this.getIssueAuthorID(issue)];
+		return JSON.parse(Cache.getCacheV(Constants.CACHE.CANDIDATES))[issue.author];
 	}
 }
 

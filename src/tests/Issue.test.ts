@@ -14,7 +14,7 @@ class IssueTest {
 	public static testInitializeUnapprovedTest(test) {
 		Issue.initializeUnapprovedIssue(Constants.CONTENT_TYPES[0], "main text example",
 			["www.coolkids.com", "wwww.kanyewest.com"], { "Bernie Sanders": 4, "Donald Trump": 3 }, "0",
-			["Education", "Crime and Safety"], function(error) {
+			["Education", "Crime and Safety"], "", function(error) {
 				test.notEqual(
 					error,
 					true,
@@ -139,34 +139,6 @@ class IssueTest {
 				Issue.isIssueDirectQuote(issue),
 				false,
 				'Issue 2 should not be a direct quote'
-			);
-			test.done();
-		});
-	}
-	
-	/*
-		Tests that getIssueAuthorID finds the right author when there is one
-	*/
-	public static testGetIssueAuthorID(test) {
-		Issue.getIssue("1", function(issue) {
-			test.strictEqual(
-				Issue.getIssueAuthorID(issue),
-				"2",
-				"Issue 1 should have Donald Trump as author"
-			);
-			test.done();
-		});
-	}
-	
-	/*
-		Tests that getIssueAuthorID returns -1 for an issue without an author
-	*/
-	public static testGetIssueAuthorIDNotFound(test) {
-		Issue.getIssue("2", function(issue) {
-			test.strictEqual(
-				Issue.getIssueAuthorID(issue),
-				"-1",
-				"Issue 2 should have no author"
 			);
 			test.done();
 		});
