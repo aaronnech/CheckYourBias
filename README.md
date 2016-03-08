@@ -42,6 +42,7 @@ There are four top-level directories in the source code folder (`./src`):
 5. `vendor` - This contains all JS source that is not available via npm.
 
 Additionally, there are two repository-level directories, mostly for infrastructure:
+
 1. `continuoustest`, containing a script that will run all unit tests upon push
 2. `webdriver`, containing all system tests (front-end tests).
 
@@ -110,4 +111,4 @@ Development Style
 - Every class that depends on another class, imports that class via `import ClassName = require('/path-to-class/ClassName');`
 - Every class TypeScript file is named as `ClassName.ts`
 
-Additionally, you should familiarize yourself with our Code Style Guidelines as outlined in the [Software Design Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/software_design_updated/software_design_specification.pdf)
+Additionally, you should familiarize yourself with our Code Style Guidelines as outlined in the [Software Design Specification](https://github.com/aaronnech/CheckYourBias/blob/gh-pages/writeups/software_design_updated/software_design_specification.pdf).
