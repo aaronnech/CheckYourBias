@@ -93,8 +93,6 @@ var CandidateRankingComponent = React.createClass({
 			});
 
 			// retrieve candidates for the user
-			// TODO: when categories are sorted, pass in the category id
-			// of the first category that appears in the menu.
 			var firstCategoryId = categories[0].id;
 			User.getRankings(userId, firstCategoryId, function(rankings) {
 				self.setState({
