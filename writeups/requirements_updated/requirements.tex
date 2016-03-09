@@ -246,11 +246,47 @@ March 8th & Final Release
 
 \subsection{Risk Summary}
 
-\subsubsection{Content \& Crowdsourcing}
+\begin{enumerate}[nolistsep]
+    \item \textbf{Content}\\
+        \textbf{Likelihood}: Medium\\
+        \textbf{Impact}: High\\
+        \textbf{Summary / Evidence}: Content is a major component of Check Your Bias and it is incredibly important that this information be both accurate and complete. The content will be directly related to the overall quality of our application.\\
+        \textbf{Overall Plan}: We plan to review all content that is put into our app as a team in the beginning. That means that before content can show up in the feed for users, it has to be approved by admins who will check the accuracy and completeness.\\
+        \textbf{Detection}: This was discussed about, but all content will be moderated before it can show up in a user's feed.\\
+        \textbf{Mitigation Plan}: Should this occur, users can report something as incorrect with a few simple taps when voting on a topic or issue.\\[-10pt]
 
-Content is a major component of our end product. Content that ends up facing users and is inaccurate or incomplete will be a significant detriment to the overall quality and trust that users place in the app. Crowdsourcing will allow the product to grow significantly and provide a platform for many people to share their knowledge and expertise in the topic, but it also produces significant challenges. Content that users supply to the app must be vetted and screened thoroughly and pass quality guidelines. It will be difficult balancing the effort and efficiency of undergoing this screening process. \\
+    \item \textbf{Crowdsourcing}\\
+        \textbf{Likelihood}: Medium\\
+        \textbf{Impact}: Medium\\
+        \textbf{Summary / Evidence}: Crowdsourcing will allow the product to grow significantly and provide a platform for many people to share their knowledge and expertise in the topic, but it also produces significant challenges. Content that users supply to the app must be vetted and screened thoroughly and pass quality guidelines. It will be difficult balancing the effort and efficiency of undergoing this screening process.\\
+        \textbf{Overall Plan}: All content must be initially reviewed by moderators, but in order for this to scale there must exist a limit to how much one can spend on a single topic before making a decision. \\
+        \textbf{Detection}: Moderators will need to be careful that the time spent approving or disapproving content is of high quality so that a short amount of time can be spent on each submission while also insuring that only high quality content is approved.\\
+        \textbf{Mitigation Plan}: Should this fail to happen, then users will be able to flag content for review (as discussed in the previous risk).\\[-10pt]
 
-Another major feature of our end product is providing users the option to answer a set of questions that will help the product guide them towards a candidate whose opinions match their own. Since this process and criteria will at first be created manually by us, the creators of the products, there is a risk that our bias or incomplete understanding of the political situation will impact the quality of this initial survey and will thus degrade the overall quality of the product.
+    \item \textbf{Content Creation}\\
+        \textbf{Likelihood}: Medium\\
+        \textbf{Impact}: Medium\\
+        \textbf{Summary / Evidence}: A major feature of our end product is providing users the option to answer a set of questions that will help the product guide them towards a candidate whose opinions match their own. Since this process and criteria will at first be created manually by us, the creators of the products, there is a risk that our bias or incomplete understanding of the political situation will impact the quality of this initial survey and will thus degrade the overall quality of the product.\\
+        \textbf{Overall Plan}: In addition to all content being approved by a set of moderators, each moderator should carefully consider whether the submission is inherently bias towards a particular candidate or viewpoint. \\
+        \textbf{Detection}: Detection can happen in 2 places: another moderator will catch it before it is approved or a user will flag the content.\\
+        \textbf{Mitigation Plan:} If a moderator finds content to be inherently biased, then they may edit the content to be better suited for the content feed.\\[-10pt]
+
+    \item \textbf{Lack of Engagement}\\
+        \textbf{Likelihood}: Low\\
+        \textbf{Impact}: High\\
+        \textbf{Summary / Evidence}: A user may come into our app and only answer a few questions and then stopping. This does not give us enough evidence to make any conclusions about who the user most closely relates to in terms of the candidates. \\
+        \textbf{Overall Plan}: We will display a message saying that there is not enough information yet to make any conclusions about the user's political views if the user tries to access the analysis page. \\
+        \textbf{Detection}: This can be detected if the user tries to access his or her political profile page before they have ranked enough topics or issues.\\
+        \textbf{Mitigation Plan}: The main way of mitigating this risk is to tell the user they must answer X questions or topics before we have enough information to make a conclusion about their political profile. If a user has already taken the time and effort to download our application, then it is likely that asking them to spend a few more minutes rating topics will not deter them away from CYB. Unfortunately, it would be incredibly difficult to make any conclusions based on such little data.\\[-10pt]
+
+    \item \textbf{Rated Content}\\
+        \textbf{Likelihood}: Medium\\
+        \textbf{Impact}: Medium\\
+        \textbf{Summary / Evidence}: As a user rates content in his or her feed, it is likely that they will encounter a category that is of not much importance to them. For example, if I have an extreme bias against Trump and disagree on every single one of his viewpoints -- then it is highly unlikely for me to have my views changed (the main idea of CYB is to help educate voters about their views and how they relate to the candidates' views). If I rate a quote of Trump's that happens to be one of his main campaign points as ``Highly Disagree'', then I probably won't agree with many of his other points.\\
+        \textbf{Overall Plan}: This can be mitigated by using a user's vote on a topic as an indicator whether he or she agrees with a candidate before the user's political profile is made. The server can then send topics to the user that help complete the profile rather than sending more topics on someone or something that they do not care for.\\
+        \textbf{Detection}: Detection of this risk is a difficult task. We can look at the likelihood of a user voting ``Highly Disagree'' on a topic given that they also voted ``Highly Disagree'' on this other topic and use this as a metric in determining whether or not to show them.\\
+        \textbf{Mitigation Plan}: Largely discussed above, we want to show users topics that help complete our political profile of them. This means that we should have a diverse set of content that can be utilized to help find the right topics to present to the user.
+\end{enumerate}
 
 \newpage
 \section{Use Cases}
