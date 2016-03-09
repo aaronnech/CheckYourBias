@@ -16,6 +16,9 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{listings}% http://ctan.org/pkg/listings
+\usepackage[final]{pdfpages}
+\setboolean{@twoside}{false}
+
 \lstset{
   basicstyle=\ttfamily,
   mathescape
@@ -588,5 +591,7 @@ We made some major changes to the overall design of the UI. Notably, we changed 
 \subsubsection{iOS Support}
 
 After much effort, we have decided to drop iOS support on this project. In the beginning we chose to use a library called PhoneGap in order to port our web application to both Android and iOS. Unfortunately, we have had to drop support for iOS because some of the main functionality of the app does not work on iOS. Instead of spend engineering hours on debugging and fixing the issue, we have decided to focus our efforts on making the application better / implementing stretch features.
+
+\includepdf[pages=-]{schedule.pdf}
 
 \end{document}
